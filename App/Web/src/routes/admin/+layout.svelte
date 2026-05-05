@@ -6,8 +6,8 @@
 	const navItems = [
 		{ href: '/admin', label: 'Tableau de bord', icon: 'dashboard' },
 		{ href: '/admin/stock', label: 'Stock', icon: 'stock' },
-		{ href: '/admin/transform', label: 'Atelier', icon: 'transform' },
 		{ href: '/admin/harvest', label: 'Récolte', icon: 'harvest' },
+		{ href: '/admin/transform', label: 'Atelier', icon: 'transform' },
 		{ href: '/admin/history', label: 'Historique', icon: 'history' }
 	];
 

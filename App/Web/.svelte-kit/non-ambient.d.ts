@@ -29,7 +29,7 @@ declare module "$app/types" {
 	type MatcherParam<M> = M extends (param : string) => param is (infer U extends string) ? U : string;
 
 	export interface AppTypes {
-		RouteId(): "/" | "/a-propos" | "/admin" | "/admin/harvest" | "/admin/history" | "/admin/login" | "/admin/logout" | "/admin/stock" | "/admin/transform" | "/cgu" | "/cgv" | "/mentions-legales" | "/ou-nous-trouver" | "/politique-de-confidentialite" | "/produits" | "/reserver";
+		RouteId(): "/" | "/a-propos" | "/admin" | "/admin/harvest" | "/admin/history" | "/admin/login" | "/admin/logout" | "/admin/products" | "/admin/products/new" | "/admin/stock" | "/admin/transform" | "/cgu" | "/cgv" | "/mentions-legales" | "/ou-nous-trouver" | "/politique-de-confidentialite" | "/produits" | "/reserver";
 		RouteParams(): {
 			
 		};
@@ -41,6 +41,8 @@ declare module "$app/types" {
 			"/admin/history": Record<string, never>;
 			"/admin/login": Record<string, never>;
 			"/admin/logout": Record<string, never>;
+			"/admin/products": Record<string, never>;
+			"/admin/products/new": Record<string, never>;
 			"/admin/stock": Record<string, never>;
 			"/admin/transform": Record<string, never>;
 			"/cgu": Record<string, never>;
@@ -51,7 +53,7 @@ declare module "$app/types" {
 			"/produits": Record<string, never>;
 			"/reserver": Record<string, never>
 		};
-		Pathname(): "/" | "/a-propos" | "/admin" | "/admin/harvest" | "/admin/history" | "/admin/login" | "/admin/logout" | "/admin/stock" | "/admin/transform" | "/cgu" | "/cgv" | "/mentions-legales" | "/ou-nous-trouver" | "/politique-de-confidentialite" | "/produits" | "/reserver";
+		Pathname(): "/" | "/a-propos" | "/admin" | "/admin/harvest" | "/admin/history" | "/admin/login" | "/admin/logout" | "/admin/products/new" | "/admin/stock" | "/admin/transform" | "/cgu" | "/cgv" | "/mentions-legales" | "/ou-nous-trouver" | "/politique-de-confidentialite" | "/produits" | "/reserver";
 		ResolvedPathname(): `${"" | `/${string}`}${ReturnType<AppTypes['Pathname']>}`;
 		Asset(): string & {};
 	}
