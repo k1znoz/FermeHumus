@@ -1,0 +1,74 @@
+<svelte:head>
+	<title>CGV — Ferme de l'Humus</title>
+	<meta
+		name="description"
+		content="Conditions générales de vente de la Ferme de l'Humus : commandes, paiements, retraits, livraisons et annulations."
+	/>
+</svelte:head>
+
+<section class="pt-28 pb-20 px-margin-mobile md:px-lg max-w-[1140px] mx-auto">
+	<header class="mb-lg">
+		<span class="font-label-caps text-secondary uppercase tracking-widest">Conditions commerciales</span>
+		<h1 class="font-h1 text-h1 text-primary mt-sm mb-sm">Conditions générales de vente (CGV)</h1>
+		<p class="font-body-lg text-on-surface-variant max-w-3xl">
+			Ce document précise les règles applicables aux ventes de produits et services proposés par Ferme
+			de l'Humus.
+		</p>
+	</header>
+
+	<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg items-start">
+		<div class="lg:col-span-8 bg-surface-container-lowest rounded-xl shadow-ambient border border-primary/5 p-md md:p-lg space-y-md">
+			<article>
+				<h2 class="font-h3 text-h3 text-primary mb-sm">Champ d'application</h2>
+				<p class="font-body-md text-on-surface-variant">
+					Les présentes conditions encadrent les ventes de produits et services proposés par Ferme de
+					l'Humus.
+				</p>
+			</article>
+
+			<article>
+				<h2 class="font-h3 text-h3 text-primary mb-sm">Commandes</h2>
+				<p class="font-body-md text-on-surface-variant">
+					Toute commande est considérée comme ferme après validation et confirmation.
+				</p>
+			</article>
+
+			<article>
+				<h2 class="font-h3 text-h3 text-primary mb-sm">Paiements</h2>
+				<p class="font-body-md text-on-surface-variant">
+					Les prix sont indiqués en euros TTC. Le règlement s'effectue selon les moyens proposés lors du
+					parcours de commande.
+				</p>
+			</article>
+
+			<article>
+				<h2 class="font-h3 text-h3 text-primary mb-sm">Retrait et livraison</h2>
+				<p class="font-body-md text-on-surface-variant">
+					Les modalités de retrait à la ferme et de livraison locale sont précisées lors de la commande.
+				</p>
+			</article>
+
+			<article>
+				<h2 class="font-h3 text-h3 text-primary mb-sm">Annulation et litiges</h2>
+				<p class="font-body-md text-on-surface-variant">
+					En cas de difficulté, contactez-nous à l'adresse
+					<a href="mailto:contact@fermedelhumus.fr" class="text-secondary hover:underline">contact@fermedelhumus.fr</a>
+					afin de privilégier une solution amiable.
+				</p>
+			</article>
+		</div>
+
+		<aside class="lg:col-span-4 lg:sticky lg:top-28 space-y-md">
+			<div class="bg-surface-container-low rounded-xl border border-primary/10 p-md">
+				<h3 class="font-h3 text-primary mb-sm">Documents</h3>
+				<nav class="flex flex-col gap-sm font-body-md">
+					<a href="/mentions-legales" class="text-on-surface-variant hover:text-primary transition-colors">Mentions légales</a>
+					<a href="/politique-de-confidentialite" class="text-on-surface-variant hover:text-primary transition-colors">Politique de confidentialité</a>
+					<a href="/cgv" class="text-primary font-semibold">CGV</a>
+					<a href="/cgu" class="text-on-surface-variant hover:text-primary transition-colors">CGU</a>
+				</nav>
+			</div>
+			<p class="text-sm text-outline">Dernière mise à jour : mai 2026</p>
+		</aside>
+	</div>
+</section>
