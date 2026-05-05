@@ -1,0 +1,4 @@
+{
+  "rootDirectory": "App/Web",
+  "framework": "sveltekit"
+}
