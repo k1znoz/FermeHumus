@@ -56,6 +56,7 @@
 			alt="Ferme de l'Humus — paysage agricole régénérateur au coucher du soleil"
 		/>
 		<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+		<div class="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/40 to-transparent"></div>
 	</div>
 	<div class="relative z-10 max-w-4xl">
 		<h1 class="font-h1 text-h1 text-white mb-md leading-none">
