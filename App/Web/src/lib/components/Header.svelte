@@ -15,6 +15,8 @@
 
 	let menuOpen = $state(false);
 	let isScrolled = $state(false);
+	const isHome = $derived($page.url.pathname === '/');
+	const transparent = $derived(isHome && !isScrolled);
 	const toggleMenu = () => (menuOpen = !menuOpen);
 
 	onMount(() => {
@@ -33,22 +35,23 @@
 
 <header
 	class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-5 py-4 transition-all duration-300
-		{isScrolled
-			? 'bg-[#FAF9F6]/95 backdrop-blur-md border-b border-[#2D4236]/10 shadow-[0px_4px_20px_rgba(45,66,54,0.05)]'
-			: 'bg-transparent border-b border-transparent'}"
+		{transparent
+			? 'bg-transparent border-b border-transparent'
+			: 'bg-[#FAF9F6]/95 backdrop-blur-md border-b border-[#2D4236]/10 shadow-[0px_4px_20px_rgba(45,66,54,0.05)]'}"
 >
 	<!-- Logo / Brand -->
 	<div class="flex items-center gap-4">
 		<button
 			onclick={toggleMenu}
-			class="material-symbols-outlined text-[#2D4236] cursor-pointer hover:opacity-80 transition-opacity md:hidden"
+			class="material-symbols-outlined cursor-pointer hover:opacity-80 transition-colors duration-300 md:hidden {transparent ? 'text-white [filter:drop-shadow(0_1px_3px_rgba(0,0,0,0.4))]' : 'text-[#2D4236]'}"
 			aria-label="Menu"
 		>
 			menu
 		</button>
 		<a
 			href="/"
-			class="text-xl font-semibold text-[#2D4236] italic font-newsreader tracking-tight"
+			class="text-xl font-semibold italic font-newsreader tracking-tight transition-colors duration-300
+				{transparent ? 'text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.4)]' : 'text-[#2D4236]'}"
 		>
 			Ferme de l'Humus
 		</a>
@@ -59,10 +62,14 @@
 		{#each navLinks as link}
 			<a
 				href={link.href}
-				class="font-newsreader font-medium tracking-tight transition-opacity hover:opacity-80
-          {$page.url.pathname === link.href
-					? 'text-[#2D4236] border-b-2 border-[#2D4236]'
-					: 'text-[#2D4236]/70'}"
+				class="font-newsreader font-medium tracking-tight transition-all duration-300 hover:opacity-80
+					{transparent
+						? $page.url.pathname === link.href
+							? 'text-white border-b-2 border-white [text-shadow:0_1px_6px_rgba(0,0,0,0.4)]'
+							: 'text-white/80 [text-shadow:0_1px_6px_rgba(0,0,0,0.4)]'
+						: $page.url.pathname === link.href
+							? 'text-[#2D4236] border-b-2 border-[#2D4236]'
+							: 'text-[#2D4236]/70'}"
 			>
 				{link.label}
 			</a>
