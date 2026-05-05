@@ -1,6 +1,10 @@
 <script>
-	/** @type {{ product: { _id: string, name: string, category: string, price: number, description: string, badge?: string, image?: string }, onAdd?: () => void }} */
+	/** @type {{ product: { _id: string, name: string, category: string, price: number, description: string, badge?: string, image?: string, stock?: { quantity?: number, unit?: string, lowStockThreshold?: number } }, onAdd?: () => void }} */
 	let { product, onAdd = () => {} } = $props();
+
+	const stockLabel = $derived(product.stock
+		? `${product.stock.quantity ?? 0} ${product.stock.unit ?? ''}`.trim()
+		: null);
 </script>
 
 <div
@@ -39,6 +43,10 @@
 		</div>
 
 		<p class="font-body-md text-on-surface-variant line-clamp-2 flex-1">{product.description}</p>
+
+		{#if stockLabel}
+			<p class="text-xs text-on-surface-variant">En stock: <span class="font-semibold text-primary">{stockLabel}</span></p>
+		{/if}
 
 		<button
 			onclick={onAdd}

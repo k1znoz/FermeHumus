@@ -250,8 +250,9 @@
 						<h3 class="font-h3 text-h3 text-primary mb-6">3. Vos coordonnées</h3>
 						<form class="space-y-4" onsubmit={(e) => e.preventDefault()}>
 							<div>
-								<label class="block font-label-caps text-on-surface-variant mb-2 uppercase text-[11px]">Nom complet</label>
+								<label for="booking-full-name" class="block font-label-caps text-on-surface-variant mb-2 uppercase text-[11px]">Nom complet</label>
 								<input
+									id="booking-full-name"
 									type="text"
 									placeholder="Jean Dupont"
 									autocomplete="name"
@@ -259,8 +260,9 @@
 								/>
 							</div>
 							<div>
-								<label class="block font-label-caps text-on-surface-variant mb-2 uppercase text-[11px]">Adresse e-mail</label>
+								<label for="booking-email" class="block font-label-caps text-on-surface-variant mb-2 uppercase text-[11px]">Adresse e-mail</label>
 								<input
+									id="booking-email"
 									type="email"
 									placeholder="jean@exemple.com"
 									autocomplete="email"
@@ -269,8 +271,8 @@
 							</div>
 							<div class="grid grid-cols-2 gap-4">
 								<div>
-									<label class="block font-label-caps text-on-surface-variant mb-2 uppercase text-[11px]">Adultes</label>
-									<select class="w-full bg-surface rounded-lg border-none focus:ring-1 focus:ring-secondary py-3 px-4 font-body-md text-on-surface">
+									<label for="booking-adults" class="block font-label-caps text-on-surface-variant mb-2 uppercase text-[11px]">Adultes</label>
+									<select id="booking-adults" class="w-full bg-surface rounded-lg border-none focus:ring-1 focus:ring-secondary py-3 px-4 font-body-md text-on-surface">
 										<option>1</option>
 										<option selected>2</option>
 										<option>3</option>
@@ -278,8 +280,8 @@
 									</select>
 								</div>
 								<div>
-									<label class="block font-label-caps text-on-surface-variant mb-2 uppercase text-[11px]">Enfants</label>
-									<select class="w-full bg-surface rounded-lg border-none focus:ring-1 focus:ring-secondary py-3 px-4 font-body-md text-on-surface">
+									<label for="booking-children" class="block font-label-caps text-on-surface-variant mb-2 uppercase text-[11px]">Enfants</label>
+									<select id="booking-children" class="w-full bg-surface rounded-lg border-none focus:ring-1 focus:ring-secondary py-3 px-4 font-body-md text-on-surface">
 										<option selected>0</option>
 										<option>1</option>
 										<option>2</option>

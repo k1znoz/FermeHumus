@@ -2,20 +2,24 @@
 	import { enhance } from '$app/forms';
 
 	let { data } = $props();
+	const stocks = $derived(data.stocks ?? []);
 
 	// Copie locale éditable des quantités
-	let quantities = $state(
-		Object.fromEntries(data.stocks.map((s) => [s._id, s.quantity]))
-	);
+	let quantities = $state({});
+	$effect(() => {
+		if (Object.keys(quantities).length === 0 && stocks.length > 0) {
+			quantities = Object.fromEntries(stocks.map((s) => [s._id, s.quantity]));
+		}
+	});
 
 	let search = $state('');
 	let activeCategory = $state('all');
 	let saving = $state(null); // id en cours de sauvegarde
 
-	const categories = ['all', ...new Set(data.stocks.map((s) => s.product?.category).filter(Boolean))];
+	const categories = $derived(['all', ...new Set(stocks.map((s) => s.product?.category).filter(Boolean))]);
 
 	const filtered = $derived(
-		data.stocks.filter((s) => {
+		stocks.filter((s) => {
 			const matchSearch = s.product?.name?.toLowerCase().includes(search.toLowerCase());
 			const matchCat = activeCategory === 'all' || s.product?.category === activeCategory;
 			return matchSearch && matchCat;

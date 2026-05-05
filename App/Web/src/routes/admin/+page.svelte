@@ -1,8 +1,10 @@
 <script>
 	let { data } = $props();
-	const { stocks, recentHarvests, lowStockCount } = data;
 
-	const totalItems = stocks.length;
+	const stocks = $derived(data.stocks ?? []);
+	const recentHarvests = $derived(data.recentHarvests ?? []);
+	const lowStockCount = $derived(data.lowStockCount ?? 0);
+	const totalItems = $derived(stocks.length);
 </script>
 
 <div class="max-w-md mx-auto px-5 pt-10 pb-6">
@@ -35,7 +37,7 @@
 	<!-- Actions rapides -->
 	<div class="mb-6">
 		<p class="text-sm font-medium text-[#1a1c1a] mb-3">Actions rapides</p>
-		<div class="flex gap-3">
+		<div class="grid grid-cols-2 gap-3">
 			<a
 				href="/admin/harvest"
 				class="flex-1 flex items-center gap-2 rounded-2xl bg-[#172c21] text-white px-4 py-3 text-sm font-medium hover:bg-[#2d4236] transition-colors"
@@ -55,6 +57,17 @@
 					<path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
 				</svg>
 				Modifier stock
+			</a>
+			<a
+				href="/admin/transform"
+				class="col-span-2 flex items-center gap-2 rounded-2xl bg-[#3d3f2d] text-white px-4 py-3 text-sm font-medium hover:bg-[#272919] transition-colors"
+			>
+				<svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+					<path d="M7 7h11v11" />
+					<path d="M17 7 7 17" />
+					<path d="M17 17H6V6" />
+				</svg>
+				Nouvelle transformation
 			</a>
 		</div>
 	</div>

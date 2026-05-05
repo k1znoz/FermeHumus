@@ -19,7 +19,7 @@
 
 <div class="max-w-md mx-auto px-5 pt-10 pb-6">
 	<div class="flex items-center gap-3 mb-6">
-		<a href="/admin" class="text-[#737873] hover:text-[#1a1c1a] transition-colors">
+		<a href="/admin" aria-label="Retour au tableau de bord" class="text-[#737873] hover:text-[#1a1c1a] transition-colors">
 			<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
 				<path d="M19 12H5m7-7-7 7 7 7" />
 			</svg>

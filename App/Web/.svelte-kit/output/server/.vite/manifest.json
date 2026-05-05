@@ -7,7 +7,8 @@
     "imports": [
       "_root.js",
       "_environment.js",
-      "_internal.js"
+      "_internal.js",
+      "_shared-server.js"
     ]
   },
   "_FAB.js": {
@@ -37,7 +38,11 @@
     "name": "internal",
     "imports": [
       "_root.js",
-      "_environment.js"
+      "_environment.js",
+      "_shared-server.js"
+    ],
+    "dynamicImports": [
+      "src/hooks.server.js"
     ]
   },
   "_render-context.js": {
@@ -62,6 +67,10 @@
     "file": "chunks/sanity.js",
     "name": "sanity"
   },
+  "_shared-server.js": {
+    "file": "chunks/shared-server.js",
+    "name": "shared-server"
+  },
   "_shared.js": {
     "file": "chunks/shared.js",
     "name": "shared",
@@ -77,6 +86,17 @@
       "_renderer.js",
       "_exports.js",
       "_root.js"
+    ]
+  },
+  "_stores.js": {
+    "file": "chunks/stores.js",
+    "name": "stores",
+    "imports": [
+      "_renderer.js",
+      "_exports.js",
+      "_utils.js",
+      "_root.js",
+      "_state.svelte.js"
     ]
   },
   "_utils.js": {
@@ -120,8 +140,16 @@
       "_exports.js",
       "_utils.js",
       "_index.js",
+      "_shared-server.js",
       "_internal.js"
     ]
+  },
+  "src/hooks.server.js": {
+    "file": "entries/hooks.server.js",
+    "name": "entries/hooks.server",
+    "src": "src/hooks.server.js",
+    "isEntry": true,
+    "isDynamicEntry": true
   },
   "src/routes/+layout.svelte": {
     "file": "entries/pages/_layout.svelte.js",
@@ -130,13 +158,10 @@
     "isEntry": true,
     "imports": [
       "_renderer.js",
-      "_exports.js",
-      "_utils.js",
-      "_root.js",
-      "_state.svelte.js"
+      "_stores.js"
     ],
     "css": [
-      "_app/immutable/assets/_layout.Brx7a1t0.css"
+      "_app/immutable/assets/_layout.C-WvcEUS.css"
     ]
   },
   "src/routes/+page.server.js": {
@@ -175,6 +200,142 @@
     "imports": [
       "_renderer.js",
       "_FAB.js"
+    ]
+  },
+  "src/routes/admin/+layout.svelte": {
+    "file": "entries/pages/admin/_layout.svelte.js",
+    "name": "entries/pages/admin/_layout.svelte",
+    "src": "src/routes/admin/+layout.svelte",
+    "isEntry": true,
+    "imports": [
+      "_renderer.js",
+      "_stores.js"
+    ]
+  },
+  "src/routes/admin/+page.server.js": {
+    "file": "entries/pages/admin/_page.server.js",
+    "name": "entries/pages/admin/_page.server",
+    "src": "src/routes/admin/+page.server.js",
+    "isEntry": true,
+    "imports": [
+      "_sanity.js"
+    ]
+  },
+  "src/routes/admin/+page.svelte": {
+    "file": "entries/pages/admin/_page.svelte.js",
+    "name": "entries/pages/admin/_page.svelte",
+    "src": "src/routes/admin/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_renderer.js"
+    ]
+  },
+  "src/routes/admin/harvest/+page.server.js": {
+    "file": "entries/pages/admin/harvest/_page.server.js",
+    "name": "entries/pages/admin/harvest/_page.server",
+    "src": "src/routes/admin/harvest/+page.server.js",
+    "isEntry": true,
+    "imports": [
+      "_sanity.js"
+    ]
+  },
+  "src/routes/admin/harvest/+page.svelte": {
+    "file": "entries/pages/admin/harvest/_page.svelte.js",
+    "name": "entries/pages/admin/harvest/_page.svelte",
+    "src": "src/routes/admin/harvest/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_renderer.js",
+      "_exports.js",
+      "_utils.js",
+      "_root.js",
+      "_state.svelte.js"
+    ]
+  },
+  "src/routes/admin/history/+page.server.js": {
+    "file": "entries/pages/admin/history/_page.server.js",
+    "name": "entries/pages/admin/history/_page.server",
+    "src": "src/routes/admin/history/+page.server.js",
+    "isEntry": true,
+    "imports": [
+      "_sanity.js"
+    ]
+  },
+  "src/routes/admin/history/+page.svelte": {
+    "file": "entries/pages/admin/history/_page.svelte.js",
+    "name": "entries/pages/admin/history/_page.svelte",
+    "src": "src/routes/admin/history/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_renderer.js"
+    ]
+  },
+  "src/routes/admin/login/+page.server.js": {
+    "file": "entries/pages/admin/login/_page.server.js",
+    "name": "entries/pages/admin/login/_page.server",
+    "src": "src/routes/admin/login/+page.server.js",
+    "isEntry": true,
+    "imports": [
+      "_shared-server.js"
+    ]
+  },
+  "src/routes/admin/login/+page.svelte": {
+    "file": "entries/pages/admin/login/_page.svelte.js",
+    "name": "entries/pages/admin/login/_page.svelte",
+    "src": "src/routes/admin/login/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_renderer.js",
+      "_exports.js",
+      "_utils.js",
+      "_root.js",
+      "_state.svelte.js"
+    ]
+  },
+  "src/routes/admin/logout/+server.js": {
+    "file": "entries/endpoints/admin/logout/_server.js",
+    "name": "entries/endpoints/admin/logout/_server",
+    "src": "src/routes/admin/logout/+server.js",
+    "isEntry": true
+  },
+  "src/routes/admin/stock/+page.server.js": {
+    "file": "entries/pages/admin/stock/_page.server.js",
+    "name": "entries/pages/admin/stock/_page.server",
+    "src": "src/routes/admin/stock/+page.server.js",
+    "isEntry": true,
+    "imports": [
+      "_sanity.js"
+    ]
+  },
+  "src/routes/admin/stock/+page.svelte": {
+    "file": "entries/pages/admin/stock/_page.svelte.js",
+    "name": "entries/pages/admin/stock/_page.svelte",
+    "src": "src/routes/admin/stock/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_renderer.js",
+      "_exports.js",
+      "_utils.js",
+      "_root.js",
+      "_state.svelte.js"
+    ]
+  },
+  "src/routes/admin/transform/+page.server.js": {
+    "file": "entries/pages/admin/transform/_page.server.js",
+    "name": "entries/pages/admin/transform/_page.server",
+    "src": "src/routes/admin/transform/+page.server.js",
+    "isEntry": true,
+    "imports": [
+      "_sanity.js"
+    ]
+  },
+  "src/routes/admin/transform/+page.svelte": {
+    "file": "entries/pages/admin/transform/_page.svelte.js",
+    "name": "entries/pages/admin/transform/_page.svelte",
+    "src": "src/routes/admin/transform/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_renderer.js"
     ]
   },
   "src/routes/cgu/+page.svelte": {

@@ -6,6 +6,7 @@
 	const navItems = [
 		{ href: '/admin', label: 'Tableau de bord', icon: 'dashboard' },
 		{ href: '/admin/stock', label: 'Stock', icon: 'stock' },
+		{ href: '/admin/transform', label: 'Atelier', icon: 'transform' },
 		{ href: '/admin/harvest', label: 'Récolte', icon: 'harvest' },
 		{ href: '/admin/history', label: 'Historique', icon: 'history' }
 	];
@@ -54,6 +55,12 @@
 					<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
 						<polyline points="12 8 12 12 14 14" />
 						<path d="M3.05 11a9 9 0 1 0 .5-4.5" /><polyline points="3 3 3 7 7 7" />
+					</svg>
+				{:else if item.icon === 'transform'}
+					<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+						<path d="M7 7h11v11" />
+						<path d="M17 7 7 17" />
+						<path d="M17 17H6V6" />
 					</svg>
 				{/if}
 				<span class="text-[10px] font-medium">{item.label}</span>

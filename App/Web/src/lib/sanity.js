@@ -29,10 +29,20 @@ export function urlFor(source) {
 export async function getProducts(category = null) {
 	const filter = category ? `&& category == $category` : '';
 	return client.fetch(
-		`*[_type == "product" ${filter}] | order(_createdAt desc) {
-      _id, name, category, price, description, badge,
-      "image": image.asset->url
-    }`,
+		`*[_type == "product" ${filter} && coalesce(*[_type == "stockEntry" && product._ref == ^._id][0].quantity, 0) > 0] | order(_createdAt desc) {
+			_id,
+			name,
+			category,
+			price,
+			description,
+			badge,
+			"image": image.asset->url,
+			"stock": *[_type == "stockEntry" && product._ref == ^._id][0] {
+				quantity,
+				unit,
+				lowStockThreshold
+			}
+		}`,
 		category ? { category } : {}
 	);
 }

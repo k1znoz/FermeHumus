@@ -1,14 +1,14 @@
 ﻿<script>
 	let { data } = $props();
 
-	const marches = data.markets?.filter((m) => m.type === 'marche') ?? [
+	const marches = $derived(data.markets?.filter((m) => m.type === 'marche') ?? [
 		{ _id: '1', name: 'Marché de Granville', schedule: 'Samedi, 08:00 — 13:00', address: 'Place du Marché' },
 		{ _id: '2', name: 'Marché Bio de Caen', schedule: 'Vendredi, 15:00 — 19:00', address: 'Place Saint-Sauveur' }
-	];
+	]);
 
-	const partenaires = data.markets?.filter((m) => m.type === 'partenaire') ?? [
+	const partenaires = $derived(data.markets?.filter((m) => m.type === 'partenaire') ?? [
 		{ _id: '3', name: "L'Épicerie de Demain", schedule: 'Mar–Sam, 09:00 — 19:00', address: '' }
-	];
+	]);
 </script>
 
 <svelte:head>

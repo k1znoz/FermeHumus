@@ -1,4 +1,4 @@
-import { i as hydration_mismatch, H as HYDRATION_ERROR, C as COMMENT_NODE, j as HYDRATION_END, k as HYDRATION_START, l as HYDRATION_START_ELSE, m as get_next_sibling, o as effect_tracking, p as get, r as render_effect, q as source, t as untrack, v as increment, w as queue_micro_task, x as active_effect, B as BOUNDARY_EFFECT, y as block, z as branch, A as create_text, D as pause_effect, E as current_batch, F as move_effect, G as defer_effect, I as set_active_effect, J as set_active_reaction, K as set_component_context, L as Batch, M as handle_error, N as active_reaction, O as component_context, P as internal_set, Q as destroy_effect, R as invoke_error_boundary, S as svelte_boundary_reset_onerror, T as HYDRATION_START_FAILED, U as svelte_boundary_reset_noop, V as EFFECT_TRANSPARENT, W as EFFECT_PRESERVED, X as define_property, Y as init_operations, Z as get_first_child, _ as hydration_failed, $ as clear_text_content, a0 as component_root, a1 as array_from, a2 as is_passive_event, a3 as push, a4 as pop, a5 as set, a6 as LEGACY_PROPS, a7 as flushSync, a8 as mutable_source, a9 as render, aa as setContext, ab as derived } from "./renderer.js";
+import { j as hydration_mismatch, H as HYDRATION_ERROR, C as COMMENT_NODE, k as HYDRATION_END, l as HYDRATION_START, m as HYDRATION_START_ELSE, o as get_next_sibling, p as effect_tracking, q as get, r as render_effect, t as source, v as untrack, w as increment, x as queue_micro_task, y as active_effect, B as BOUNDARY_EFFECT, z as block, A as branch, D as create_text, E as pause_effect, F as current_batch, G as move_effect, I as defer_effect, J as set_active_effect, K as set_active_reaction, L as set_component_context, M as Batch, N as handle_error, O as active_reaction, P as component_context, Q as internal_set, R as destroy_effect, S as invoke_error_boundary, T as svelte_boundary_reset_onerror, U as HYDRATION_START_FAILED, V as svelte_boundary_reset_noop, W as EFFECT_TRANSPARENT, X as EFFECT_PRESERVED, Y as define_property, Z as init_operations, _ as get_first_child, $ as hydration_failed, a0 as clear_text_content, a1 as component_root, a2 as array_from, a3 as is_passive_event, a4 as push, a5 as pop, a6 as set, a7 as LEGACY_PROPS, a8 as flushSync, a9 as mutable_source, aa as render, ab as setContext, f as derived } from "./renderer.js";
 let hydrating = false;
 function set_hydrating(value) {
   hydrating = value;
@@ -879,7 +879,8 @@ function Root($$renderer, $$props) {
       components = [],
       form,
       data_0 = null,
-      data_1 = null
+      data_1 = null,
+      data_2 = null
     } = $$props;
     {
       setContext("__svelte__", stores);
@@ -887,7 +888,7 @@ function Root($$renderer, $$props) {
     {
       stores.page.set(page);
     }
-    const Pyramid_1 = derived(() => constructors[1]);
+    const Pyramid_2 = derived(() => constructors[2]);
     if (constructors[1]) {
       $$renderer2.push("<!--[0-->");
       const Pyramid_0 = constructors[0];
@@ -898,14 +899,45 @@ function Root($$renderer, $$props) {
           form,
           params: page.params,
           children: ($$renderer3) => {
-            if (Pyramid_1()) {
-              $$renderer3.push("<!--[-->");
-              Pyramid_1()($$renderer3, { data: data_1, form, params: page.params });
-              $$renderer3.push("<!--]-->");
+            if (constructors[2]) {
+              $$renderer3.push("<!--[0-->");
+              const Pyramid_1 = constructors[1];
+              if (Pyramid_1) {
+                $$renderer3.push("<!--[-->");
+                Pyramid_1($$renderer3, {
+                  data: data_1,
+                  form,
+                  params: page.params,
+                  children: ($$renderer4) => {
+                    if (Pyramid_2()) {
+                      $$renderer4.push("<!--[-->");
+                      Pyramid_2()($$renderer4, { data: data_2, form, params: page.params });
+                      $$renderer4.push("<!--]-->");
+                    } else {
+                      $$renderer4.push("<!--[!-->");
+                      $$renderer4.push("<!--]-->");
+                    }
+                  },
+                  $$slots: { default: true }
+                });
+                $$renderer3.push("<!--]-->");
+              } else {
+                $$renderer3.push("<!--[!-->");
+                $$renderer3.push("<!--]-->");
+              }
             } else {
-              $$renderer3.push("<!--[!-->");
-              $$renderer3.push("<!--]-->");
+              $$renderer3.push("<!--[-1-->");
+              const Pyramid_1 = constructors[1];
+              if (Pyramid_1) {
+                $$renderer3.push("<!--[-->");
+                Pyramid_1($$renderer3, { data: data_1, form, params: page.params });
+                $$renderer3.push("<!--]-->");
+              } else {
+                $$renderer3.push("<!--[!-->");
+                $$renderer3.push("<!--]-->");
+              }
             }
+            $$renderer3.push(`<!--]-->`);
           },
           $$slots: { default: true }
         });
