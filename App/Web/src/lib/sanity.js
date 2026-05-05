@@ -29,7 +29,11 @@ export async function getProducts(category = null) {
 }
 
 export async function getSiteSettings() {
-	return client.fetch(`*[_type == "siteSettings"][0]`);
+	return client.fetch(`*[_type == "siteSettings"][0] {
+		heroTitle, heroSubtitle, philosophyTitle, philosophyBody, newsletterEnabled,
+		"heroImage": heroImage.asset->url,
+		"philosophyImage": philosophyImage.asset->url
+	}`);
 }
 
 export async function getTeam() {

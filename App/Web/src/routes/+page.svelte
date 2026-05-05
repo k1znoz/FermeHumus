@@ -4,7 +4,7 @@
 
 	let { data } = $props();
 
-	const { featuredProducts } = data;
+	const { featuredProducts, settings } = data;
 
 	// Fallback products for when Sanity is not yet configured
 	const fallbackProducts = [
@@ -52,7 +52,7 @@
 	<div class="absolute inset-0 z-0">
 		<img
 			class="w-full h-full object-cover"
-			src="https://cataas.com/cat"
+			src={settings?.heroImage || 'https://cataas.com/cat'}
 			alt="Ferme de l'Humus — paysage agricole régénérateur au coucher du soleil"
 		/>
 		<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
@@ -60,10 +60,10 @@
 	</div>
 	<div class="relative z-10 max-w-4xl">
 		<h1 class="font-h1 text-h1 text-white mb-md leading-none">
-			Ferme de l'Humus : Cultiver le Vivant, Nourrir le Local.
+			{settings?.heroTitle || "Ferme de l'Humus : Cultiver le Vivant, Nourrir le Local."}
 		</h1>
 		<p class="font-body-lg text-body-lg text-white/90 mb-lg max-w-xl">
-			Une agriculture régénératrice au service de la biodiversité et de votre santé.
+			{settings?.heroSubtitle || 'Une agriculture régénératrice au service de la biodiversité et de votre santé.'}
 		</p>
 		<a
 			href="/a-propos"
@@ -108,11 +108,9 @@
 	<div class="grid grid-cols-1 md:grid-cols-2 gap-lg items-center">
 		<div class="space-y-md">
 			<span class="font-label-caps text-secondary tracking-widest uppercase">Notre Philosophie</span>
-			<h2 class="font-h2 text-h2 text-primary">Le respect du sol comme fondement.</h2>
+			<h2 class="font-h2 text-h2 text-primary">{settings?.philosophyTitle || 'Le respect du sol comme fondement.'}</h2>
 			<p class="font-body-md text-on-surface-variant leading-relaxed">
-				À la Ferme de l'Humus, nous pratiquons une agriculture biologique qui va au-delà des labels.
-				En prenant soin de la vie microbienne de nos sols, nous produisons des aliments d'une densité
-				nutritionnelle exceptionnelle tout en restaurant les écosystèmes locaux.
+				{settings?.philosophyBody || "À la Ferme de l'Humus, nous pratiquons une agriculture biologique qui va au-delà des labels. En prenant soin de la vie microbienne de nos sols, nous produisons des aliments d'une densité nutritionnelle exceptionnelle tout en restaurant les écosystèmes locaux."}
 			</p>
 			<a
 				href="/a-propos"
@@ -124,7 +122,7 @@
 		<div class="relative aspect-square rounded-xl overflow-hidden">
 			<img
 				class="w-full h-full object-cover"
-				src="https://cataas.com/cat"
+				src={settings?.philosophyImage || 'https://cataas.com/cat'}
 				alt="Mains tenant de la terre saine — symbole de l'agriculture biologique"
 			/>
 		</div>
