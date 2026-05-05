@@ -8,6 +8,15 @@ export const client = createClient({
 	useCdn: true
 });
 
+// Client avec token pour les mutations (write) côté serveur uniquement
+export const writeClient = createClient({
+	projectId: import.meta.env.VITE_SANITY_PROJECT_ID || 'your-project-id',
+	dataset: import.meta.env.VITE_SANITY_DATASET || 'production',
+	apiVersion: '2024-01-01',
+	useCdn: false,
+	token: import.meta.env.SANITY_API_WRITE_TOKEN
+});
+
 const builder = imageUrlBuilder(client);
 
 /** @param {import('@sanity/types').SanityImageSource} source */
