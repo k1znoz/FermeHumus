@@ -1,5 +1,6 @@
 import { client, writeClient } from '$lib/sanity.js';
 import { fail, redirect } from '@sveltejs/kit';
+import { env } from '$env/dynamic/private';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load() {
@@ -12,6 +13,12 @@ export async function load() {
 /** @type {import('./$types').Actions} */
 export const actions = {
 	default: async ({ request }) => {
+		if (!env.SANITY_API_WRITE_TOKEN) {
+			return fail(500, {
+				error: 'SANITY_API_WRITE_TOKEN est manquant. Impossible d\'enregistrer la recolte.'
+			});
+		}
+
 		const data = await request.formData();
 
 		const productId = data.get('productId')?.toString();
@@ -26,31 +33,50 @@ export const actions = {
 			return fail(400, { error: 'Veuillez remplir tous les champs obligatoires.' });
 		}
 
-		// Crée la récolte
-		await writeClient.create({
-			_type: 'harvestEntry',
-			product: { _type: 'reference', _ref: productId },
-			quantity,
-			unit,
-			harvestDate,
-			terrainCondition,
-			notes,
-			recordedBy
-		});
+		try {
+			await writeClient.create({
+				_type: 'harvestEntry',
+				product: { _type: 'reference', _ref: productId },
+				quantity,
+				unit,
+				harvestDate,
+				terrainCondition,
+				notes,
+				recordedBy
+			});
 
-		// Met à jour le stock correspondant (additionne)
-		const stockEntry = await client.fetch(
-			`*[_type == "stockEntry" && product._ref == $productId][0]{ _id, quantity }`,
-			{ productId }
-		);
+			const stockEntry = await client.fetch(
+				`*[_type == "stockEntry" && product._ref == $productId][0]{ _id, quantity, lowStockThreshold, unit }`,
+				{ productId }
+			);
 
-		if (stockEntry) {
-			await writeClient
-				.patch(stockEntry._id)
-				.set({ quantity: (stockEntry.quantity ?? 0) + quantity, updatedAt: new Date().toISOString() })
-				.commit();
+			const nextQuantity = (stockEntry?.quantity ?? 0) + quantity;
+			const now = new Date().toISOString();
+
+			if (stockEntry?._id) {
+				await writeClient
+					.patch(stockEntry._id)
+					.set({ quantity: nextQuantity, updatedAt: now, unit: stockEntry.unit ?? unit })
+					.commit();
+			} else {
+				await writeClient.create({
+					_type: 'stockEntry',
+					product: { _type: 'reference', _ref: productId },
+					quantity: nextQuantity,
+					unit,
+					lowStockThreshold: 5,
+					updatedAt: now
+				});
+			}
+
+			await writeClient.patch(productId).set({ available: nextQuantity > 0 }).commit();
+
+			throw redirect(303, '/admin');
+		} catch (error) {
+			console.error('Erreur enregistrement recolte:', error);
+			return fail(500, {
+				error: 'Erreur serveur pendant l\'enregistrement de la recolte.'
+			});
 		}
-
-		throw redirect(303, '/admin');
 	}
 };

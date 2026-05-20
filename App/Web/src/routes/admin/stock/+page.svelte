@@ -3,6 +3,7 @@
 
 	let { data } = $props();
 	const stocks = $derived(data.stocks ?? []);
+	const focusProductId = $derived(data.focusProductId ?? null);
 
 	// Copie locale éditable des quantités
 	let quantities = $state({});
@@ -32,6 +33,10 @@
 
 	function adjust(id, delta) {
 		quantities[id] = Math.max(0, (quantities[id] ?? 0) + delta);
+	}
+
+	function isFocused(stock) {
+		return focusProductId && stock.product?._id === focusProductId;
 	}
 </script>
 
@@ -72,7 +77,11 @@
 		<div class="space-y-3">
 			{#each filtered as stock (stock._id)}
 				{@const low = isLow(stock)}
-				<div class="flex items-center gap-3 rounded-2xl bg-white border border-[#e3e2e0] p-3">
+				<div
+					class="flex items-center gap-3 rounded-2xl bg-white border p-3 {isFocused(stock)
+						? 'border-[#172c21] ring-1 ring-[#172c21]/30'
+						: 'border-[#e3e2e0]'}"
+				>
 					<!-- Image -->
 					{#if stock.product?.image}
 						<img src={stock.product.image} alt={stock.product.name} class="w-16 h-16 rounded-xl object-cover shrink-0" />
@@ -105,8 +114,11 @@
 						}}
 						class="flex items-center gap-1 shrink-0"
 					>
-						<input type="hidden" name="id" value={stock._id} />
+						<input type="hidden" name="stockEntryId" value={stock.stockEntryId ?? ''} />
+						<input type="hidden" name="productId" value={stock.product?._id ?? ''} />
 						<input type="hidden" name="quantity" value={quantities[stock._id]} />
+						<input type="hidden" name="unit" value={stock.unit} />
+						<input type="hidden" name="lowStockThreshold" value={stock.lowStockThreshold ?? 5} />
 
 						<button
 							type="button"

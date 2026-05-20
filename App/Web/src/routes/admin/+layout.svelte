@@ -5,6 +5,7 @@
 
 	const navItems = [
 		{ href: '/admin', label: 'Tableau de bord', icon: 'dashboard' },
+		{ href: '/admin/products', label: 'Produits', icon: 'products' },
 		{ href: '/admin/stock', label: 'Stock', icon: 'stock' },
 		{ href: '/admin/harvest', label: 'Récolte', icon: 'harvest' },
 		{ href: '/admin/transform', label: 'Atelier', icon: 'transform' },
@@ -45,6 +46,12 @@
 						<path d="M20 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1Z" />
 						<path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
 						<line x1="12" y1="12" x2="12" y2="16" /><line x1="10" y1="14" x2="14" y2="14" />
+					</svg>
+				{:else if item.icon === 'products'}
+					<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+						<path d="M4 7h16" />
+						<path d="M5 7l1 12h12l1-12" />
+						<path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
 					</svg>
 				{:else if item.icon === 'harvest'}
 					<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">

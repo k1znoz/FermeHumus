@@ -53,7 +53,7 @@ declare module "$app/types" {
 			"/produits": Record<string, never>;
 			"/reserver": Record<string, never>
 		};
-		Pathname(): "/" | "/a-propos" | "/admin" | "/admin/harvest" | "/admin/history" | "/admin/login" | "/admin/logout" | "/admin/products/new" | "/admin/stock" | "/admin/transform" | "/cgu" | "/cgv" | "/mentions-legales" | "/ou-nous-trouver" | "/politique-de-confidentialite" | "/produits" | "/reserver";
+		Pathname(): "/" | "/a-propos" | "/admin" | "/admin/harvest" | "/admin/history" | "/admin/login" | "/admin/logout" | "/admin/products" | "/admin/products/new" | "/admin/stock" | "/admin/transform" | "/cgu" | "/cgv" | "/mentions-legales" | "/ou-nous-trouver" | "/politique-de-confidentialite" | "/produits" | "/reserver";
 		ResolvedPathname(): `${"" | `/${string}`}${ReturnType<AppTypes['Pathname']>}`;
 		Asset(): string & {};
 	}

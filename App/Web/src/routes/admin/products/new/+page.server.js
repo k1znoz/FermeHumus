@@ -1,5 +1,6 @@
-import { writeClient } from '$lib/sanity.js';
+import { client, writeClient } from '$lib/sanity.js';
 import { fail, redirect } from '@sveltejs/kit';
+import { env } from '$env/dynamic/private';
 
 const categories = ['Légumes', 'Fruits', 'Plants potagers', 'Produits transformés', 'Miel & Conserves'];
 const units = ['kg', 'pcs', 'botte', 'barquette', 'doz', 'pot', 'L'];
@@ -23,6 +24,12 @@ export function load() {
 /** @type {import('./$types').Actions} */
 export const actions = {
 	default: async ({ request }) => {
+		if (!env.SANITY_API_WRITE_TOKEN) {
+			return fail(500, {
+				error: 'SANITY_API_WRITE_TOKEN est manquant. Impossible de creer le produit.'
+			});
+		}
+
 		const data = await request.formData();
 
 		const name = data.get('name')?.toString().trim();
@@ -47,26 +54,38 @@ export const actions = {
 			return fail(400, { error: 'Impossible de générer un slug valide à partir du nom.' });
 		}
 
-		const createdProduct = await writeClient.create({
-			_type: 'product',
-			name,
-			slug: { _type: 'slug', current: slug },
-			category,
-			badge,
-			price,
-			description,
-			available: true
-		});
+		try {
+			const existingWithSlug = await client.fetch(`*[_type == "product" && slug.current == $slug][0]._id`, {
+				slug
+			});
+			const finalSlug = existingWithSlug ? `${slug}-${Date.now().toString().slice(-6)}` : slug;
 
-		await writeClient.create({
-			_type: 'stockEntry',
-			product: { _type: 'reference', _ref: createdProduct._id },
-			quantity: initialStock,
-			unit,
-			lowStockThreshold: Number.isFinite(lowStockThreshold) && lowStockThreshold >= 0 ? lowStockThreshold : 5,
-			updatedAt: new Date().toISOString()
-		});
+			const createdProduct = await writeClient.create({
+				_type: 'product',
+				name,
+				slug: { _type: 'slug', current: finalSlug },
+				category,
+				badge,
+				price,
+				description,
+				available: initialStock > 0
+			});
 
-		throw redirect(303, '/admin/harvest?created=1');
+			await writeClient.create({
+				_type: 'stockEntry',
+				product: { _type: 'reference', _ref: createdProduct._id },
+				quantity: initialStock,
+				unit,
+				lowStockThreshold: Number.isFinite(lowStockThreshold) && lowStockThreshold >= 0 ? lowStockThreshold : 5,
+				updatedAt: new Date().toISOString()
+			});
+
+			throw redirect(303, '/admin/products?created=1');
+		} catch (error) {
+			console.error('Erreur creation produit:', error);
+			return fail(500, {
+				error: 'Erreur serveur pendant la creation du produit. Verifiez la configuration Sanity et reessayez.'
+			});
+		}
 	}
 };

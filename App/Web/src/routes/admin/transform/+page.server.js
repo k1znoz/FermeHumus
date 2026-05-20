@@ -1,5 +1,6 @@
 import { client, writeClient } from '$lib/sanity.js';
 import { fail, redirect } from '@sveltejs/kit';
+import { env } from '$env/dynamic/private';
 
 const units = ['kg', 'pcs', 'botte', 'barquette', 'doz', 'pot', 'L'];
 
@@ -35,6 +36,12 @@ export async function load({ url }) {
 /** @type {import('./$types').Actions} */
 export const actions = {
 	default: async ({ request }) => {
+		if (!env.SANITY_API_WRITE_TOKEN) {
+			return fail(500, {
+				error: 'SANITY_API_WRITE_TOKEN est manquant. Impossible d\'enregistrer la transformation.'
+			});
+		}
+
 		const data = await request.formData();
 
 		const inputProductId = data.get('inputProductId')?.toString();
@@ -85,44 +92,56 @@ export const actions = {
 			{ productId: outputProductId }
 		);
 
-		const now = new Date().toISOString();
+		try {
+			const now = new Date().toISOString();
+			const nextInputQuantity = (inputStock.quantity ?? 0) - inputQuantity;
+			const nextOutputQuantity = (outputStock?.quantity ?? 0) + outputQuantity;
 
-		await writeClient
-			.patch(inputStock._id)
-			.set({ quantity: (inputStock.quantity ?? 0) - inputQuantity, updatedAt: now })
-			.commit();
-
-		if (outputStock?._id) {
 			await writeClient
-				.patch(outputStock._id)
-				.set({ quantity: (outputStock.quantity ?? 0) + outputQuantity, unit: outputUnit, updatedAt: now })
+				.patch(inputStock._id)
+				.set({ quantity: nextInputQuantity, updatedAt: now })
 				.commit();
-		} else {
+
+			if (outputStock?._id) {
+				await writeClient
+					.patch(outputStock._id)
+					.set({ quantity: nextOutputQuantity, unit: outputUnit, updatedAt: now })
+					.commit();
+			} else {
+				await writeClient.create({
+					_type: 'stockEntry',
+					product: { _type: 'reference', _ref: outputProductId },
+					quantity: nextOutputQuantity,
+					unit: outputUnit,
+					lowStockThreshold: 5,
+					updatedAt: now
+				});
+			}
+
+			await writeClient.patch(inputProductId).set({ available: nextInputQuantity > 0 }).commit();
+			await writeClient.patch(outputProductId).set({ available: nextOutputQuantity > 0 }).commit();
+
 			await writeClient.create({
-				_type: 'stockEntry',
-				product: { _type: 'reference', _ref: outputProductId },
-				quantity: outputQuantity,
-				unit: outputUnit,
-				lowStockThreshold: 5,
-				updatedAt: now
+				_type: 'transformationEntry',
+				inputProduct: { _type: 'reference', _ref: inputProductId },
+				inputQuantity,
+				inputUnit,
+				outputProduct: { _type: 'reference', _ref: outputProductId },
+				outputQuantity,
+				outputUnit,
+				estimatedWaste,
+				batchNumber,
+				notes,
+				recordedBy,
+				transformedAt: now
+			});
+
+			throw redirect(303, '/admin/transform?success=1');
+		} catch (error) {
+			console.error('Erreur enregistrement transformation:', error);
+			return fail(500, {
+				error: 'Erreur serveur pendant l\'enregistrement de la transformation.'
 			});
 		}
-
-		await writeClient.create({
-			_type: 'transformationEntry',
-			inputProduct: { _type: 'reference', _ref: inputProductId },
-			inputQuantity,
-			inputUnit,
-			outputProduct: { _type: 'reference', _ref: outputProductId },
-			outputQuantity,
-			outputUnit,
-			estimatedWaste,
-			batchNumber,
-			notes,
-			recordedBy,
-			transformedAt: now
-		});
-
-		throw redirect(303, '/admin/transform?success=1');
 	}
 };
