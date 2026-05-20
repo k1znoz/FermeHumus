@@ -1,5 +1,6 @@
 import { client } from '$lib/sanity.js';
 import { getWriteClient } from '$lib/server/sanityWrite.js';
+import { setProductStock } from '$lib/server/stock.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 
@@ -62,6 +63,7 @@ export const actions = {
 				slug
 			});
 			const finalSlug = existingWithSlug ? `${slug}-${Date.now().toString().slice(-6)}` : slug;
+			const now = new Date().toISOString();
 
 			const createdProduct = await writeClient.create({
 				_type: 'product',
@@ -74,21 +76,22 @@ export const actions = {
 				available: initialStock > 0
 			});
 
-			await writeClient.create({
-				_type: 'stockEntry',
-				product: { _type: 'reference', _ref: createdProduct._id },
+			await setProductStock({
+				readClient: client,
+				writeClient,
+				productId: createdProduct._id,
 				quantity: initialStock,
 				unit,
 				lowStockThreshold: Number.isFinite(lowStockThreshold) && lowStockThreshold >= 0 ? lowStockThreshold : 5,
-				updatedAt: new Date().toISOString()
+				now
 			});
-
-			throw redirect(303, '/admin/products?created=1');
 		} catch (error) {
 			console.error('Erreur creation produit:', error);
 			return fail(500, {
 				error: 'Erreur serveur pendant la creation du produit. Verifiez la configuration Sanity et reessayez.'
 			});
 		}
+
+		throw redirect(303, '/admin/products?created=1');
 	}
 };

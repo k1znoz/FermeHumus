@@ -1,5 +1,11 @@
 import { client } from '$lib/sanity.js';
 import { getWriteClient } from '$lib/server/sanityWrite.js';
+import {
+	aggregateStockEntries,
+	fetchStockEntriesByProduct,
+	setProductStock,
+	normalizeNumber
+} from '$lib/server/stock.js';
 import { fail } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 
@@ -10,22 +16,41 @@ export async function load({ url }) {
 			_id,
 			name,
 			category,
-			"image": image.asset->url,
-			"stock": *[_type == "stockEntry" && product._ref == ^._id][0] {
-				_id,
-				quantity,
-				unit,
-				lowStockThreshold
-			}
+			"image": image.asset->url
 		}
 	`);
 
+	const stockEntries = await client.fetch(`
+		*[_type == "stockEntry" && defined(product._ref)] {
+			_id,
+			quantity,
+			unit,
+			lowStockThreshold,
+			updatedAt,
+			"productId": product._ref
+		}
+	`);
+
+	const groupedByProduct = stockEntries.reduce((acc, entry) => {
+		if (!entry.productId) return acc;
+		if (!acc[entry.productId]) acc[entry.productId] = [];
+		acc[entry.productId].push(entry);
+		return acc;
+	}, {});
+
 	const stocks = products.map((product) => ({
-		_id: product.stock?._id ?? `virtual-${product._id}`,
-		stockEntryId: product.stock?._id ?? null,
-		quantity: product.stock?.quantity ?? 0,
-		unit: product.stock?.unit ?? 'kg',
-		lowStockThreshold: product.stock?.lowStockThreshold ?? 5,
+		...(() => {
+			const { primary, totalQuantity, unit, lowStockThreshold } = aggregateStockEntries(
+				groupedByProduct[product._id] ?? []
+			);
+			return {
+				_id: primary?._id ?? `virtual-${product._id}`,
+				stockEntryId: primary?._id ?? null,
+				quantity: totalQuantity,
+				unit,
+				lowStockThreshold
+			};
+		})(),
 		product: {
 			_id: product._id,
 			name: product.name,
@@ -47,7 +72,6 @@ export const actions = {
 		const writeClient = getWriteClient();
 
 		const data = await request.formData();
-		const stockEntryId = data.get('stockEntryId')?.toString() || null;
 		const productId = data.get('productId')?.toString();
 		const quantity = Number(data.get('quantity'));
 		const unit = data.get('unit')?.toString() || 'kg';
@@ -58,27 +82,20 @@ export const actions = {
 		}
 
 		const now = new Date().toISOString();
+		const existingEntries = await fetchStockEntriesByProduct(client, productId);
+		const aggregated = aggregateStockEntries(existingEntries);
 
-		if (stockEntryId) {
-			await writeClient
-				.patch(stockEntryId)
-				.set({
-					quantity,
-					unit,
-					lowStockThreshold: Number.isFinite(lowStockThreshold) && lowStockThreshold >= 0 ? lowStockThreshold : 5,
-					updatedAt: now
-				})
-				.commit();
-		} else {
-			await writeClient.create({
-				_type: 'stockEntry',
-				product: { _type: 'reference', _ref: productId },
-				quantity,
-				unit,
-				lowStockThreshold: Number.isFinite(lowStockThreshold) && lowStockThreshold >= 0 ? lowStockThreshold : 5,
-				updatedAt: now
-			});
-		}
+		await setProductStock({
+			readClient: client,
+			writeClient,
+			productId,
+			quantity,
+			unit,
+			lowStockThreshold: Number.isFinite(lowStockThreshold) && lowStockThreshold >= 0
+				? lowStockThreshold
+				: normalizeNumber(aggregated.lowStockThreshold, 5),
+			now
+		});
 
 		await writeClient.patch(productId).set({ available: quantity > 0 }).commit();
 

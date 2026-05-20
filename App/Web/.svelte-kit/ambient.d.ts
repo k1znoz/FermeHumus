@@ -58,6 +58,9 @@ declare module '$env/static/private' {
 	export const EFC_19992_3789132940: string;
 	export const EFC_19992_4126798990: string;
 	export const GIT_ASKPASS: string;
+	export const GIT_EDITOR: string;
+	export const GIT_MERGE_AUTOEDIT: string;
+	export const GIT_PAGER: string;
 	export const HOME: string;
 	export const HOMEDRIVE: string;
 	export const HOMEPATH: string;
@@ -227,6 +230,9 @@ declare module '$env/dynamic/private' {
 		EFC_19992_3789132940: string;
 		EFC_19992_4126798990: string;
 		GIT_ASKPASS: string;
+		GIT_EDITOR: string;
+		GIT_MERGE_AUTOEDIT: string;
+		GIT_PAGER: string;
 		HOME: string;
 		HOMEDRIVE: string;
 		HOMEPATH: string;

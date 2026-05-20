@@ -1,5 +1,6 @@
 import { client } from '$lib/sanity.js';
 import { getWriteClient } from '$lib/server/sanityWrite.js';
+import { aggregateStockEntries, fetchStockEntriesByProduct, setProductStock } from '$lib/server/stock.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 
@@ -37,6 +38,11 @@ export const actions = {
 		}
 
 		try {
+			const existingEntries = await fetchStockEntriesByProduct(client, productId);
+			const aggregated = aggregateStockEntries(existingEntries);
+			const nextQuantity = aggregated.totalQuantity + quantity;
+			const now = new Date().toISOString();
+
 			await writeClient.create({
 				_type: 'harvestEntry',
 				product: { _type: 'reference', _ref: productId },
@@ -48,38 +54,24 @@ export const actions = {
 				recordedBy
 			});
 
-			const stockEntry = await client.fetch(
-				`*[_type == "stockEntry" && product._ref == $productId][0]{ _id, quantity, lowStockThreshold, unit }`,
-				{ productId }
-			);
-
-			const nextQuantity = (stockEntry?.quantity ?? 0) + quantity;
-			const now = new Date().toISOString();
-
-			if (stockEntry?._id) {
-				await writeClient
-					.patch(stockEntry._id)
-					.set({ quantity: nextQuantity, updatedAt: now, unit: stockEntry.unit ?? unit })
-					.commit();
-			} else {
-				await writeClient.create({
-					_type: 'stockEntry',
-					product: { _type: 'reference', _ref: productId },
-					quantity: nextQuantity,
-					unit,
-					lowStockThreshold: 5,
-					updatedAt: now
-				});
-			}
+			await setProductStock({
+				readClient: client,
+				writeClient,
+				productId,
+				quantity: nextQuantity,
+				unit: aggregated.unit || unit,
+				lowStockThreshold: aggregated.lowStockThreshold,
+				now
+			});
 
 			await writeClient.patch(productId).set({ available: nextQuantity > 0 }).commit();
-
-			throw redirect(303, '/admin');
 		} catch (error) {
 			console.error('Erreur enregistrement recolte:', error);
 			return fail(500, {
 				error: 'Erreur serveur pendant l\'enregistrement de la recolte.'
 			});
 		}
+
+		throw redirect(303, '/admin');
 	}
 };

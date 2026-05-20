@@ -6,7 +6,7 @@ const client = createClient({
   apiVersion: "2024-01-01",
   useCdn: false
 });
-const writeClient = createClient({
+createClient({
   projectId: "your-project-id",
   dataset: "production",
   apiVersion: "2024-01-01",
@@ -17,7 +17,7 @@ imageUrlBuilder(client);
 async function getProducts(category = null) {
   const filter = category ? `&& category == $category` : "";
   return client.fetch(
-    `*[_type == "product" ${filter} && coalesce(*[_type == "stockEntry" && product._ref == ^._id][0].quantity, 0) > 0] | order(_createdAt desc) {
+    `*[_type == "product" ${filter} && available == true] | order(_createdAt desc) {
 			_id,
 			name,
 			category,
@@ -61,6 +61,5 @@ export {
   client as c,
   getMarkets as d,
   getFarmStay as e,
-  getSiteSettings as g,
-  writeClient as w
+  getSiteSettings as g
 };

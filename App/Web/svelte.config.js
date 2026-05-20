@@ -1,9 +1,12 @@
-import adapter from '@sveltejs/adapter-vercel';
+import adapterAuto from '@sveltejs/adapter-auto';
+import adapterVercel from '@sveltejs/adapter-vercel';
+
+const isVercelBuild = Boolean(process.env.VERCEL);
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	kit: {
-		adapter: adapter()
+		adapter: isVercelBuild ? adapterVercel() : adapterAuto()
 	}
 };
 

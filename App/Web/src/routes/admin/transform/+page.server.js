@@ -1,5 +1,6 @@
 import { client } from '$lib/sanity.js';
 import { getWriteClient } from '$lib/server/sanityWrite.js';
+import { aggregateStockEntries, fetchStockEntriesByProduct, setProductStock } from '$lib/server/stock.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 
@@ -75,51 +76,63 @@ export const actions = {
 			return fail(400, { error: 'Veuillez renseigner tous les champs obligatoires.' });
 		}
 
-		const inputStock = await client.fetch(
-			`*[_type == "stockEntry" && product._ref == $productId][0]{ _id, quantity, unit }`,
-			{ productId: inputProductId }
-		);
+		if (inputProductId === outputProductId) {
+			return fail(400, { error: 'Le produit brut et le produit transforme doivent etre differents.' });
+		}
 
-		if (!inputStock) {
+		const [inputProduct, outputProduct] = await Promise.all([
+			client.fetch(`*[_type == "product" && _id == $id][0]{ _id, category }`, { id: inputProductId }),
+			client.fetch(`*[_type == "product" && _id == $id][0]{ _id, category }`, { id: outputProductId })
+		]);
+
+		if (!inputProduct || !outputProduct) {
+			return fail(400, { error: 'Produit introuvable.' });
+		}
+
+		if (outputProduct.category !== 'Produits transformés') {
+			return fail(400, { error: 'Le produit de sortie doit etre de categorie Produits transformes.' });
+		}
+
+		const inputEntries = await fetchStockEntriesByProduct(client, inputProductId);
+		const inputStock = aggregateStockEntries(inputEntries);
+
+		if (!inputStock.primary) {
 			return fail(400, { error: 'Stock introuvable pour le produit brut selectionne.' });
 		}
 
-		if ((inputStock.quantity ?? 0) < inputQuantity) {
+		if (inputStock.totalQuantity < inputQuantity) {
 			return fail(400, {
-				error: `Stock insuffisant. Disponible: ${inputStock.quantity ?? 0} ${inputStock.unit ?? ''}`
+				error: `Stock insuffisant. Disponible: ${inputStock.totalQuantity} ${inputStock.unit ?? ''}`
 			});
 		}
 
-		const outputStock = await client.fetch(
-			`*[_type == "stockEntry" && product._ref == $productId][0]{ _id, quantity, lowStockThreshold }`,
-			{ productId: outputProductId }
-		);
+		const outputEntries = await fetchStockEntriesByProduct(client, outputProductId);
+		const outputStock = aggregateStockEntries(outputEntries);
 
 		try {
 			const now = new Date().toISOString();
-			const nextInputQuantity = (inputStock.quantity ?? 0) - inputQuantity;
-			const nextOutputQuantity = (outputStock?.quantity ?? 0) + outputQuantity;
+			const nextInputQuantity = inputStock.totalQuantity - inputQuantity;
+			const nextOutputQuantity = outputStock.totalQuantity + outputQuantity;
 
-			await writeClient
-				.patch(inputStock._id)
-				.set({ quantity: nextInputQuantity, updatedAt: now })
-				.commit();
+			await setProductStock({
+				readClient: client,
+				writeClient,
+				productId: inputProductId,
+				quantity: nextInputQuantity,
+				unit: inputStock.unit || inputUnit,
+				lowStockThreshold: inputStock.lowStockThreshold,
+				now
+			});
 
-			if (outputStock?._id) {
-				await writeClient
-					.patch(outputStock._id)
-					.set({ quantity: nextOutputQuantity, unit: outputUnit, updatedAt: now })
-					.commit();
-			} else {
-				await writeClient.create({
-					_type: 'stockEntry',
-					product: { _type: 'reference', _ref: outputProductId },
-					quantity: nextOutputQuantity,
-					unit: outputUnit,
-					lowStockThreshold: 5,
-					updatedAt: now
-				});
-			}
+			await setProductStock({
+				readClient: client,
+				writeClient,
+				productId: outputProductId,
+				quantity: nextOutputQuantity,
+				unit: outputUnit,
+				lowStockThreshold: outputStock.lowStockThreshold,
+				now
+			});
 
 			await writeClient.patch(inputProductId).set({ available: nextInputQuantity > 0 }).commit();
 			await writeClient.patch(outputProductId).set({ available: nextOutputQuantity > 0 }).commit();
@@ -138,13 +151,13 @@ export const actions = {
 				recordedBy,
 				transformedAt: now
 			});
-
-			throw redirect(303, '/admin/transform?success=1');
 		} catch (error) {
 			console.error('Erreur enregistrement transformation:', error);
 			return fail(500, {
 				error: 'Erreur serveur pendant l\'enregistrement de la transformation.'
 			});
 		}
+
+		throw redirect(303, '/admin/transform?success=1');
 	}
 };

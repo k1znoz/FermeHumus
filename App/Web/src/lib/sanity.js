@@ -29,7 +29,7 @@ export function urlFor(source) {
 export async function getProducts(category = null) {
 	const filter = category ? `&& category == $category` : '';
 	return client.fetch(
-		`*[_type == "product" ${filter} && coalesce(*[_type == "stockEntry" && product._ref == ^._id][0].quantity, 0) > 0] | order(_createdAt desc) {
+		`*[_type == "product" ${filter} && available == true] | order(_createdAt desc) {
 			_id,
 			name,
 			category,

@@ -67,6 +67,13 @@
     "file": "chunks/sanity.js",
     "name": "sanity"
   },
+  "_sanityWrite.js": {
+    "file": "chunks/sanityWrite.js",
+    "name": "sanityWrite",
+    "imports": [
+      "_shared-server.js"
+    ]
+  },
   "_shared-server.js": {
     "file": "chunks/shared-server.js",
     "name": "shared-server"
@@ -87,6 +94,10 @@
       "_exports.js",
       "_root.js"
     ]
+  },
+  "_stock.js": {
+    "file": "chunks/stock.js",
+    "name": "stock"
   },
   "_stores.js": {
     "file": "chunks/stores.js",
@@ -218,7 +229,8 @@
     "src": "src/routes/admin/+page.server.js",
     "isEntry": true,
     "imports": [
-      "_sanity.js"
+      "_sanity.js",
+      "_stock.js"
     ]
   },
   "src/routes/admin/+page.svelte": {
@@ -237,6 +249,8 @@
     "isEntry": true,
     "imports": [
       "_sanity.js",
+      "_sanityWrite.js",
+      "_stock.js",
       "_shared-server.js"
     ]
   },
@@ -305,7 +319,8 @@
     "src": "src/routes/admin/products/+page.server.js",
     "isEntry": true,
     "imports": [
-      "_sanity.js"
+      "_sanity.js",
+      "_stock.js"
     ]
   },
   "src/routes/admin/products/+page.svelte": {
@@ -324,6 +339,8 @@
     "isEntry": true,
     "imports": [
       "_sanity.js",
+      "_sanityWrite.js",
+      "_stock.js",
       "_shared-server.js"
     ]
   },
@@ -347,6 +364,8 @@
     "isEntry": true,
     "imports": [
       "_sanity.js",
+      "_sanityWrite.js",
+      "_stock.js",
       "_shared-server.js"
     ]
   },
@@ -370,6 +389,8 @@
     "isEntry": true,
     "imports": [
       "_sanity.js",
+      "_sanityWrite.js",
+      "_stock.js",
       "_shared-server.js"
     ]
   },
