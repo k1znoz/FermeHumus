@@ -1,4 +1,5 @@
-import { client, writeClient } from '$lib/sanity.js';
+import { client } from '$lib/sanity.js';
+import { getWriteClient } from '$lib/server/sanityWrite.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 
@@ -41,6 +42,8 @@ export const actions = {
 				error: 'SANITY_API_WRITE_TOKEN est manquant. Impossible d\'enregistrer la transformation.'
 			});
 		}
+
+		const writeClient = getWriteClient();
 
 		const data = await request.formData();
 

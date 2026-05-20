@@ -1,4 +1,5 @@
-import { client, writeClient } from '$lib/sanity.js';
+import { client } from '$lib/sanity.js';
+import { getWriteClient } from '$lib/server/sanityWrite.js';
 import { fail } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 
@@ -42,6 +43,8 @@ export const actions = {
 		if (!env.SANITY_API_WRITE_TOKEN) {
 			return fail(500, { error: 'SANITY_API_WRITE_TOKEN est manquant. Impossible de modifier le stock.' });
 		}
+
+		const writeClient = getWriteClient();
 
 		const data = await request.formData();
 		const stockEntryId = data.get('stockEntryId')?.toString() || null;
