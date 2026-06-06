@@ -1,5 +1,6 @@
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
+import { isProductVisibleToday } from '$lib/seasonality.js';
 
 export const client = createClient({
 	projectId: import.meta.env.VITE_SANITY_PROJECT_ID || 'your-project-id',
@@ -28,7 +29,7 @@ export function urlFor(source) {
 
 export async function getProducts(category = null) {
 	const filter = category ? `&& category == $category` : '';
-	return client.fetch(
+	const products = await client.fetch(
 		`*[_type == "product" ${filter} && available == true] | order(_createdAt desc) {
 			_id,
 			name,
@@ -36,6 +37,11 @@ export async function getProducts(category = null) {
 			price,
 			description,
 			badge,
+			visibilityMode,
+			seasonStartMonth,
+			seasonStartDay,
+			seasonEndMonth,
+			seasonEndDay,
 			"image": image.asset->url,
 			"stock": *[_type == "stockEntry" && product._ref == ^._id][0] {
 				quantity,
@@ -45,6 +51,8 @@ export async function getProducts(category = null) {
 		}`,
 		category ? { category } : {}
 	);
+
+	return products.filter((product) => isProductVisibleToday(product));
 }
 
 export async function getSiteSettings() {

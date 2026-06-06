@@ -61,6 +61,49 @@ export const product = defineType({
 			title: 'Disponible',
 			type: 'boolean',
 			initialValue: true
+		}),
+		defineField({
+			name: 'visibilityMode',
+			title: 'Visibilité saisonnière',
+			type: 'string',
+			initialValue: 'category',
+			options: {
+				list: [
+					{ title: 'Règle de catégorie', value: 'category' },
+					{ title: 'Toujours visible', value: 'always' },
+					{ title: 'Période personnalisée', value: 'custom' }
+				],
+				layout: 'radio'
+			},
+			description: 'Par défaut, Plants est visible de mars à mi-juin.'
+		}),
+		defineField({
+			name: 'seasonStartMonth',
+			title: 'Début - mois',
+			type: 'number',
+			hidden: ({ document }) => document?.visibilityMode !== 'custom',
+			validation: (Rule) => Rule.min(1).max(12)
+		}),
+		defineField({
+			name: 'seasonStartDay',
+			title: 'Début - jour',
+			type: 'number',
+			hidden: ({ document }) => document?.visibilityMode !== 'custom',
+			validation: (Rule) => Rule.min(1).max(31)
+		}),
+		defineField({
+			name: 'seasonEndMonth',
+			title: 'Fin - mois',
+			type: 'number',
+			hidden: ({ document }) => document?.visibilityMode !== 'custom',
+			validation: (Rule) => Rule.min(1).max(12)
+		}),
+		defineField({
+			name: 'seasonEndDay',
+			title: 'Fin - jour',
+			type: 'number',
+			hidden: ({ document }) => document?.visibilityMode !== 'custom',
+			validation: (Rule) => Rule.min(1).max(31)
 		})
 	],
 	preview: {

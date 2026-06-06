@@ -69,7 +69,10 @@
   },
   "_sanity.js": {
     "file": "chunks/sanity.js",
-    "name": "sanity"
+    "name": "sanity",
+    "imports": [
+      "_constants.js"
+    ]
   },
   "_sanityWrite.js": {
     "file": "chunks/sanityWrite.js",
