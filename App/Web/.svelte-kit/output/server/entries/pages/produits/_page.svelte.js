@@ -29,7 +29,7 @@ function _page($$renderer, $$props) {
       {
         _id: "1",
         name: "Miel de Forêt",
-        category: "Produits transformés",
+        category: "Conserves",
         price: 8.5,
         description: "Récolté à froid, ce miel exprime toute la diversité florale de nos lisières boisées.",
         image: "https://cataas.com/cat"
@@ -37,7 +37,7 @@ function _page($$renderer, $$props) {
       {
         _id: "2",
         name: "Plant de Tomate 'Noire de Crimée'",
-        category: "Plants potagers",
+        category: "Plants",
         price: 3.2,
         description: "Variété ancienne vigoureuse, cultivée sans intrants chimiques. Idéal pour votre potager.",
         image: "https://cataas.com/cat"
@@ -45,7 +45,7 @@ function _page($$renderer, $$props) {
       {
         _id: "3",
         name: "Fraises de jardin",
-        category: "Fruits",
+        category: "Produits frais",
         price: 5,
         description: "Petites, sucrées et intensément parfumées. Cueillies à maturité chaque matin.",
         image: "https://cataas.com/cat"
@@ -53,7 +53,7 @@ function _page($$renderer, $$props) {
       {
         _id: "4",
         name: "Panier Surprise",
-        category: "Légumes",
+        category: "Produits frais",
         price: 14,
         description: "Un assortiment de 4 à 5 variétés de légumes fraîchement récoltés cette semaine.",
         image: "https://cataas.com/cat"
@@ -69,7 +69,7 @@ function _page($$renderer, $$props) {
       $$renderer3.title(($$renderer4) => {
         $$renderer4.push(`<title>Nos Produits — Ferme de l'Humus</title>`);
       });
-      $$renderer3.push(`<meta name="description" content="Découvrez nos produits biologiques : légumes, fruits, plants potagers et produits transformés artisanaux."/>`);
+      $$renderer3.push(`<meta name="description" content="Découvrez nos produits biologiques : produits frais, conserves artisanales et plants."/>`);
     });
     $$renderer2.push(`<div class="pt-24 pb-32 px-margin-mobile md:px-lg max-w-[1140px] mx-auto"><section class="mb-lg"><h1 class="font-h1 text-h1 text-primary mb-sm">Notre Catalogue</h1> <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Découvrez les fruits de notre travail régénératif. Des produits cultivés avec soin, dans le
 respect du vivant et de la transparence totale.</p></section> <section class="flex flex-wrap gap-sm mb-lg" role="group" aria-label="Filtrer les produits"><!--[-->`);

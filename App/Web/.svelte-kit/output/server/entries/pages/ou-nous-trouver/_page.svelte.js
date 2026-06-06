@@ -1,59 +1,14 @@
-import { h as head, e as ensure_array_like, d as escape_html, f as derived } from "../../../chunks/renderer.js";
-function _page($$renderer, $$props) {
-  $$renderer.component(($$renderer2) => {
-    let { data } = $$props;
-    const marches = derived(() => data.markets?.filter((m) => m.type === "marche") ?? [
-      {
-        _id: "1",
-        name: "Marché de Granville",
-        schedule: "Samedi, 08:00 — 13:00",
-        address: "Place du Marché"
-      },
-      {
-        _id: "2",
-        name: "Marché Bio de Caen",
-        schedule: "Vendredi, 15:00 — 19:00",
-        address: "Place Saint-Sauveur"
-      }
-    ]);
-    const partenaires = derived(() => data.markets?.filter((m) => m.type === "partenaire") ?? [
-      {
-        _id: "3",
-        name: "L'Épicerie de Demain",
-        schedule: "Mar–Sam, 09:00 — 19:00",
-        address: ""
-      }
-    ]);
-    head("1cuxd25", $$renderer2, ($$renderer3) => {
-      $$renderer3.title(($$renderer4) => {
-        $$renderer4.push(`<title>Où Nous Trouver — Ferme de l'Humus</title>`);
-      });
-      $$renderer3.push(`<meta name="description" content="Retrouvez nos produits biologiques sur les marchés locaux, chez nos partenaires, ou venez directement à la ferme. Horaires et itinéraires."/>`);
+import { h as head } from "../../../chunks/renderer.js";
+function _page($$renderer) {
+  head("1cuxd25", $$renderer, ($$renderer2) => {
+    $$renderer2.title(($$renderer3) => {
+      $$renderer3.push(`<title>Où Nous Trouver — Ferme de l'Humus</title>`);
     });
-    $$renderer2.push(`<div class="pt-32 pb-xl px-margin-mobile md:px-0"><div class="max-w-[1140px] mx-auto"><section class="mb-lg text-center md:text-left"><span class="font-label-caps text-secondary uppercase tracking-[0.2em] mb-sm block">Trouver nos produits</span> <h1 class="font-h1 text-h1 text-primary mb-md">Où nous trouver</h1> <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">De la terre à votre table. Retrouvez nos récoltes saisonnières sur les marchés locaux, dans
-				nos boutiques partenaires, ou venez nous rendre visite directement à la ferme.</p></section> <section class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-xl"><div class="md:col-span-8 h-[500px] bg-surface-container-low rounded-xl overflow-hidden relative shadow-ambient border border-outline-variant/20"><img src="https://cataas.com/cat" alt="Carte de la région — Ferme de l'Humus" class="w-full h-full object-cover grayscale-[20%] opacity-90"/> <div class="absolute top-1/4 left-1/3 group cursor-pointer"><div class="bg-secondary text-on-secondary p-2 rounded-full shadow-lg scale-100 group-hover:scale-110 transition-transform"><span class="material-symbols-outlined block" style="font-variation-settings: 'FILL' 1;">location_on</span></div> <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-white px-3 py-1 rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"><span class="text-xs font-bold text-primary">La Ferme de l'Humus</span></div></div> <div class="absolute bottom-6 right-6 flex flex-col gap-2"><button class="bg-white/90 backdrop-blur p-2 rounded-lg shadow-md text-primary hover:bg-white transition-colors" aria-label="Zoom avant"><span class="material-symbols-outlined">add</span></button> <button class="bg-white/90 backdrop-blur p-2 rounded-lg shadow-md text-primary hover:bg-white transition-colors" aria-label="Zoom arrière"><span class="material-symbols-outlined">remove</span></button></div></div> <div class="md:col-span-4 flex flex-col gap-gutter"><div class="bg-white p-lg rounded-xl shadow-ambient border border-outline-variant/10 flex-1"><h3 class="font-h3 text-h3 text-primary mb-md">Marchés de Semaine</h3> <ul class="space-y-md"><!--[-->`);
-    const each_array = ensure_array_like(marches());
-    for (let $$index = 0, $$length = each_array.length; $$index < $$length; $$index++) {
-      let m = each_array[$$index];
-      $$renderer2.push(`<li class="flex items-start gap-4"><span class="material-symbols-outlined text-secondary mt-1">storefront</span> <div><p class="font-bold text-primary">${escape_html(m.name)}</p> <p class="text-sm text-on-surface-variant">${escape_html(m.schedule)}</p> `);
-      if (m.address) {
-        $$renderer2.push("<!--[0-->");
-        $$renderer2.push(`<p class="text-xs text-outline italic">${escape_html(m.address)}</p>`);
-      } else {
-        $$renderer2.push("<!--[-1-->");
-      }
-      $$renderer2.push(`<!--]--></div></li>`);
-    }
-    $$renderer2.push(`<!--]--></ul> <div class="mt-lg pt-lg border-t border-outline-variant/10"><h3 class="font-h3 text-h3 text-primary mb-md">Partenaires</h3> <ul class="space-y-md"><!--[-->`);
-    const each_array_1 = ensure_array_like(partenaires());
-    for (let $$index_1 = 0, $$length = each_array_1.length; $$index_1 < $$length; $$index_1++) {
-      let p = each_array_1[$$index_1];
-      $$renderer2.push(`<li class="flex items-start gap-4"><span class="material-symbols-outlined text-secondary mt-1">local_mall</span> <div><p class="font-bold text-primary">${escape_html(p.name)}</p> <p class="text-sm text-on-surface-variant">${escape_html(p.schedule)}</p></div></li>`);
-    }
-    $$renderer2.push(`<!--]--></ul></div></div></div></section> <section class="grid grid-cols-1 md:grid-cols-2 gap-xl items-center mb-xl"><div class="order-2 md:order-1"><div class="relative rounded-2xl overflow-hidden aspect-video shadow-ambient"><img src="https://cataas.com/cat" alt="Chemin menant à la ferme" class="w-full h-full object-cover"/></div></div> <div class="order-1 md:order-2"><span class="font-label-caps text-secondary uppercase tracking-[0.2em] mb-sm block">Venir à la Ferme</span> <h2 class="font-h2 text-h2 text-primary mb-md">Vente directe &amp; Visites</h2> <p class="font-body-md text-on-surface-variant mb-lg">Nous vous accueillons tous les mercredis après-midi pour la vente directe au hangar.
-					C'est l'occasion idéale de voir où poussent vos légumes et d'échanger sur nos pratiques
-					de régénération.</p> <div class="space-y-gutter"><div class="bg-surface-container-low p-md rounded-lg flex items-center gap-4"><span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-full">directions_car</span> <div><p class="font-bold text-primary">Accès Voiture</p> <p class="text-sm text-on-surface-variant">D971, suivre "Chemin de l'Humus"</p></div></div> <div class="bg-surface-container-low p-md rounded-lg flex items-center gap-4"><span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-full">schedule</span> <div><p class="font-bold text-primary">Horaires d'ouverture</p> <p class="text-sm text-on-surface-variant">Mercredi, 14:00 — 18:30</p></div></div></div> <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="mt-lg flex items-center gap-2 text-secondary font-bold hover:gap-4 transition-all"><span>Obtenir l'itinéraire</span> <span class="material-symbols-outlined">arrow_forward</span></a></div></section></div></div>`);
+    $$renderer2.push(`<meta name="description" content="Retrouvez nos produits sur les marchés locaux, en AMAP, ou visitez notre labo à Ailly-sur-Somme. Horaires et itinéraires."/>`);
   });
+  $$renderer.push(`<div class="pt-32 pb-xl px-margin-mobile md:px-0"><div class="max-w-[1140px] mx-auto"><section class="mb-lg text-center md:text-left"><span class="font-label-caps text-secondary uppercase tracking-[0.2em] mb-sm block">Trouver nos produits</span> <h1 class="font-h1 text-h1 text-primary mb-md">Où nous trouver</h1> <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">De la terre à votre table. Retrouvez nos récoltes saisonnières sur les marchés locaux, en AMAP,
+				ou venez nous rendre visite directement au labo à Ailly-sur-Somme.</p></section> <section class="grid grid-cols-1 md:grid-cols-2 gap-gutter mb-xl"><div class="bg-white p-lg rounded-xl shadow-ambient border border-outline-variant/10"><div class="flex items-center gap-3 mb-md"><span class="material-symbols-outlined text-secondary">storefront</span> <h2 class="font-h2 text-h2 text-primary">Marchés</h2></div> <ul class="space-y-md"><li class="flex items-start gap-4"><div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-primary text-base">event</span></div> <div><p class="font-bold text-primary">Marché de Rivery</p> <p class="text-sm text-on-surface-variant">Mardi de 16h30 à 19h</p> <p class="text-xs text-outline italic mt-0.5">Place de la mairie, Rivery</p></div></li></ul></div> <div class="bg-white p-lg rounded-xl shadow-ambient border border-outline-variant/10"><div class="flex items-center gap-3 mb-md"><span class="material-symbols-outlined text-secondary">volunteer_activism</span> <h2 class="font-h2 text-h2 text-primary">AMAP</h2></div> <ul class="space-y-md"><li class="flex items-start gap-4"><div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-primary text-base">location_on</span></div> <div><p class="font-bold text-primary">AMAP de Salouël</p> <p class="text-sm text-on-surface-variant">Jeudi soir</p> <p class="text-xs text-outline italic mt-0.5">Salle de l'Arc, Salouël</p></div></li> <li class="flex items-start gap-4"><div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-primary text-base">location_on</span></div> <div><p class="font-bold text-primary">AMAP Ché Carotte</p> <p class="text-sm text-on-surface-variant">Jeudi soir</p> <p class="text-xs text-outline italic mt-0.5">Espace Dewailly, Amiens</p></div></li></ul></div></section> <section class="grid grid-cols-1 md:grid-cols-2 gap-xl items-center mb-xl"><div class="order-1"><span class="font-label-caps text-secondary uppercase tracking-[0.2em] mb-sm block">Sur rendez-vous</span> <h2 class="font-h2 text-h2 text-primary mb-md">Labo de transformation</h2> <p class="font-body-md text-on-surface-variant mb-lg">Notre labo est ouvert sur rendez-vous. Venez découvrir nos produits transformés directement
+					sur place ou passez commande lors de votre visite.</p> <div class="space-y-gutter mb-lg"><div class="bg-surface-container-low p-md rounded-lg flex items-center gap-4"><span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-full">location_on</span> <div><p class="font-bold text-primary">Adresse</p> <p class="text-sm text-on-surface-variant">15 bis rue du Pont<br/>80470 Ailly-sur-Somme</p></div></div> <div class="bg-surface-container-low p-md rounded-lg flex items-center gap-4"><span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-full">schedule</span> <div><p class="font-bold text-primary">Horaires</p> <p class="text-sm text-on-surface-variant">Sur rendez-vous uniquement</p></div></div></div> <a href="/contact" class="inline-flex items-center gap-2 rounded-xl bg-[#172c21] text-white px-6 py-3 text-sm font-semibold hover:bg-[#2d4236] transition-colors"><span class="material-symbols-outlined text-base">calendar_month</span> Prendre rendez-vous</a></div> <div class="order-2"><div class="relative rounded-2xl overflow-hidden aspect-video shadow-ambient bg-surface-container-low flex items-center justify-center"><span class="material-symbols-outlined text-5xl text-outline">science</span></div></div></section></div></div>`);
 }
 export {
   _page as default

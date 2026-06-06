@@ -1,16 +1,9 @@
 <script>
 	import { enhance } from '$app/forms';
+	import { STOCK_UNITS } from '$lib/constants.js';
 
 	let { data, form } = $props();
 
-	const units = ['kg', 'pcs', 'botte', 'barquette', 'doz', 'pot', 'L'];
-	const conditions = [
-		{ value: 'sec', label: 'Sec', icon: '☀' },
-		{ value: 'humide', label: 'Humide', icon: '💧' },
-		{ value: 'couvert', label: 'Couvert', icon: '☁' }
-	];
-
-	let selectedCondition = $state('');
 	let submitting = $state(false);
 
 	// Date du jour par défaut
@@ -98,7 +91,7 @@
 					required
 					class="w-full rounded-xl border border-[#e3e2e0] bg-[#f4f3f1] px-4 py-3 text-sm text-[#1a1c1a] focus:border-[#172c21] focus:outline-none appearance-none"
 				>
-					{#each units as u}
+						{#each STOCK_UNITS as u}
 						<option value={u} selected={u === 'kg'}>{u}</option>
 					{/each}
 				</select>
@@ -116,28 +109,6 @@
 				required
 				class="w-full rounded-xl border border-[#e3e2e0] bg-[#f4f3f1] px-4 py-3 text-sm text-[#1a1c1a] focus:border-[#172c21] focus:outline-none"
 			/>
-		</div>
-
-		<!-- Conditions terrain -->
-		<div>
-			<p class="text-sm font-medium text-[#1a1c1a] mb-2">Conditions de Terrain</p>
-			<div class="grid grid-cols-3 gap-2">
-				{#each conditions as cond}
-					<label class="cursor-pointer">
-						<input
-							type="radio"
-							name="terrainCondition"
-							value={cond.value}
-							class="sr-only"
-							onchange={() => (selectedCondition = cond.value)}
-						/>
-						<div class="flex flex-col items-center gap-1 rounded-xl border py-3 transition-colors {selectedCondition === cond.value ? 'border-[#172c21] bg-[#d0e8d7]' : 'border-[#e3e2e0] bg-white hover:bg-[#f4f3f1]'}">
-							<span class="text-xl">{cond.icon}</span>
-							<span class="text-xs font-medium text-[#424844] uppercase tracking-wide">{cond.label}</span>
-						</div>
-					</label>
-				{/each}
-			</div>
 		</div>
 
 		<!-- Notes -->

@@ -45,6 +45,7 @@ export async function load({ url }) {
 
 	return {
 		products,
-		created: url.searchParams.get('created') === '1'
+		created: url.searchParams.get('created') === '1',
+		updated: url.searchParams.get('updated') === '1'
 	};
 }

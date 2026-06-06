@@ -34,7 +34,12 @@
 
 	{#if data.created}
 		<p class="mb-4 text-sm text-[#172c21] bg-[#d0e8d7] rounded-xl px-4 py-3">
-			Produit cree avec succes.
+			Produit créé avec succès.
+		</p>
+	{/if}
+	{#if data.updated}
+		<p class="mb-4 text-sm text-[#172c21] bg-[#d0e8d7] rounded-xl px-4 py-3">
+			Produit mis à jour avec succès.
 		</p>
 	{/if}
 
@@ -69,29 +74,41 @@
 		<div class="space-y-3">
 			{#each filtered as product (product._id)}
 				<div class="rounded-2xl bg-white border border-[#e3e2e0] p-3">
-					<a href={'/admin/stock?product=' + product._id} class="flex items-center gap-3">
-						{#if product.image}
-							<img src={product.image} alt={product.name} class="w-14 h-14 rounded-xl object-cover shrink-0" />
-						{:else}
-							<div class="w-14 h-14 rounded-xl bg-[#e9e8e5] shrink-0"></div>
-						{/if}
+					<div class="flex items-center gap-3">
+						<a href={'/admin/stock?product=' + product._id} class="flex min-w-0 flex-1 items-center gap-3">
+							{#if product.image}
+								<img src={product.image} alt={product.name} class="h-14 w-14 shrink-0 rounded-xl object-cover" />
+							{:else}
+								<div class="h-14 w-14 shrink-0 rounded-xl bg-[#e9e8e5]"></div>
+							{/if}
 
-						<div class="flex-1 min-w-0">
-							<p class="text-sm font-semibold text-[#1a1c1a] truncate">{product.name}</p>
-							<p class="text-xs text-[#737873]">{product.category}</p>
-							<p class="text-xs mt-1 {product.available ? 'text-[#172c21]' : 'text-[#964824]'}">
-								{product.available ? 'Disponible' : 'Indisponible'}
-								· {product.stock?.quantity ?? 0} {product.stock?.unit ?? 'kg'}
-							</p>
-							<p class="text-[11px] text-[#737873] mt-0.5">
-								Stock mis a jour: {formatDate(product.stock?.updatedAt)}
-							</p>
-						</div>
+							<div class="min-w-0 flex-1">
+								<p class="truncate text-sm font-semibold text-[#1a1c1a]">{product.name}</p>
+								<p class="text-xs text-[#737873]">{product.category}</p>
+								<p class="mt-1 text-xs {product.available ? 'text-[#172c21]' : 'text-[#964824]'}">
+									{product.available ? 'Disponible' : 'Indisponible'}
+									· {product.stock?.quantity ?? 0} {product.stock?.unit ?? 'kg'}
+								</p>
+								<p class="mt-0.5 text-[11px] text-[#737873]">
+									Stock mis a jour: {formatDate(product.stock?.updatedAt)}
+								</p>
+							</div>
 
-						<svg class="w-5 h-5 text-[#737873] shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-							<path d="m9 18 6-6-6-6" />
-						</svg>
-					</a>
+							<svg class="h-5 w-5 shrink-0 text-[#737873]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+								<path d="m9 18 6-6-6-6" />
+							</svg>
+						</a>
+						<a
+							href={'/admin/products/' + product._id}
+							class="shrink-0 rounded-lg p-2 text-[#737873] transition-colors hover:bg-[#d0e8d7] hover:text-[#172c21]"
+							aria-label="Modifier le produit"
+						>
+							<svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+								<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+								<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4Z" />
+							</svg>
+						</a>
+					</div>
 				</div>
 			{/each}
 		</div>

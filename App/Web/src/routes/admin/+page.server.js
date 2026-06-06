@@ -56,7 +56,5 @@ export async function load() {
 		(s) => s.lowStockThreshold != null && s.quantity <= s.lowStockThreshold
 	);
 
-	const totalValue = 0; // Placeholder, peut être calculé si prix associé
-
-	return { stocks, recentHarvests, lowStockCount: lowStock.length, totalValue };
+	return { stocks, recentHarvests, lowStockCount: lowStock.length };
 }

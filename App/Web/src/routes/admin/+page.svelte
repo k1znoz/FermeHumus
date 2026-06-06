@@ -14,10 +14,22 @@
 			<h1 class="font-serif text-2xl font-semibold text-[#172c21]">Tableau de bord</h1>
 			<p class="text-sm text-[#737873] mt-0.5">Bonjour, bonne journée de récolte !</p>
 		</div>
-		<div class="w-10 h-10 rounded-full bg-[#d0e8d7] flex items-center justify-center">
-			<svg class="w-5 h-5 text-[#172c21]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-				<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
-			</svg>
+		<div class="flex items-center gap-2">
+			<a
+				href="/"
+				class="w-10 h-10 rounded-full bg-[#e9e8e5] flex items-center justify-center hover:bg-[#d0e8d7] transition-colors"
+				title="Retour au site"
+				aria-label="Retour au site"
+			>
+				<svg class="w-5 h-5 text-[#172c21]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+					<path d="M3 12L12 3l9 9" /><path d="M9 21V12h6v9" />
+				</svg>
+			</a>
+			<div class="w-10 h-10 rounded-full bg-[#d0e8d7] flex items-center justify-center">
+				<svg class="w-5 h-5 text-[#172c21]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+					<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
+				</svg>
+			</div>
 		</div>
 	</div>
 

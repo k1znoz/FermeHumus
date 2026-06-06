@@ -1,16 +1,15 @@
 import { client } from '$lib/sanity.js';
+import { STOCK_UNITS } from '$lib/constants.js';
 import { getWriteClient } from '$lib/server/sanityWrite.js';
 import { aggregateStockEntries, fetchStockEntriesByProduct, setProductStock } from '$lib/server/stock.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
 
-const units = ['kg', 'pcs', 'botte', 'barquette', 'doz', 'pot', 'L'];
-
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ url }) {
 	const [rawStocks, transformedProducts] = await Promise.all([
 		client.fetch(`
-			*[_type == "stockEntry" && defined(product) && product->category != "Produits transformés"]
+			*[_type == "stockEntry" && defined(product) && product->category != "Conserves"]
 			| order(product->name asc) {
 				_id,
 				quantity,
@@ -19,7 +18,7 @@ export async function load({ url }) {
 			}
 		`),
 		client.fetch(`
-			*[_type == "product" && category == "Produits transformés"] | order(name asc) {
+			*[_type == "product" && category == "Conserves"] | order(name asc) {
 				_id,
 				name,
 				category
@@ -30,7 +29,7 @@ export async function load({ url }) {
 	return {
 		rawStocks,
 		transformedProducts,
-		units,
+		units: STOCK_UNITS,
 		success: url.searchParams.get('success') === '1'
 	};
 }
@@ -65,7 +64,7 @@ export const actions = {
 			!batchNumber ||
 			!inputUnit ||
 			!outputUnit ||
-			!units.includes(outputUnit) ||
+			!STOCK_UNITS.includes(outputUnit) ||
 			!Number.isFinite(inputQuantity) ||
 			inputQuantity <= 0 ||
 			!Number.isFinite(outputQuantity) ||
@@ -89,8 +88,8 @@ export const actions = {
 			return fail(400, { error: 'Produit introuvable.' });
 		}
 
-		if (outputProduct.category !== 'Produits transformés') {
-			return fail(400, { error: 'Le produit de sortie doit etre de categorie Produits transformes.' });
+		if (outputProduct.category !== 'Conserves') {
+			return fail(400, { error: 'Le produit de sortie doit être dans la catégorie Conserves.' });
 		}
 
 		const inputEntries = await fetchStockEntriesByProduct(client, inputProductId);

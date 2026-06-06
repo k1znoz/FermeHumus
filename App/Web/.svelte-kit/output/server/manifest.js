@@ -10,7 +10,7 @@ return {
 	assets: new Set([]),
 	mimeTypes: {},
 	_: {
-		client: {start:"_app/immutable/entry/start.D8M3MNWM.js",app:"_app/immutable/entry/app.D0HVI41e.js",imports:["_app/immutable/entry/start.D8M3MNWM.js","_app/immutable/chunks/CozOXpl6.js","_app/immutable/chunks/BHWQruFt.js","_app/immutable/chunks/G9nvbAjP.js","_app/immutable/chunks/CE1V8P2P.js","_app/immutable/chunks/CZWWANLr.js","_app/immutable/entry/app.D0HVI41e.js","_app/immutable/chunks/G9nvbAjP.js","_app/immutable/chunks/CE1V8P2P.js","_app/immutable/chunks/CWj6FrbW.js","_app/immutable/chunks/BHWQruFt.js","_app/immutable/chunks/BEPcX9rR.js","_app/immutable/chunks/BJlLIRcP.js","_app/immutable/chunks/hm26YSx6.js","_app/immutable/chunks/CZWWANLr.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
+		client: {start:"_app/immutable/entry/start.DmloUabe.js",app:"_app/immutable/entry/app.D80JKmPr.js",imports:["_app/immutable/entry/start.DmloUabe.js","_app/immutable/chunks/FdH8PCCi.js","_app/immutable/chunks/C_cV6Oer.js","_app/immutable/chunks/CNNK7k-J.js","_app/immutable/chunks/DS3_WAnu.js","_app/immutable/chunks/DbUdyMxQ.js","_app/immutable/entry/app.D80JKmPr.js","_app/immutable/chunks/CNNK7k-J.js","_app/immutable/chunks/DS3_WAnu.js","_app/immutable/chunks/CWj6FrbW.js","_app/immutable/chunks/C_cV6Oer.js","_app/immutable/chunks/_cpMr-pD.js","_app/immutable/chunks/BYM7duzX.js","_app/immutable/chunks/CPBebBFu.js","_app/immutable/chunks/DbUdyMxQ.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
 		nodes: [
 			__memo(() => import('./nodes/0.js')),
 			__memo(() => import('./nodes/1.js')),
@@ -31,7 +31,9 @@ return {
 			__memo(() => import('./nodes/16.js')),
 			__memo(() => import('./nodes/17.js')),
 			__memo(() => import('./nodes/18.js')),
-			__memo(() => import('./nodes/19.js'))
+			__memo(() => import('./nodes/19.js')),
+			__memo(() => import('./nodes/20.js')),
+			__memo(() => import('./nodes/21.js'))
 		],
 		remotes: {
 			
@@ -101,66 +103,80 @@ return {
 				endpoint: null
 			},
 			{
+				id: "/admin/products/[id]",
+				pattern: /^\/admin\/products\/([^/]+?)\/?$/,
+				params: [{"name":"id","optional":false,"rest":false,"chained":false}],
+				page: { layouts: [0,2,], errors: [1,,], leaf: 11 },
+				endpoint: null
+			},
+			{
 				id: "/admin/stock",
 				pattern: /^\/admin\/stock\/?$/,
 				params: [],
-				page: { layouts: [0,2,], errors: [1,,], leaf: 11 },
+				page: { layouts: [0,2,], errors: [1,,], leaf: 12 },
 				endpoint: null
 			},
 			{
 				id: "/admin/transform",
 				pattern: /^\/admin\/transform\/?$/,
 				params: [],
-				page: { layouts: [0,2,], errors: [1,,], leaf: 12 },
+				page: { layouts: [0,2,], errors: [1,,], leaf: 13 },
 				endpoint: null
 			},
 			{
 				id: "/cgu",
 				pattern: /^\/cgu\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 13 },
+				page: { layouts: [0,], errors: [1,], leaf: 14 },
 				endpoint: null
 			},
 			{
 				id: "/cgv",
 				pattern: /^\/cgv\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 14 },
+				page: { layouts: [0,], errors: [1,], leaf: 15 },
+				endpoint: null
+			},
+			{
+				id: "/contact",
+				pattern: /^\/contact\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 16 },
 				endpoint: null
 			},
 			{
 				id: "/mentions-legales",
 				pattern: /^\/mentions-legales\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 15 },
+				page: { layouts: [0,], errors: [1,], leaf: 17 },
 				endpoint: null
 			},
 			{
 				id: "/ou-nous-trouver",
 				pattern: /^\/ou-nous-trouver\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 16 },
+				page: { layouts: [0,], errors: [1,], leaf: 18 },
 				endpoint: null
 			},
 			{
 				id: "/politique-de-confidentialite",
 				pattern: /^\/politique-de-confidentialite\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 17 },
+				page: { layouts: [0,], errors: [1,], leaf: 19 },
 				endpoint: null
 			},
 			{
 				id: "/produits",
 				pattern: /^\/produits\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 18 },
+				page: { layouts: [0,], errors: [1,], leaf: 20 },
 				endpoint: null
 			},
 			{
 				id: "/reserver",
 				pattern: /^\/reserver\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 19 },
+				page: { layouts: [0,], errors: [1,], leaf: 21 },
 				endpoint: null
 			}
 		],

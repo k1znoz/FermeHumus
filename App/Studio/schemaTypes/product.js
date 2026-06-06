@@ -24,11 +24,9 @@ export const product = defineType({
 			type: 'string',
 			options: {
 				list: [
-					{ title: 'Légumes', value: 'Légumes' },
-					{ title: 'Fruits', value: 'Fruits' },
-					{ title: 'Plants potagers', value: 'Plants potagers' },
-					{ title: 'Produits transformés', value: 'Produits transformés' },
-					{ title: 'Miel & Conserves', value: 'Miel & Conserves' }
+					{ title: 'Conserves', value: 'Conserves' },
+					{ title: 'Produits frais', value: 'Produits frais' },
+					{ title: 'Plants', value: 'Plants' }
 				]
 			},
 			validation: (Rule) => Rule.required()

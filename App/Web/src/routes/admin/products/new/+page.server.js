@@ -1,11 +1,9 @@
 import { client } from '$lib/sanity.js';
+import { PRODUCT_CATEGORIES, STOCK_UNITS } from '$lib/constants.js';
 import { getWriteClient } from '$lib/server/sanityWrite.js';
 import { setProductStock } from '$lib/server/stock.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
-
-const categories = ['Légumes', 'Fruits', 'Plants potagers', 'Produits transformés', 'Miel & Conserves'];
-const units = ['kg', 'pcs', 'botte', 'barquette', 'doz', 'pot', 'L'];
 
 function toSlug(value) {
 	return value
@@ -20,7 +18,7 @@ function toSlug(value) {
 
 /** @type {import('./$types').PageServerLoad} */
 export function load() {
-	return { categories, units };
+	return { categories: PRODUCT_CATEGORIES, units: STOCK_UNITS };
 }
 
 /** @type {import('./$types').Actions} */
@@ -45,11 +43,11 @@ export const actions = {
 		const initialStock = Number(data.get('initialStock') || 0);
 		const lowStockThreshold = Number(data.get('lowStockThreshold') || 5);
 
-		if (!name || !category || !categories.includes(category) || !description || !Number.isFinite(price) || price <= 0) {
+		if (!name || !category || !PRODUCT_CATEGORIES.includes(category) || !description || !Number.isFinite(price) || price <= 0) {
 			return fail(400, { error: 'Veuillez renseigner les champs obligatoires.' });
 		}
 
-		if (!unit || !units.includes(unit) || !Number.isFinite(initialStock) || initialStock < 0) {
+		if (!unit || !STOCK_UNITS.includes(unit) || !Number.isFinite(initialStock) || initialStock < 0) {
 			return fail(400, { error: 'Veuillez vérifier les informations de stock.' });
 		}
 

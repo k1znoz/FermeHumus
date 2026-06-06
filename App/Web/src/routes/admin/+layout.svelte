@@ -8,7 +8,7 @@
 		{ href: '/admin/products', label: 'Produits', icon: 'products' },
 		{ href: '/admin/stock', label: 'Stock', icon: 'stock' },
 		{ href: '/admin/harvest', label: 'Récolte', icon: 'harvest' },
-		{ href: '/admin/transform', label: 'Atelier', icon: 'transform' },
+		{ href: '/admin/transform', label: 'Labo', icon: 'transform' },
 		{ href: '/admin/history', label: 'Historique', icon: 'history' }
 	];
 

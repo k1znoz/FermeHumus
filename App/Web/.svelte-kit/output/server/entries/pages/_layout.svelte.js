@@ -7,7 +7,7 @@ function Header($$renderer, $$props) {
     const navLinks = [
       { href: "/", label: "Accueil" },
       { href: "/produits", label: "Produits" },
-      { href: "/a-propos", label: "À Propos" },
+      { href: "/a-propos", label: "La ferme de l'Humus" },
       { href: "/ou-nous-trouver", label: "Nous trouver" },
       { href: "/reserver", label: "Séjour" }
     ];

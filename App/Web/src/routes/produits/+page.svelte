@@ -10,7 +10,7 @@ const allProducts = $derived(data.products?.length
 {
 _id: '1',
 name: 'Miel de Forêt',
-category: 'Produits transformés',
+category: 'Conserves',
 price: 8.5,
 description: "Récolté à froid, ce miel exprime toute la diversité florale de nos lisières boisées.",
 image: 'https://cataas.com/cat',
@@ -18,7 +18,7 @@ image: 'https://cataas.com/cat',
 {
 _id: '2',
 name: "Plant de Tomate 'Noire de Crimée'",
-category: 'Plants potagers',
+category: 'Plants',
 price: 3.2,
 description: "Variété ancienne vigoureuse, cultivée sans intrants chimiques. Idéal pour votre potager.",
 image: 'https://cataas.com/cat',
@@ -26,7 +26,7 @@ image: 'https://cataas.com/cat',
 {
 _id: '3',
 name: 'Fraises de jardin',
-category: 'Fruits',
+category: 'Produits frais',
 price: 5.0,
 description: "Petites, sucrées et intensément parfumées. Cueillies à maturité chaque matin.",
 image: 'https://cataas.com/cat',
@@ -34,7 +34,7 @@ image: 'https://cataas.com/cat',
 {
 _id: '4',
 name: 'Panier Surprise',
-category: 'Légumes',
+category: 'Produits frais',
 price: 14.0,
 description: "Un assortiment de 4 à 5 variétés de légumes fraîchement récoltés cette semaine.",
 image: 'https://cataas.com/cat',
@@ -55,7 +55,7 @@ cartCount++;
 
 <svelte:head>
 <title>Nos Produits — Ferme de l'Humus</title>
-<meta name="description" content="Découvrez nos produits biologiques : légumes, fruits, plants potagers et produits transformés artisanaux." />
+<meta name="description" content="Découvrez nos produits biologiques : produits frais, conserves artisanales et plants." />
 </svelte:head>
 
 <div class="pt-24 pb-32 px-margin-mobile md:px-lg max-w-[1140px] mx-auto">
