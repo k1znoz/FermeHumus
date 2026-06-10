@@ -7,3 +7,4 @@ App/Web/.vercel/
 .env
 .env.*
 !.env.example
+/Photo site internet - Ferme Humus/

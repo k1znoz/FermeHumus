@@ -1,6 +1,6 @@
 import { createClient } from "@sanity/client";
 import imageUrlBuilder from "@sanity/image-url";
-import { C as CATEGORY_VISIBILITY_WINDOWS } from "./constants.js";
+import { d as CATEGORY_VISIBILITY_WINDOWS } from "./constants.js";
 function toMonthDayNumber(month, day) {
   const m = Number(month);
   const d = Number(day);

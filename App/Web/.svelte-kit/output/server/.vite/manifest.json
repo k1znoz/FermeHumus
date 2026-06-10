@@ -179,7 +179,7 @@
       "_stores.js"
     ],
     "css": [
-      "_app/immutable/assets/_layout.CGcOI0dU.css"
+      "_app/immutable/assets/_layout.Bp_qKfHM.css"
     ]
   },
   "src/routes/+page.server.js": {
@@ -472,10 +472,12 @@
     "isEntry": true,
     "imports": [
       "_renderer.js",
+      "_stores.js",
       "_exports.js",
       "_utils.js",
       "_root.js",
-      "_state.svelte.js"
+      "_state.svelte.js",
+      "_constants.js"
     ]
   },
   "src/routes/mentions-legales/+page.svelte": {
@@ -520,7 +522,11 @@
     "src": "src/routes/produits/+page.server.js",
     "isEntry": true,
     "imports": [
-      "_sanity.js"
+      "_sanity.js",
+      "_constants.js",
+      "_sanityWrite.js",
+      "_stock.js",
+      "_shared-server.js"
     ]
   },
   "src/routes/produits/+page.svelte": {
@@ -530,7 +536,30 @@
     "isEntry": true,
     "imports": [
       "_renderer.js",
-      "_FAB.js"
+      "_exports.js",
+      "_utils.js",
+      "_root.js",
+      "_state.svelte.js",
+      "_FAB.js",
+      "_constants.js"
+    ]
+  },
+  "src/routes/produits/confirmation/+page.server.js": {
+    "file": "entries/pages/produits/confirmation/_page.server.js",
+    "name": "entries/pages/produits/confirmation/_page.server",
+    "src": "src/routes/produits/confirmation/+page.server.js",
+    "isEntry": true,
+    "imports": [
+      "_sanity.js"
+    ]
+  },
+  "src/routes/produits/confirmation/+page.svelte": {
+    "file": "entries/pages/produits/confirmation/_page.svelte.js",
+    "name": "entries/pages/produits/confirmation/_page.svelte",
+    "src": "src/routes/produits/confirmation/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_renderer.js"
     ]
   },
   "src/routes/reserver/+page.server.js": {

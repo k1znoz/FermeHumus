@@ -7,10 +7,10 @@ function __memo(fn) {
 return {
 	appDir: "_app",
 	appPath: "_app",
-	assets: new Set([]),
-	mimeTypes: {},
+	assets: new Set(["favicon.png","images/ferme/labo-boris-confiture.jpg","images/ferme/logo-fh.png","images/ferme/marche-1mai-2026.jpg","images/ferme/marche-affiche.jpg","images/ferme/marche-affiche.pdf","images/ferme/produit-confiture-prunes.jpg","images/ferme/produit-coulis-tomates.jpg","images/ferme/produit-jus-pomme-1l.jpg","images/ferme/serre-boris.jpg","images/ferme/serre-caisses.jpg","images/ferme/tartes-flambees-evenements.pdf"]),
+	mimeTypes: {".png":"image/png",".jpg":"image/jpeg",".pdf":"application/pdf"},
 	_: {
-		client: {start:"_app/immutable/entry/start.C5kmIvv4.js",app:"_app/immutable/entry/app.CTwxoxei.js",imports:["_app/immutable/entry/start.C5kmIvv4.js","_app/immutable/chunks/DDd63-dv.js","_app/immutable/chunks/C_cV6Oer.js","_app/immutable/chunks/CNNK7k-J.js","_app/immutable/chunks/DS3_WAnu.js","_app/immutable/chunks/DbUdyMxQ.js","_app/immutable/entry/app.CTwxoxei.js","_app/immutable/chunks/CNNK7k-J.js","_app/immutable/chunks/DS3_WAnu.js","_app/immutable/chunks/CWj6FrbW.js","_app/immutable/chunks/C_cV6Oer.js","_app/immutable/chunks/_cpMr-pD.js","_app/immutable/chunks/BYM7duzX.js","_app/immutable/chunks/CPBebBFu.js","_app/immutable/chunks/DbUdyMxQ.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
+		client: {start:"_app/immutable/entry/start.BGjjk-us.js",app:"_app/immutable/entry/app.BgWNq7W_.js",imports:["_app/immutable/entry/start.BGjjk-us.js","_app/immutable/chunks/BH_716I9.js","_app/immutable/chunks/CvRUJbV1.js","_app/immutable/chunks/C6akWLxI.js","_app/immutable/chunks/BU1nDvWL.js","_app/immutable/chunks/D0mzrR9L.js","_app/immutable/entry/app.BgWNq7W_.js","_app/immutable/chunks/C6akWLxI.js","_app/immutable/chunks/BU1nDvWL.js","_app/immutable/chunks/CWj6FrbW.js","_app/immutable/chunks/CvRUJbV1.js","_app/immutable/chunks/rcWAhc1y.js","_app/immutable/chunks/CUgVbOTi.js","_app/immutable/chunks/Cq4HrXvZ.js","_app/immutable/chunks/CAk4OO_c.js","_app/immutable/chunks/D0mzrR9L.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
 		nodes: [
 			__memo(() => import('./nodes/0.js')),
 			__memo(() => import('./nodes/1.js')),
@@ -33,7 +33,8 @@ return {
 			__memo(() => import('./nodes/18.js')),
 			__memo(() => import('./nodes/19.js')),
 			__memo(() => import('./nodes/20.js')),
-			__memo(() => import('./nodes/21.js'))
+			__memo(() => import('./nodes/21.js')),
+			__memo(() => import('./nodes/22.js'))
 		],
 		remotes: {
 			
@@ -173,10 +174,17 @@ return {
 				endpoint: null
 			},
 			{
+				id: "/produits/confirmation",
+				pattern: /^\/produits\/confirmation\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 21 },
+				endpoint: null
+			},
+			{
 				id: "/reserver",
 				pattern: /^\/reserver\/?$/,
 				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 21 },
+				page: { layouts: [0,], errors: [1,], leaf: 22 },
 				endpoint: null
 			}
 		],

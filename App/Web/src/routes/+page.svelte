@@ -12,7 +12,7 @@
 			badge: 'Saisonnier',
 			subtitle: 'Panier mix de 3kg',
 			price: 12.5,
-			image: 'https://cataas.com/cat',
+			image: '/images/ferme/produit-jus-pomme-1l.jpg',
 		},
 		{
 			_id: '2',
@@ -20,7 +20,7 @@
 			badge: 'Artisanal',
 			subtitle: 'Pot 250g',
 			price: 6.5,
-			image: 'https://cataas.com/cat',
+			image: '/images/ferme/produit-confiture-prunes.jpg',
 		},
 		{
 			_id: '3',
@@ -28,7 +28,30 @@
 			badge: 'De saison',
 			subtitle: 'Plaquette de 6',
 			price: 4.0,
-			image: 'https://cataas.com/cat',
+			image: '/images/ferme/serre-caisses.jpg',
+		},
+	];
+
+	const homepageGallery = [
+		{
+			src: '/images/ferme/labo-boris-confiture.jpg',
+			alt: 'Boris en atelier de transformation pendant une préparation de confiture',
+			label: 'Transformation artisanale',
+		},
+		{
+			src: '/images/ferme/serre-boris.jpg',
+			alt: 'Arrosage des plants en serre à la Ferme de l\'Humus',
+			label: 'Travail en serre',
+		},
+		{
+			src: '/images/ferme/marche-1mai-2026.jpg',
+			alt: 'Stand de la Ferme de l\'Humus sur le marché du 1er mai 2026',
+			label: 'Présence au marché',
+		},
+		{
+			src: '/images/ferme/produit-coulis-tomates.jpg',
+			alt: 'Bouteille de coulis de tomates de la Ferme de l\'Humus',
+			label: 'Produits transformés',
 		},
 	];
 
@@ -42,15 +65,15 @@
 
 <svelte:head>
 	<title>Ferme de l'Humus — Cultiver le Vivant</title>
-	<meta name="description" content="Ferme biologique régénératrice en Normandie. Produits frais, séjours à la ferme, et soirées tartes flambées." />
+	<meta name="description" content="Microferme fruitière et agroécologique à Ailly-sur-Somme. Produits de saison, transformation artisanale et marchés locaux." />
 </svelte:head>
 
 <!-- ─── Hero ──────────────────────────────────────────────────────── -->
-<section class="relative h-[751px] w-full flex items-end pb-xl px-margin-mobile md:px-lg overflow-hidden">
+<section class="relative h-[72vh] min-h-[560px] md:h-[751px] w-full flex items-end pb-xl px-margin-mobile md:px-lg overflow-hidden">
 	<div class="absolute inset-0 z-0">
 		<img
 			class="w-full h-full object-cover"
-			src={data.settings?.heroImage || 'https://cataas.com/cat'}
+			src={data.settings?.heroImage || '/images/ferme/serre-boris.jpg'}
 			alt="Ferme de l'Humus — paysage agricole régénérateur au coucher du soleil"
 		/>
 		<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
@@ -61,7 +84,7 @@
 			{data.settings?.heroTitle || "Ferme de l'Humus : Cultiver le Vivant, Nourrir le Local."}
 		</h1>
 		<p class="font-body-lg text-body-lg text-white/90 mb-lg max-w-xl">
-			{data.settings?.heroSubtitle || 'Une agriculture régénératrice au service de la biodiversité et de votre santé.'}
+			{data.settings?.heroSubtitle || 'Des produits de saison cultivés à la ferme, transformés sur place, et vendus en direct.'}
 		</p>
 		<a
 			href="/a-propos"
@@ -82,21 +105,21 @@
 			class="flex flex-col items-center gap-xs py-4 hover:bg-surface-container rounded-lg transition-colors"
 		>
 			<span class="material-symbols-outlined text-secondary text-3xl">shopping_basket</span>
-			<span class="font-label-caps text-on-surface-variant text-[10px] md:text-xs uppercase">Commander</span>
+			<span class="font-label-caps text-on-surface-variant text-[10px] md:text-xs uppercase">Produits</span>
 		</a>
 		<a
 			href="/reserver"
 			class="flex flex-col items-center gap-xs py-4 hover:bg-surface-container rounded-lg transition-colors"
 		>
 			<span class="material-symbols-outlined text-secondary text-3xl">calendar_today</span>
-			<span class="font-label-caps text-on-surface-variant text-[10px] md:text-xs uppercase">Réserver</span>
+			<span class="font-label-caps text-on-surface-variant text-[10px] md:text-xs uppercase">Séjour</span>
 		</a>
 		<a
 			href="/ou-nous-trouver"
 			class="flex flex-col items-center gap-xs py-4 hover:bg-surface-container rounded-lg transition-colors"
 		>
 			<span class="material-symbols-outlined text-secondary text-3xl">location_on</span>
-			<span class="font-label-caps text-on-surface-variant text-[10px] md:text-xs uppercase">Nous trouver</span>
+			<span class="font-label-caps text-on-surface-variant text-[10px] md:text-xs uppercase">Marchés</span>
 		</a>
 	</div>
 </section>
@@ -120,8 +143,73 @@
 		<div class="relative aspect-square rounded-xl overflow-hidden">
 			<img
 				class="w-full h-full object-cover"
-				src={data.settings?.philosophyImage || 'https://cataas.com/cat'}
+				src={data.settings?.philosophyImage || '/images/ferme/labo-boris-confiture.jpg'}
 				alt="Mains tenant de la terre saine — symbole de l'agriculture biologique"
+			/>
+		</div>
+	</div>
+</section>
+
+<!-- ─── First Photo Integration ──────────────────────────────────── -->
+<section class="py-xl px-margin-mobile md:px-lg md:max-w-[1140px] md:mx-auto">
+	<div class="flex justify-between items-end mb-lg">
+		<h2 class="font-h2 text-h2 text-primary">Dans les coulisses</h2>
+		<a href="/a-propos" class="font-label-caps text-secondary uppercase tracking-widest">Voir la ferme</a>
+	</div>
+	<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+		{#each homepageGallery as shot}
+			<figure class="rounded-xl overflow-hidden bg-surface-container-low border border-outline-variant/20">
+				<div class="aspect-square overflow-hidden">
+					<img
+						src={shot.src}
+						alt={shot.alt}
+						class="w-full h-full object-cover"
+						loading="lazy"
+					/>
+				</div>
+				<figcaption class="px-sm py-3 font-body-sm text-on-surface-variant">{shot.label}</figcaption>
+			</figure>
+		{/each}
+	</div>
+</section>
+
+<!-- ─── Marché / Affiche ─────────────────────────────────────────── -->
+<section class="py-xl px-margin-mobile md:px-lg md:max-w-[1140px] md:mx-auto">
+	<div class="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-gutter items-center rounded-2xl overflow-hidden bg-surface-container-low border border-outline-variant/10 shadow-ambient">
+		<div class="p-lg md:p-xl">
+			<div class="flex items-center gap-3 mb-md">
+				<img
+					src="/images/ferme/logo-fh.png"
+					alt="Logo de la Ferme de l'Humus"
+					class="h-12 w-12 object-contain rounded-full bg-white p-1 shadow-sm"
+					loading="lazy"
+				/>
+				<div>
+					<span class="font-label-caps text-secondary uppercase tracking-widest block">Marchés</span>
+					<h2 class="font-h2 text-h2 text-primary">Marchés, retrait local et contact direct</h2>
+				</div>
+			</div>
+			<p class="font-body-md text-on-surface-variant mb-lg max-w-xl">
+				Le site reprend les mêmes repères que sur le terrain: logo, affiche marché, stand et produits réels.
+				Résultat: un parcours plus clair entre découverte, commande et point de vente.
+			</p>
+			<div class="flex flex-wrap gap-3">
+				<a href="/ou-nous-trouver" class="inline-flex items-center gap-2 rounded-xl bg-[#172c21] text-white px-6 py-3 text-sm font-semibold hover:bg-[#2d4236] transition-colors">
+					<span class="material-symbols-outlined text-base">storefront</span>
+					Voir les points de vente
+				</a>
+				<a href="/images/ferme/marche-affiche.pdf" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 rounded-xl border border-[#2D4236]/15 bg-white px-6 py-3 text-sm font-semibold text-primary hover:bg-surface-container-low transition-colors">
+					<span class="material-symbols-outlined text-base">picture_as_pdf</span>
+					Afficher l’affiche
+				</a>
+			</div>
+		</div>
+		<div class="bg-white p-md md:p-lg">
+			<img
+				src="/images/ferme/marche-affiche.jpg"
+				alt="Affiche de marché de la Ferme de l'Humus"
+				class="w-full h-full object-cover rounded-xl shadow-[0px_4px_20px_rgba(45,66,54,0.05)]"
+				loading="lazy"
 			/>
 		</div>
 	</div>
@@ -177,15 +265,53 @@
 		<ServiceCard
 			title="Accueil Paysan"
 			subtitle="Séjours immersifs au cœur du domaine."
-			image="https://cataas.com/cat"
+			image="/images/ferme/serre-caisses.jpg"
 			href="/reserver"
 		/>
 		<ServiceCard
 			title="Soirées Tartes Flambées"
 			subtitle="Chaque vendredi soir, convivialité au feu de bois."
-			image="https://cataas.com/cat"
+			image="/images/ferme/marche-1mai-2026.jpg"
 			href="/reserver"
 		/>
+	</div>
+</section>
+
+<!-- ─── Tartes Flambees Events ───────────────────────────────────── -->
+<section class="py-xl px-margin-mobile md:px-lg md:max-w-[1140px] md:mx-auto">
+	<div class="rounded-2xl overflow-hidden bg-surface-container-low border border-outline-variant/10 shadow-ambient grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr]">
+		<div class="p-lg md:p-xl">
+			<span class="font-label-caps text-secondary uppercase tracking-widest block mb-sm">Evenements</span>
+			<h2 class="font-h2 text-h2 text-primary mb-md">Les tartes flambees de la ferme</h2>
+			<p class="font-body-md text-on-surface-variant mb-md">
+				Fabrication paysanne avec des produits locaux en agriculture biologique. Proposition vegan ou
+				vegetarienne selon l'evenement.
+			</p>
+			<ul class="space-y-2 text-on-surface-variant font-body-md mb-lg">
+				<li><strong>Format cocktail:</strong> 16 parts par tarte</li>
+				<li><strong>Format repas:</strong> 4 a 6 parts par tarte</li>
+				<li><strong>Minimum:</strong> 25 tartes flambees</li>
+				<li><strong>Tarifs:</strong> 11,50 EUR (1 recette) ou 13,50 EUR (2 recettes)</li>
+			</ul>
+			<div class="flex flex-wrap gap-3">
+				<a href="/contact?subject=Devis%20tartes%20flambees" class="inline-flex items-center gap-2 rounded-xl bg-[#172c21] text-white px-6 py-3 text-sm font-semibold hover:bg-[#2d4236] transition-colors">
+					<span class="material-symbols-outlined text-base">request_quote</span>
+					Demander un devis
+				</a>
+				<a href="/images/ferme/tartes-flambees-evenements.pdf" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 rounded-xl border border-[#2D4236]/15 bg-white px-6 py-3 text-sm font-semibold text-primary hover:bg-surface-container-low transition-colors">
+					<span class="material-symbols-outlined text-base">picture_as_pdf</span>
+					Voir la plaquette
+				</a>
+			</div>
+		</div>
+		<div class="p-md md:p-lg bg-white">
+			<img
+				src="/images/ferme/marche-1mai-2026.jpg"
+				alt="Stand de la ferme pour des evenements et prestations tartes flambees"
+				class="w-full h-full object-cover rounded-xl shadow-[0px_4px_20px_rgba(45,66,54,0.05)]"
+				loading="lazy"
+			/>
+		</div>
 	</div>
 </section>
 
@@ -198,7 +324,7 @@
 		</p>
 		<div class="pt-sm flex flex-col sm:flex-row gap-sm justify-center">
 			<a
-				href="/ou-nous-trouver"
+				href="/contact"
 				class="bg-primary text-on-primary px-lg py-4 rounded-lg font-label-caps uppercase tracking-widest shadow-lg hover:-translate-y-0.5 transition-all text-center"
 			>
 				Contactez-nous

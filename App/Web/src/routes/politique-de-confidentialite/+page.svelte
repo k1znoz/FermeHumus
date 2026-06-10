@@ -55,7 +55,7 @@
 				<p class="font-body-md text-on-surface-variant">
 					Vous pouvez demander l'accès, la rectification, la suppression, ou la limitation du traitement
 					de vos données à l'adresse
-					<a href="mailto:contact@fermedelhumus.fr" class="text-secondary hover:underline">contact@fermedelhumus.fr</a>.
+					<a href="mailto:fermehumus@gmail.com" class="text-secondary hover:underline">fermehumus@gmail.com</a>.
 				</p>
 			</article>
 		</div>

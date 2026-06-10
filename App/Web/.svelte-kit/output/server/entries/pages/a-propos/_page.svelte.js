@@ -53,7 +53,7 @@ function _page($$renderer, $$props) {
     $$renderer.push(`<div class="rounded-lg overflow-hidden break-inside-avoid"><img${attr("src", img.src)}${attr("alt", img.alt)} class="w-full h-auto hover:scale-105 transition-transform duration-500" loading="lazy"/></div>`);
   }
   $$renderer.push(`<!--]--></div></div></section> <section class="py-xl px-margin-mobile text-center max-w-2xl mx-auto"><h2 class="font-h2 text-h2 text-primary mb-md">Envie de voir par vous-même ?</h2> <p class="font-body-lg text-on-surface-variant mb-lg">Nous organisons des visites pédagogiques chaque samedi matin. Venez découvrir nos méthodes et
-		goûter aux fruits de notre travail.</p> <div class="flex flex-col sm:flex-row justify-center gap-sm"><a href="/reserver" class="bg-secondary text-on-secondary px-lg py-sm rounded-lg font-label-caps uppercase tracking-widest hover:opacity-90 transition-all shadow-ambient text-center">Réserver une visite</a> <a href="/ou-nous-trouver" class="border border-primary text-primary px-lg py-sm rounded-lg font-label-caps uppercase tracking-widest hover:bg-primary/5 transition-all text-center">Nous contacter</a></div></section> `);
+		goûter aux fruits de notre travail.</p> <div class="flex flex-col sm:flex-row justify-center gap-sm"><a href="/reserver" class="bg-secondary text-on-secondary px-lg py-sm rounded-lg font-label-caps uppercase tracking-widest hover:opacity-90 transition-all shadow-ambient text-center">Réserver une visite</a> <a href="/contact" class="border border-primary text-primary px-lg py-sm rounded-lg font-label-caps uppercase tracking-widest hover:bg-primary/5 transition-all text-center">Nous contacter</a></div></section> `);
   FAB($$renderer, {});
   $$renderer.push(`<!---->`);
 }

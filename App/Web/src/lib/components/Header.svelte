@@ -9,6 +9,7 @@
 		{ href: '/', label: 'Accueil' },
 		{ href: '/produits', label: 'Produits' },
 		{ href: '/a-propos', label: 'La ferme de l\'Humus' },
+		{ href: '/contact', label: 'Contact' },
 		{ href: '/ou-nous-trouver', label: 'Nous trouver' },
 		{ href: '/reserver', label: 'Séjour' }
 	];
@@ -34,7 +35,7 @@
 </script>
 
 <header
-	class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-5 py-4 transition-all duration-300
+	class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 md:px-5 py-3 md:py-4 transition-all duration-300
 		{transparent
 			? 'bg-transparent border-b border-transparent'
 			: 'bg-[#FAF9F6]/95 backdrop-blur-md border-b border-[#2D4236]/10 shadow-[0px_4px_20px_rgba(45,66,54,0.05)]'}"
@@ -50,10 +51,16 @@
 		</button>
 		<a
 			href="/"
-			class="text-xl font-semibold italic font-newsreader tracking-tight transition-colors duration-300
+			class="flex items-center gap-2 sm:gap-3 text-base sm:text-xl font-semibold italic font-newsreader tracking-tight transition-colors duration-300
 				{transparent ? 'text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.4)]' : 'text-[#2D4236]'}"
 		>
-			Ferme de l'Humus
+			<img
+				src="/images/ferme/logo-fh.png"
+				alt="Logo de la Ferme de l'Humus"
+				class="h-8 w-8 sm:h-10 sm:w-10 object-contain rounded-full bg-white/80 p-1 shadow-sm"
+				loading="eager"
+			/>
+			<span class="hidden sm:inline">Ferme de l'Humus</span>
 		</a>
 	</div>
 
@@ -79,7 +86,7 @@
 	<!-- Book CTA -->
 	<a
 		href="/reserver"
-		class="bg-primary text-on-primary px-6 py-2 rounded-lg font-label-caps uppercase tracking-widest hover:opacity-90 active:scale-95 transition-all"
+		class="hidden sm:inline-flex bg-primary text-on-primary px-5 py-2 rounded-lg font-label-caps uppercase tracking-widest hover:opacity-90 active:scale-95 transition-all"
 	>
 		Réserver
 	</a>

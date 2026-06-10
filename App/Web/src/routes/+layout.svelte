@@ -20,6 +20,8 @@
 		name="description"
 		content="Une agriculture régénératrice au service de la biodiversité et de votre santé. Produits biologiques, séjours à la ferme et marchés locaux."
 	/>
+	<link rel="icon" href="/favicon.png" />
+	<link rel="apple-touch-icon" href="/favicon.png" />
 </svelte:head>
 
 {#if !isAdminRoute}

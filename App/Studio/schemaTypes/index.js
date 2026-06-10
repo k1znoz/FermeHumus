@@ -6,5 +6,6 @@ import { farmStay } from './farmStay.js';
 import { stockEntry } from './stockEntry.js';
 import { harvestEntry } from './harvestEntry.js';
 import { transformationEntry } from './transformationEntry.js';
+import { productOrder } from './productOrder.js';
 
-export const schemaTypes = [product, siteSettings, teamMember, market, farmStay, stockEntry, harvestEntry, transformationEntry];
+export const schemaTypes = [product, siteSettings, teamMember, market, farmStay, stockEntry, harvestEntry, transformationEntry, productOrder];

@@ -52,7 +52,7 @@
 				<h2 class="font-h3 text-h3 text-primary mb-sm">Annulation et litiges</h2>
 				<p class="font-body-md text-on-surface-variant">
 					En cas de difficulté, contactez-nous à l'adresse
-					<a href="mailto:contact@fermedelhumus.fr" class="text-secondary hover:underline">contact@fermedelhumus.fr</a>
+					<a href="mailto:fermehumus@gmail.com" class="text-secondary hover:underline">fermehumus@gmail.com</a>
 					afin de privilégier une solution amiable.
 				</p>
 			</article>

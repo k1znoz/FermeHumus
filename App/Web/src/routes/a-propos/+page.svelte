@@ -164,7 +164,7 @@
 			Réserver une visite
 		</a>
 		<a
-			href="/ou-nous-trouver"
+			href="/contact"
 			class="border border-primary text-primary px-lg py-sm rounded-lg font-label-caps uppercase tracking-widest hover:bg-primary/5 transition-all text-center"
 		>
 			Nous contacter

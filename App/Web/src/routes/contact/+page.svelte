@@ -1,8 +1,16 @@
 <script>
+	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
+	import { CONTACT_ADDRESS_LINES, CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_HREF } from '$lib/constants';
 
 	let { form } = $props();
 	let submitting = $state(false);
+
+	const quoteMailto = $derived(
+		`mailto:${CONTACT_EMAIL}?subject=Devis%20tartes%20flambees&body=Bonjour%2C%0A%0AJe%20souhaite%20un%20devis%20pour%20des%20tartes%20flambees.%0A-%20Date%20de%20l'evenement%20%3A%0A-%20Lieu%20%3A%0A-%20Nombre%20de%20personnes%20%3A%0A-%20Format%20(cocktail%20ou%20repas)%20%3A%0A-%20Informations%20complementaires%20%3A%0A%0AMerci.`
+	);
+
+	const defaultSubject = $derived($page.url.searchParams.get('subject') ?? 'Message depuis le site');
 </script>
 
 <svelte:head>
@@ -18,8 +26,33 @@
 			<h1 class="font-h1 text-h1 text-primary mb-md">Nous contacter</h1>
 			<p class="font-body-lg text-body-lg text-on-surface-variant">
 				Une question, une commande, ou vous souhaitez visiter notre labo à Ailly-sur-Somme ?
-				Envoyez-nous un message et nous vous répondrons rapidement.
+				Contact direct par téléphone, e-mail ou formulaire.
 			</p>
+			<div class="mt-md">
+				<a href={quoteMailto} class="inline-flex items-center gap-2 rounded-xl bg-[#172c21] text-white px-6 py-3 text-sm font-semibold hover:bg-[#2d4236] transition-colors">
+					<span class="material-symbols-outlined text-base">request_quote</span>
+					Demander un devis tartes flambees
+				</a>
+			</div>
+		</section>
+
+		<section class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-lg">
+			<a href={`tel:${CONTACT_PHONE_HREF}`} class="bg-white rounded-xl border border-outline-variant/10 shadow-ambient p-md hover:bg-surface-container-low transition-colors">
+				<p class="font-label-caps text-secondary uppercase tracking-widest mb-1">Téléphone</p>
+				<p class="font-h3 text-primary">{CONTACT_PHONE_DISPLAY}</p>
+				<p class="text-sm text-on-surface-variant mt-1">Appel direct</p>
+			</a>
+			<a href={`mailto:${CONTACT_EMAIL}`} class="bg-white rounded-xl border border-outline-variant/10 shadow-ambient p-md hover:bg-surface-container-low transition-colors">
+				<p class="font-label-caps text-secondary uppercase tracking-widest mb-1">Email</p>
+				<p class="text-base font-semibold text-primary break-all">{CONTACT_EMAIL}</p>
+				<p class="text-sm text-on-surface-variant mt-1">Réponse sous 24 à 48 h</p>
+			</a>
+			<a href="https://maps.google.com/?q=15+bis+rue+du+Pont+80470+Ailly-sur-Somme" target="_blank" rel="noreferrer" class="bg-white rounded-xl border border-outline-variant/10 shadow-ambient p-md hover:bg-surface-container-low transition-colors">
+				<p class="font-label-caps text-secondary uppercase tracking-widest mb-1">Adresse</p>
+				<p class="text-base font-semibold text-primary">{CONTACT_ADDRESS_LINES[0]}</p>
+				<p class="text-sm text-on-surface-variant mt-1">{CONTACT_ADDRESS_LINES[1]}</p>
+				<p class="text-sm text-on-surface-variant mt-1">Voir l'itinéraire</p>
+			</a>
 		</section>
 
 		{#if form?.success}
@@ -71,6 +104,7 @@
 						id="subject"
 						name="subject"
 						type="text"
+						value={defaultSubject}
 						placeholder="Prise de rendez-vous au labo"
 						class="w-full rounded-xl border border-[#e3e2e0] bg-[#f4f3f1] px-4 py-3 text-sm focus:border-[#172c21] focus:outline-none"
 					/>
@@ -107,7 +141,7 @@
 
 				<p class="text-xs text-center text-on-surface-variant">
 					Ou écrivez-nous directement à
-					<a href="mailto:fermehumus@gmail.com" class="text-secondary font-medium hover:underline">fermehumus@gmail.com</a>
+					<a href={`mailto:${CONTACT_EMAIL}`} class="text-secondary font-medium hover:underline">{CONTACT_EMAIL}</a>
 				</p>
 			</form>
 		{/if}

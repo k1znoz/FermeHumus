@@ -1,5 +1,5 @@
 <script>
-	/** @type {{ product: { _id: string, name: string, category: string, price: number, description: string, badge?: string, image?: string, stock?: { quantity?: number, unit?: string, lowStockThreshold?: number } }, onAdd?: () => void }} */
+	/** @type {{ product: { _id: string, name: string, category: string, price: number, description: string, badge?: string, image?: string, stock?: { quantity?: number, unit?: string, lowStockThreshold?: number } }, onAdd?: (product: any) => void }} */
 	let { product, onAdd = () => {} } = $props();
 
 	const stockLabel = $derived(product.stock
@@ -49,7 +49,7 @@
 		{/if}
 
 		<button
-			onclick={onAdd}
+			onclick={() => onAdd(product)}
 			class="mt-base w-full bg-secondary text-white py-3 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all"
 		>
 			<span class="material-symbols-outlined text-[20px]">add</span>

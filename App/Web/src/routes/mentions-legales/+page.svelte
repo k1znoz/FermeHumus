@@ -31,7 +31,7 @@
 				<p class="font-body-md text-on-surface-variant">
 					Directeur de publication : Ferme de l'Humus.<br />
 					Contact :
-					<a href="mailto:contact@fermedelhumus.fr" class="text-secondary hover:underline">contact@fermedelhumus.fr</a>
+					<a href="mailto:fermehumus@gmail.com" class="text-secondary hover:underline">fermehumus@gmail.com</a>
 				</p>
 			</article>
 
