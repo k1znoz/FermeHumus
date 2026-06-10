@@ -76,10 +76,12 @@
 			src={data.settings?.heroImage || '/images/ferme/serre-boris.jpg'}
 			alt="Ferme de l'Humus — paysage agricole régénérateur au coucher du soleil"
 		/>
-		<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+		<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
 		<div class="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/40 to-transparent"></div>
 	</div>
-	<div class="relative z-10 max-w-4xl">
+	<div class="relative z-10 max-w-4xl p-2 md:p-4">
+		<div class="pointer-events-none absolute -inset-x-12 -inset-y-10 md:-inset-x-20 md:-inset-y-16 bg-black/34 backdrop-blur-[5px] [mask-image:radial-gradient(ellipse_at_center,black_26%,rgba(0,0,0,0.62)_50%,transparent_86%)]"></div>
+		<div class="relative">
 		<h1 class="font-h1 text-h1 text-white mb-md leading-none">
 			{data.settings?.heroTitle || "Ferme de l'Humus : Cultiver le Vivant, Nourrir le Local."}
 		</h1>
@@ -92,6 +94,7 @@
 		>
 			Découvrir la ferme
 		</a>
+		</div>
 	</div>
 </section>
 

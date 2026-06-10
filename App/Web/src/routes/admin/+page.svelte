@@ -3,8 +3,22 @@
 
 	const stocks = $derived(data.stocks ?? []);
 	const recentHarvests = $derived(data.recentHarvests ?? []);
+	const recentOrders = $derived(data.recentOrders ?? []);
 	const lowStockCount = $derived(data.lowStockCount ?? 0);
+	const activeOrderCount = $derived(data.activeOrderCount ?? 0);
 	const totalItems = $derived(stocks.length);
+
+	function formatMoney(value) {
+		return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(value ?? 0);
+	}
+
+	function statusLabel(status) {
+		if (status === 'reserved') return 'Réservée';
+		if (status === 'confirmed') return 'Confirmée';
+		if (status === 'prepared') return 'Préparée';
+		if (status === 'cancelled') return 'Annulée';
+		return status ?? 'Inconnu';
+	}
 </script>
 
 <div class="max-w-md mx-auto px-5 pt-10 pb-6">
@@ -43,6 +57,11 @@
 			<p class="text-xs uppercase tracking-wide mb-1 {lowStockCount > 0 ? 'text-red-500' : 'text-[#737873]'}">Stock bas</p>
 			<p class="text-3xl font-semibold {lowStockCount > 0 ? 'text-red-600' : 'text-[#172c21]'}">{lowStockCount.toString().padStart(2, '0')}</p>
 			<p class="text-xs text-[#737873] mt-0.5">Produits sous le seuil</p>
+		</div>
+		<div class="col-span-2 rounded-2xl border border-[#e3e2e0] bg-white p-4">
+			<p class="text-xs text-[#737873] uppercase tracking-wide mb-1">Commandes actives</p>
+			<p class="text-2xl font-semibold text-[#172c21]">{activeOrderCount}</p>
+			<p class="text-xs text-[#737873] mt-0.5">Demandes produits en cours de traitement</p>
 		</div>
 	</div>
 
@@ -111,6 +130,36 @@
 								{#if entry.recordedBy} · {entry.recordedBy}{/if}
 							</p>
 						</div>
+					</div>
+				{/each}
+			</div>
+		{/if}
+	</div>
+
+	<div class="mt-8">
+		<div class="flex items-center justify-between mb-3">
+			<p class="text-sm font-medium text-[#1a1c1a]">Commandes produits récentes</p>
+			<a href="/admin/history" class="text-xs text-[#964824] font-medium hover:underline">Voir l'historique</a>
+		</div>
+
+		{#if recentOrders.length === 0}
+			<p class="text-sm text-[#737873] text-center py-6">Aucune commande produit pour le moment.</p>
+		{:else}
+			<div class="space-y-2">
+				{#each recentOrders as order}
+					<div class="rounded-2xl bg-white border border-[#e3e2e0] p-3">
+						<div class="flex items-start justify-between gap-3">
+							<div class="min-w-0">
+								<p class="text-sm font-semibold text-[#1a1c1a] truncate">{order.orderNumber} · {order.customerName}</p>
+								<p class="text-xs text-[#737873] mt-0.5">{statusLabel(order.status)} · {order.itemCount} ligne{order.itemCount > 1 ? 's' : ''}</p>
+							</div>
+							<p class="text-sm font-semibold text-[#964824] shrink-0">{formatMoney(order.totalAmount)}</p>
+						</div>
+						{#if order.firstItem}
+							<p class="text-xs text-[#424844] mt-2">
+								1ere ligne: {order.firstItem.productName} · {order.firstItem.quantity} × {formatMoney(order.firstItem.unitPrice)} = {formatMoney(order.firstItem.subtotal)}
+							</p>
+						{/if}
 					</div>
 				{/each}
 			</div>

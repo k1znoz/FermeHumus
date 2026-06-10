@@ -7,6 +7,18 @@
 		filter === 'all' ? data.events : data.events.filter((event) => event.type === filter)
 	);
 
+	function formatMoney(value) {
+		return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(value ?? 0);
+	}
+
+	function orderStatusLabel(status) {
+		if (status === 'reserved') return 'Réservée';
+		if (status === 'confirmed') return 'Confirmée';
+		if (status === 'prepared') return 'Préparée';
+		if (status === 'cancelled') return 'Annulée';
+		return status ?? 'Inconnu';
+	}
+
 	function formatDate(dateStr) {
 		if (!dateStr) return '';
 		const d = new Date(dateStr);
@@ -40,7 +52,7 @@
 
 	<!-- Filtres -->
 	<div class="flex gap-2 mt-5 mb-6 overflow-x-auto scrollbar-none">
-		{#each [['all', 'Tous'], ['harvest', 'Récoltes'], ['transformation', 'Transformations']] as [val, label]}
+		{#each [['all', 'Tous'], ['harvest', 'Récoltes'], ['transformation', 'Transformations'], ['order', 'Commandes']] as [val, label]}
 			<button
 				onclick={() => (filter = val)}
 				class="shrink-0 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wide transition-colors {filter === val
@@ -75,12 +87,19 @@
 												<path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z" />
 											</svg>
 										</div>
-									{:else}
+									{:else if entry.type === 'transformation'}
 										<div class="w-9 h-9 rounded-full bg-[#ffdbcd] border-2 border-white flex items-center justify-center shrink-0 z-10">
 											<svg class="w-4 h-4 text-[#964824]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
 												<path d="M7 7h11v11" />
 												<path d="M17 7 7 17" />
 												<path d="M17 17H6V6" />
+											</svg>
+										</div>
+									{:else}
+										<div class="w-9 h-9 rounded-full bg-[#e7eefb] border-2 border-white flex items-center justify-center shrink-0 z-10">
+											<svg class="w-4 h-4 text-[#315997]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+												<rect x="3" y="4" width="18" height="16" rx="2" />
+												<path d="M7 8h10M7 12h10M7 16h6" />
 											</svg>
 										</div>
 									{/if}
@@ -96,7 +115,7 @@
 												{#if entry.recordedBy} · par <span class="font-medium text-[#424844]">{entry.recordedBy}</span>{/if}
 												{#if entry.terrainCondition} · {entry.terrainCondition}{/if}
 											</p>
-										{:else}
+										{:else if entry.type === 'transformation'}
 											<p class="text-sm font-semibold text-[#1a1c1a]">
 												{entry.inputProduct?.name ?? 'Brut'} -> {entry.outputProduct?.name ?? 'Transformé'}
 											</p>
@@ -110,6 +129,25 @@
 											{#if entry.estimatedWaste > 0}
 												<p class="text-xs text-[#964824] mt-1">Pertes estimées: {entry.estimatedWaste}</p>
 											{/if}
+										{:else}
+											<p class="text-sm font-semibold text-[#1a1c1a]">
+												{entry.orderNumber} — {entry.customerName}
+											</p>
+											<p class="text-xs text-[#737873] mt-0.5">
+												{orderStatusLabel(entry.status)} · {entry.items?.length ?? 0} ligne{(entry.items?.length ?? 0) > 1 ? 's' : ''} · {formatMoney(entry.totalAmount)}
+											</p>
+											<p class="text-xs text-[#424844] mt-1">Retrait: {entry.pickupLocation}</p>
+											<div class="mt-2 space-y-1">
+												{#each (entry.items ?? []).slice(0, 3) as item}
+													<p class="text-xs text-[#1a1c1a]">
+														• {item.productName} — {item.quantity} × {formatMoney(item.unitPrice)} = {formatMoney(item.subtotal)}
+													</p>
+												{/each}
+												{#if (entry.items?.length ?? 0) > 3}
+													<p class="text-xs text-[#737873]">+ {(entry.items?.length ?? 0) - 3} autre(s) ligne(s)</p>
+												{/if}
+											</div>
+											<p class="text-xs text-[#424844] mt-1">Contact: {entry.customerEmail} · {entry.customerPhone}</p>
 										{/if}
 										{#if entry.notes}
 											<p class="text-xs text-[#964824] mt-1 italic">{entry.notes}</p>

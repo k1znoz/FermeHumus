@@ -1,4 +1,11 @@
-import { defineField, defineType } from 'sanity';
+import { defineArrayMember, defineField, defineType } from 'sanity';
+
+const STATUS_LABELS = {
+	reserved: 'Réservée',
+	confirmed: 'Confirmée',
+	prepared: 'Préparée',
+	cancelled: 'Annulée'
+};
 
 export const productOrder = defineType({
 	name: 'productOrder',
@@ -9,6 +16,7 @@ export const productOrder = defineType({
 			name: 'orderNumber',
 			title: 'Numéro de commande',
 			type: 'string',
+			description: 'Identifiant transmis au client et à l\'équipe pour le suivi.',
 			validation: (Rule) => Rule.required()
 		}),
 		defineField({
@@ -16,6 +24,7 @@ export const productOrder = defineType({
 			title: 'Statut',
 			type: 'string',
 			initialValue: 'reserved',
+			description: 'Mettre à jour l\'avancement de la commande.',
 			options: {
 				list: [
 					{ title: 'Réservée', value: 'reserved' },
@@ -75,6 +84,7 @@ export const productOrder = defineType({
 			name: 'totalAmount',
 			title: 'Total',
 			type: 'number',
+			description: 'Montant total estimé de la commande.',
 			validation: (Rule) => Rule.required().min(0)
 		}),
 		defineField({
@@ -82,31 +92,49 @@ export const productOrder = defineType({
 			title: 'Lignes de commande',
 			type: 'array',
 			of: [
-				{
+				defineArrayMember({
 					type: 'object',
 					name: 'productOrderItem',
+					title: 'Produit commandé',
 					fields: [
-						{ name: 'product', title: 'Produit', type: 'reference', to: [{ type: 'product' }], validation: (Rule) => Rule.required() },
-						{ name: 'productName', title: 'Nom du produit', type: 'string', validation: (Rule) => Rule.required() },
-						{ name: 'quantity', title: 'Quantité', type: 'number', validation: (Rule) => Rule.required().min(1) },
-						{ name: 'unitPrice', title: 'Prix unitaire', type: 'number', validation: (Rule) => Rule.required().min(0) },
-						{ name: 'subtotal', title: 'Sous-total', type: 'number', validation: (Rule) => Rule.required().min(0) }
-					]
-				}
+						defineField({ name: 'product', title: 'Produit', type: 'reference', to: [{ type: 'product' }], validation: (Rule) => Rule.required() }),
+						defineField({ name: 'productName', title: 'Nom du produit', type: 'string', validation: (Rule) => Rule.required() }),
+						defineField({ name: 'quantity', title: 'Quantité', type: 'number', validation: (Rule) => Rule.required().min(1) }),
+						defineField({ name: 'unitPrice', title: 'Prix unitaire', type: 'number', validation: (Rule) => Rule.required().min(0) }),
+						defineField({ name: 'subtotal', title: 'Sous-total', type: 'number', validation: (Rule) => Rule.required().min(0) })
+					],
+					preview: {
+						select: {
+							title: 'productName',
+							quantity: 'quantity',
+							unitPrice: 'unitPrice',
+							subtotal: 'subtotal'
+						},
+						prepare({ title, quantity, unitPrice, subtotal }) {
+							return {
+								title: title ?? 'Produit',
+								subtitle: `${quantity ?? 0} × ${unitPrice ?? 0} EUR · Sous-total ${subtotal ?? 0} EUR`
+							};
+						}
+					}
+				})
 			]
 		})
 	],
 	preview: {
 		select: {
 			title: 'orderNumber',
-			subtitle: 'customerName',
+			customerName: 'customerName',
+			status: 'status',
 			quantity: 'items.length',
-			totalAmount: 'totalAmount'
+			totalAmount: 'totalAmount',
+			pickupLocation: 'pickupLocation'
 		},
-		prepare({ title, subtitle, quantity, totalAmount }) {
+		prepare({ title, customerName, status, quantity, totalAmount, pickupLocation }) {
+			const statusLabel = STATUS_LABELS[status] ?? status ?? 'Statut inconnu';
 			return {
 				title: title ?? 'Commande',
-				subtitle: `${subtitle ?? 'Client'} · ${quantity ?? 0} ligne(s) · ${totalAmount ?? 0} €`
+				subtitle: `${statusLabel} · ${customerName ?? 'Client'} · ${quantity ?? 0} ligne(s) · ${totalAmount ?? 0} EUR · ${pickupLocation ?? 'Retrait non précisé'}`
 			};
 		}
 	}

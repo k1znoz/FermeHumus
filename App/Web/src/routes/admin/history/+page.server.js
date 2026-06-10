@@ -2,7 +2,7 @@ import { client } from '$lib/sanity.js';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load() {
-	const [harvests, transformations] = await Promise.all([
+	const [harvests, transformations, orders] = await Promise.all([
 		client.fetch(`
 			*[_type == "harvestEntry"] | order(_createdAt desc) {
 				_id,
@@ -30,6 +30,28 @@ export async function load() {
 				"inputProduct": inputProduct->{ name, category },
 				"outputProduct": outputProduct->{ name, category }
 			}
+		`),
+		client.fetch(`
+			*[_type == "productOrder"] | order(coalesce(reservedAt, _createdAt) desc) {
+				_id,
+				orderNumber,
+				status,
+				customerName,
+				customerEmail,
+				customerPhone,
+				pickupLocation,
+				referralSource,
+				newsletterOptIn,
+				notes,
+				reservedAt,
+				totalAmount,
+				items[]{
+					productName,
+					quantity,
+					unitPrice,
+					subtotal
+				}
+			}
 		`)
 	]);
 
@@ -43,6 +65,11 @@ export async function load() {
 			...entry,
 			type: 'transformation',
 			eventDate: entry.transformedAt ? entry.transformedAt.slice(0, 10) : null
+		})),
+		...orders.map((entry) => ({
+			...entry,
+			type: 'order',
+			eventDate: entry.reservedAt ? entry.reservedAt.slice(0, 10) : null
 		}))
 	].sort((a, b) => new Date(b.eventDate ?? 0).getTime() - new Date(a.eventDate ?? 0).getTime());
 

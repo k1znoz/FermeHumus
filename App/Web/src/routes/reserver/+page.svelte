@@ -137,9 +137,11 @@
 			alt="Séjour à la Ferme de l'Humus"
 			class="w-full h-full object-cover"
 		/>
-		<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent flex flex-col justify-end p-8 md:p-16">
-			<h1 class="font-h1 text-white mb-4">Farm Stay Experience</h1>
-			<p class="font-body-lg text-white/90 max-w-2xl">
+		<div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-black/15"></div>
+		<div class="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/80 to-transparent"></div>
+		<div class="absolute inset-x-4 bottom-4 md:inset-x-auto md:left-10 md:bottom-10 md:max-w-3xl rounded-2xl border border-white/15 bg-black/45 backdrop-blur-[2px] p-6 md:p-8 shadow-[0_18px_45px_rgba(0,0,0,0.35)]">
+			<h1 class="font-h1 text-white mb-4 leading-tight [text-shadow:0_2px_12px_rgba(0,0,0,0.45)]">Farm Stay Experience</h1>
+			<p class="font-body-lg text-white/95 max-w-2xl [text-shadow:0_1px_6px_rgba(0,0,0,0.4)]">
 				Reconnectez-vous avec le rythme des saisons. Un sanctuaire conçu pour les voyageurs lents et
 				les amoureux de la nature.
 			</p>

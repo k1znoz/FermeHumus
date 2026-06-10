@@ -3,7 +3,7 @@ import { aggregateStockEntries } from '$lib/server/stock.js';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load() {
-	const [products, stockEntries, recentHarvests] = await Promise.all([
+	const [products, stockEntries, recentHarvests, recentOrders] = await Promise.all([
 		client.fetch(`
 			*[_type == "product"] | order(category asc, name asc) {
 				_id,
@@ -29,6 +29,24 @@ export async function load() {
 				harvestDate,
 				recordedBy,
 				"product": product->{ name }
+			}
+		`),
+		client.fetch(`
+			*[_type == "productOrder"] | order(coalesce(reservedAt, _createdAt) desc) [0...5] {
+				_id,
+				orderNumber,
+				status,
+				customerName,
+				totalAmount,
+				pickupLocation,
+				reservedAt,
+				"itemCount": count(items),
+				"firstItem": items[0]{
+					productName,
+					quantity,
+					unitPrice,
+					subtotal
+				}
 			}
 		`)
 	]);
@@ -56,5 +74,7 @@ export async function load() {
 		(s) => s.lowStockThreshold != null && s.quantity <= s.lowStockThreshold
 	);
 
-	return { stocks, recentHarvests, lowStockCount: lowStock.length };
+	const activeOrderCount = recentOrders.filter((order) => order.status !== 'cancelled').length;
+
+	return { stocks, recentHarvests, recentOrders, lowStockCount: lowStock.length, activeOrderCount };
 }
