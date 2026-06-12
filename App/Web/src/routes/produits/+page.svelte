@@ -25,42 +25,7 @@
   }
 
   const allProducts = $derived(
-    (data.products?.length
-      ? data.products
-      : [
-        {
-          _id: '1',
-          name: 'Miel de Forêt',
-          category: 'Conserves',
-          price: 8.5,
-          description: 'Récolté à froid, ce miel exprime toute la diversité florale de nos lisières boisées.',
-          image: '/images/ferme/produit-jus-pomme-1l.jpg'
-        },
-        {
-          _id: '2',
-          name: "Plant de Tomate 'Noire de Crimée'",
-          category: 'Plants',
-          price: 3.2,
-          description: 'Variété ancienne vigoureuse, cultivée sans intrants chimiques. Idéal pour votre potager.',
-          image: '/images/ferme/serre-caisses.jpg'
-        },
-        {
-          _id: '3',
-          name: 'Fraises de jardin',
-          category: 'Produits frais',
-          price: 5.0,
-          description: 'Petites, sucrées et intensément parfumées. Cueillies à maturité chaque matin.',
-          image: '/images/ferme/produit-confiture-prunes.jpg'
-        },
-        {
-          _id: '4',
-          name: 'Panier Surprise',
-          category: 'Produits frais',
-          price: 14.0,
-          description: 'Un assortiment de 4 à 5 variétés de légumes fraîchement récoltés cette semaine.',
-          image: '/images/ferme/serre-boris.jpg'
-        }
-      ]).map((product) => ({
+    (data.products ?? []).map((product) => ({
         ...product,
         image: resolveProductImage(product)
       }))
@@ -132,6 +97,7 @@ puis récupérez votre sélection sur marché ou sur rendez-vous.
 </section>
 
 
+{#if allProducts.length > 0}
 <!-- Filters -->
 <section class="flex flex-wrap gap-sm mb-lg" role="group" aria-label="Filtrer les produits">
 {#each categories as cat}
@@ -146,13 +112,42 @@ class="px-6 py-2 rounded-full font-medium transition-all
 </button>
 {/each}
 </section>
+{/if}
 
 <!-- Products Grid -->
+{#if filtered.length > 0}
 <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
 {#each filtered as product (product._id)}
 <ProductCard {product} onAdd={addToCart} />
 {/each}
 </section>
+{:else}
+<section class="mb-lg rounded-2xl border border-[#2D4236]/12 bg-[#f8f7f3] p-lg md:p-xl shadow-ambient">
+  <div class="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-4 items-start">
+    <div class="w-12 h-12 rounded-full bg-[#e9e8e5] text-[#2D4236] flex items-center justify-center">
+      <span class="material-symbols-outlined">inventory_2</span>
+    </div>
+    <div>
+      <p class="font-label-caps text-secondary uppercase tracking-widest mb-2">Un petit creux entre deux récoltes</p>
+      <h2 class="font-h3 text-h3 text-primary mb-2">Notre catalogue est momentanément vide</h2>
+      <p class="font-body-md text-on-surface-variant mb-4">
+        Merci pour votre visite. En ce moment, tous nos produits sont écoulés ou en préparation.
+        Nous remettons le catalogue à jour dès qu'une nouvelle récolte ou production est prête.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a href="/ou-nous-trouver" class="inline-flex items-center gap-2 rounded-xl bg-[#172c21] text-white px-5 py-2.5 text-sm font-semibold hover:bg-[#2d4236] transition-colors">
+          <span class="material-symbols-outlined text-base">storefront</span>
+          Voir nos prochains marchés
+        </a>
+        <a href="/contact" class="inline-flex items-center gap-2 rounded-xl border border-[#2D4236]/15 bg-white px-5 py-2.5 text-sm font-semibold text-primary hover:bg-surface-container-low transition-colors">
+          <span class="material-symbols-outlined text-base">mail</span>
+          Nous contacter
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{/if}
 
 <!-- Brand / Market harmony -->
 <section class="mt-6 mb-xl rounded-2xl overflow-hidden bg-surface-container-low border border-outline-variant/10 shadow-ambient">
