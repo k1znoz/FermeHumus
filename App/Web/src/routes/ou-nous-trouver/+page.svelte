@@ -6,27 +6,6 @@
 <div class="pt-32 pb-xl px-margin-mobile md:px-0">
 	<div class="max-w-[1140px] mx-auto">
 
-		<!-- Market banner -->
-		<section class="mb-xl rounded-2xl overflow-hidden bg-surface-container-low shadow-ambient">
-			<div class="grid grid-cols-1 md:grid-cols-2">
-				<div class="p-lg md:p-xl flex flex-col justify-center">
-					<span class="font-label-caps text-secondary uppercase tracking-[0.2em] mb-sm block">Présence terrain</span>
-					<h1 class="font-h1 text-h1 text-primary mb-md">On vous retrouve sur les marchés</h1>
-					<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
-						Des créneaux simples, des lieux identifiés, et un contact direct avec la ferme.
-					</p>
-				</div>
-				<div class="relative min-h-[280px]">
-					<img
-						src="/images/ferme/marche-1mai-2026.jpg"
-						alt="Stand de la Ferme de l'Humus sur un marché local"
-						class="absolute inset-0 w-full h-full object-cover"
-						loading="lazy"
-					/>
-				</div>
-			</div>
-		</section>
-
 		<!-- Hero Header -->
 		<section class="mb-lg text-center md:text-left">
 			<span class="font-label-caps text-secondary uppercase tracking-[0.2em] mb-sm block">Trouver nos produits</span>
@@ -42,37 +21,6 @@
 			<img src="/images/ferme/labo-boris-confiture.jpg" alt="Atelier de transformation" class="w-full h-40 object-cover rounded-xl" loading="lazy" />
 			<img src="/images/ferme/produit-coulis-tomates.jpg" alt="Coulis de tomates prêt à la vente" class="w-full h-40 object-cover rounded-xl" loading="lazy" />
 			<img src="/images/ferme/produit-confiture-prunes.jpg" alt="Confiture de prunes de la ferme" class="w-full h-40 object-cover rounded-xl" loading="lazy" />
-		</section>
-
-		<!-- Market flyer -->
-		<section class="grid grid-cols-1 md:grid-cols-2 gap-xl items-center mb-xl">
-			<div class="order-2 md:order-1">
-				<div class="flex items-center gap-3 mb-md">
-					<img src="/images/ferme/logo-fh.png" alt="Logo Ferme de l'Humus" class="h-12 w-12 object-contain rounded-full bg-white p-1 shadow-sm" loading="lazy" />
-					<div>
-						<span class="font-label-caps text-secondary uppercase tracking-[0.2em] block">Affiche marché</span>
-						<h2 class="font-h2 text-h2 text-primary">Un support prêt à partager</h2>
-					</div>
-				</div>
-				<p class="font-body-md text-on-surface-variant mb-lg max-w-xl">
-					Le PDF de marché est disponible en ligne pour les partenaires, les lieux de dépôt et les clients.
-				</p>
-				<div class="flex flex-wrap gap-3">
-					<a href="/images/ferme/marche-affiche.pdf" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 rounded-xl bg-[#172c21] text-white px-6 py-3 text-sm font-semibold hover:bg-[#2d4236] transition-colors">
-						<span class="material-symbols-outlined text-base">picture_as_pdf</span>
-						Voir le PDF
-					</a>
-					<a href="/images/ferme/marche-affiche.pdf" download class="inline-flex items-center gap-2 rounded-xl border border-[#2D4236]/15 bg-white px-6 py-3 text-sm font-semibold text-primary hover:bg-surface-container-low transition-colors">
-						<span class="material-symbols-outlined text-base">download</span>
-						Télécharger
-					</a>
-				</div>
-		</div>
-			<div class="order-1 md:order-2">
-				<a href="/images/ferme/marche-affiche.pdf" target="_blank" rel="noreferrer" class="block rounded-2xl overflow-hidden shadow-ambient bg-white border border-outline-variant/10">
-					<img src="/images/ferme/marche-affiche.jpg" alt="Aperçu de l'affiche de marché de la Ferme de l'Humus" class="w-full h-auto object-cover" loading="lazy" />
-				</a>
-			</div>
 		</section>
 
 		<!-- Marchés & AMAP -->
@@ -128,6 +76,59 @@
 				</ul>
 			</div>
 		</section>
+
+		<!-- Market banner -->
+		<section class="mb-xl rounded-2xl overflow-hidden bg-surface-container-low shadow-ambient">
+			<div class="grid grid-cols-1 md:grid-cols-2">
+				<div class="p-lg md:p-xl flex flex-col justify-center">
+					<span class="font-label-caps text-secondary uppercase tracking-[0.2em] mb-sm block">Présence terrain</span>
+					<h1 class="font-h1 text-h1 text-primary mb-md">On vous retrouve sur les marchés</h1>
+					<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+						Des créneaux simples, des lieux identifiés, et un contact direct avec la ferme.
+					</p>
+				</div>
+				<div class="relative min-h-[280px]">
+					<img
+						src="/images/ferme/marche-1mai-2026.jpg"
+						alt="Stand de la Ferme de l'Humus sur un marché local"
+						class="absolute inset-0 w-full h-full object-cover"
+						loading="lazy"
+					/>
+				</div>
+			</div>
+		</section>
+
+		<!-- Market flyer -->
+		<section class="grid grid-cols-1 md:grid-cols-2 gap-xl items-center mb-xl">
+			<div class="order-2 md:order-1">
+				<div class="flex items-center gap-3 mb-md">
+					<img src="/images/ferme/logo-fh.png" alt="Logo Ferme de l'Humus" class="h-12 w-12 object-contain rounded-full bg-white p-1 shadow-sm" loading="lazy" />
+					<div>
+						<span class="font-label-caps text-secondary uppercase tracking-[0.2em] block">Affiche marché</span>
+						<h2 class="font-h2 text-h2 text-primary">Un support prêt à partager</h2>
+					</div>
+				</div>
+				<p class="font-body-md text-on-surface-variant mb-lg max-w-xl">
+					Le PDF de marché est disponible en ligne pour les partenaires, les lieux de dépôt et les clients.
+				</p>
+				<div class="flex flex-wrap gap-3">
+					<a href="/images/ferme/marche-affiche.pdf" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 rounded-xl bg-[#172c21] text-white px-6 py-3 text-sm font-semibold hover:bg-[#2d4236] transition-colors">
+						<span class="material-symbols-outlined text-base">picture_as_pdf</span>
+						Voir le PDF
+					</a>
+					<a href="/images/ferme/marche-affiche.pdf" download class="inline-flex items-center gap-2 rounded-xl border border-[#2D4236]/15 bg-white px-6 py-3 text-sm font-semibold text-primary hover:bg-surface-container-low transition-colors">
+						<span class="material-symbols-outlined text-base">download</span>
+						Télécharger
+					</a>
+				</div>
+		</div>
+			<div class="order-1 md:order-2">
+				<a href="/images/ferme/marche-affiche.pdf" target="_blank" rel="noreferrer" class="block rounded-2xl overflow-hidden shadow-ambient bg-white border border-outline-variant/10">
+					<img src="/images/ferme/marche-affiche.jpg" alt="Aperçu de l'affiche de marché de la Ferme de l'Humus" class="w-full h-auto object-cover" loading="lazy" />
+				</a>
+			</div>
+		</section>
+
 
 		<!-- Labo de transformation -->
 		<section class="grid grid-cols-1 md:grid-cols-2 gap-xl items-center mb-xl">

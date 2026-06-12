@@ -19,7 +19,7 @@
 </svelte:head>
 
 <div class="pt-32 pb-xl px-margin-mobile md:px-0">
-	<div class="max-w-[640px] mx-auto">
+	<div class="max-w-[960px] mx-auto">
 
 		<section class="mb-lg text-center">
 			<span class="font-label-caps text-secondary uppercase tracking-[0.2em] mb-sm block">Prendre rendez-vous</span>

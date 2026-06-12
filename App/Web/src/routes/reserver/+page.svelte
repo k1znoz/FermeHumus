@@ -97,38 +97,6 @@
 	<meta name="description" content="Planifiez votre retraite agricole à la Ferme de l'Humus. Label Accueil Vélo, petit-déjeuner fermier et séjours immersifs en pleine nature." />
 </svelte:head>
 
-<!-- Tartes flambees events -->
-<section class="pt-32 px-margin-mobile md:px-lg mb-xl">
-	<div class="max-w-[1140px] mx-auto rounded-2xl bg-surface-container-low border border-outline-variant/10 shadow-ambient p-lg md:p-xl grid grid-cols-1 md:grid-cols-[1.25fr_0.75fr] gap-lg items-center">
-		<div>
-			<span class="font-label-caps text-secondary uppercase tracking-widest block mb-sm">Traiteur evenementiel</span>
-			<h1 class="font-h1 text-h1 text-primary mb-md">Tartes flambees pour vos evenements</h1>
-			<p class="font-body-md text-on-surface-variant mb-md">
-				Fabrication paysanne avec des produits locaux bio, cuits sur place au four a bois le jour J.
-			</p>
-			<ul class="space-y-2 font-body-md text-on-surface-variant mb-lg">
-				<li><strong>Format cocktail:</strong> 16 parts / tarte</li>
-				<li><strong>Format repas:</strong> 4 a 6 parts / tarte</li>
-				<li><strong>Minimum:</strong> 25 tartes flambees</li>
-				<li><strong>Tarifs:</strong> 11,50 EUR (1 recette) et 13,50 EUR (2 recettes)</li>
-			</ul>
-			<div class="flex flex-wrap gap-3">
-				<a href="/contact?subject=Devis%20tartes%20flambees" class="inline-flex items-center gap-2 rounded-xl bg-[#172c21] text-white px-6 py-3 text-sm font-semibold hover:bg-[#2d4236] transition-colors">
-					<span class="material-symbols-outlined text-base">request_quote</span>
-					Demander un devis
-				</a>
-				<a href="/images/ferme/tartes-flambees-evenements.pdf" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 rounded-xl border border-[#2D4236]/15 bg-white px-6 py-3 text-sm font-semibold text-primary hover:bg-surface-container-low transition-colors">
-					<span class="material-symbols-outlined text-base">picture_as_pdf</span>
-					Voir la plaquette
-				</a>
-			</div>
-		</div>
-		<div class="bg-white rounded-xl p-md shadow-ambient">
-			<img src="/images/ferme/marche-1mai-2026.jpg" alt="Prestation de la ferme pour des evenements locaux" class="w-full h-full rounded-lg object-cover" loading="lazy" />
-		</div>
-	</div>
-</section>
-
 <!-- Hero -->
 <section class="px-margin-mobile md:px-lg mb-xl">
 	<div class="relative w-full h-[530px] rounded-xl overflow-hidden shadow-ambient">

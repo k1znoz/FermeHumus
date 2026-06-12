@@ -153,6 +153,50 @@
 	</div>
 </section>
 
+<!-- ─── Featured Products ─────────────────────────────────────────── -->
+<section class="bg-surface-container-low py-xl px-margin-mobile">
+	<div class="md:max-w-[1140px] md:mx-auto">
+		<div class="flex justify-between items-end mb-lg">
+			<h2 class="font-h2 text-h2 text-primary">Récoltes du moment</h2>
+			<a href="/produits" class="font-label-caps text-secondary uppercase tracking-widest">Voir tout</a>
+		</div>
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+			{#each products as product (product._id)}
+				<div class="bg-white rounded-xl shadow-[0px_4px_20px_rgba(45,66,54,0.05)] overflow-hidden group">
+					<div class="aspect-[4/3] overflow-hidden">
+						<img
+							src={product.image || 'https://placehold.co/600x450/efeeeb/172c21?text=Photo+bient%C3%B4t'}
+							alt={product.name}
+							class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+							loading="lazy"
+						/>
+					</div>
+					<div class="p-md">
+						{#if product.badge}
+							<span class="font-label-caps text-on-tertiary-container bg-tertiary-fixed px-2 py-1 rounded-full text-[10px] mb-2 inline-block">
+								{product.badge}
+							</span>
+						{/if}
+						<h3 class="font-h3 text-h3 text-primary mb-xs">{product.name}</h3>
+						<p class="font-body-md text-on-surface-variant mb-sm">{product.subtitle ?? product.description ?? ''}</p>
+						<div class="flex justify-between items-center">
+							<span class="font-bold text-primary">{product.price.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</span>
+							<button
+								onclick={addToCart}
+								class="bg-primary text-on-primary p-2 rounded-lg flex items-center justify-center hover:opacity-90 active:scale-95 transition-all"
+								aria-label="Ajouter {product.name} au panier"
+							>
+								<span class="material-symbols-outlined">add</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			{/each}
+		</div>
+	</div>
+</section>
+
+
 <!-- ─── First Photo Integration ──────────────────────────────────── -->
 <section class="py-xl px-margin-mobile md:px-lg md:max-w-[1140px] md:mx-auto">
 	<div class="flex justify-between items-end mb-lg">
@@ -218,48 +262,6 @@
 	</div>
 </section>
 
-<!-- ─── Featured Products ─────────────────────────────────────────── -->
-<section class="bg-surface-container-low py-xl px-margin-mobile">
-	<div class="md:max-w-[1140px] md:mx-auto">
-		<div class="flex justify-between items-end mb-lg">
-			<h2 class="font-h2 text-h2 text-primary">Récoltes du moment</h2>
-			<a href="/produits" class="font-label-caps text-secondary uppercase tracking-widest">Voir tout</a>
-		</div>
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
-			{#each products as product (product._id)}
-				<div class="bg-white rounded-xl shadow-[0px_4px_20px_rgba(45,66,54,0.05)] overflow-hidden group">
-					<div class="aspect-[4/3] overflow-hidden">
-						<img
-							src={product.image || 'https://placehold.co/600x450/efeeeb/172c21?text=Photo+bient%C3%B4t'}
-							alt={product.name}
-							class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-							loading="lazy"
-						/>
-					</div>
-					<div class="p-md">
-						{#if product.badge}
-							<span class="font-label-caps text-on-tertiary-container bg-tertiary-fixed px-2 py-1 rounded-full text-[10px] mb-2 inline-block">
-								{product.badge}
-							</span>
-						{/if}
-						<h3 class="font-h3 text-h3 text-primary mb-xs">{product.name}</h3>
-						<p class="font-body-md text-on-surface-variant mb-sm">{product.subtitle ?? product.description ?? ''}</p>
-						<div class="flex justify-between items-center">
-							<span class="font-bold text-primary">{product.price.toLocaleString('fr-FR', { minimumFractionDigits: 2 })} €</span>
-							<button
-								onclick={addToCart}
-								class="bg-primary text-on-primary p-2 rounded-lg flex items-center justify-center hover:opacity-90 active:scale-95 transition-all"
-								aria-label="Ajouter {product.name} au panier"
-							>
-								<span class="material-symbols-outlined">add</span>
-							</button>
-						</div>
-					</div>
-				</div>
-			{/each}
-		</div>
-	</div>
-</section>
 
 <!-- ─── Services ──────────────────────────────────────────────────── -->
 <section class="py-xl px-margin-mobile md:px-lg md:max-w-[1140px] md:mx-auto">

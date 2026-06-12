@@ -131,8 +131,31 @@ puis récupérez votre sélection sur marché ou sur rendez-vous.
 </p>
 </section>
 
+
+<!-- Filters -->
+<section class="flex flex-wrap gap-sm mb-lg" role="group" aria-label="Filtrer les produits">
+{#each categories as cat}
+<button
+onclick={() => (activeCategory = cat)}
+class="px-6 py-2 rounded-full font-medium transition-all
+          {activeCategory === cat
+? 'bg-primary-container text-on-primary'
+: 'bg-surface-container text-on-surface hover:bg-surface-container-high'}"
+>
+{cat}
+</button>
+{/each}
+</section>
+
+<!-- Products Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
+{#each filtered as product (product._id)}
+<ProductCard {product} onAdd={addToCart} />
+{/each}
+</section>
+
 <!-- Brand / Market harmony -->
-<section class="mb-xl rounded-2xl overflow-hidden bg-surface-container-low border border-outline-variant/10 shadow-ambient">
+<section class="mt-6 mb-xl rounded-2xl overflow-hidden bg-surface-container-low border border-outline-variant/10 shadow-ambient">
   <div class="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-gutter items-stretch">
     <div class="p-lg md:p-xl">
       <div class="flex items-center gap-3 mb-md">
@@ -173,27 +196,38 @@ puis récupérez votre sélection sur marché ou sur rendez-vous.
   </div>
 </section>
 
-<!-- Filters -->
-<section class="flex flex-wrap gap-sm mb-lg" role="group" aria-label="Filtrer les produits">
-{#each categories as cat}
-<button
-onclick={() => (activeCategory = cat)}
-class="px-6 py-2 rounded-full font-medium transition-all
-          {activeCategory === cat
-? 'bg-primary-container text-on-primary'
-: 'bg-surface-container text-on-surface hover:bg-surface-container-high'}"
->
-{cat}
-</button>
-{/each}
+<!-- Tartes flambees events -->
+<section class="mb-xl">
+	<div class="max-w-[1140px] mx-auto rounded-2xl bg-surface-container-low border border-outline-variant/10 shadow-ambient p-lg md:p-xl grid grid-cols-1 md:grid-cols-[1.25fr_0.75fr] gap-lg items-center">
+		<div>
+			<span class="font-label-caps text-secondary uppercase tracking-widest block mb-sm">Traiteur evenementiel</span>
+			<h1 class="font-h1 text-h1 text-primary mb-md">Tartes flambees pour vos evenements</h1>
+			<p class="font-body-md text-on-surface-variant mb-md">
+				Fabrication paysanne avec des produits locaux bio, cuits sur place au four a bois le jour J.
+			</p>
+			<ul class="space-y-2 font-body-md text-on-surface-variant mb-lg">
+				<li><strong>Format cocktail:</strong> 16 parts / tarte</li>
+				<li><strong>Format repas:</strong> 4 a 6 parts / tarte</li>
+				<li><strong>Minimum:</strong> 25 tartes flambees</li>
+				<li><strong>Tarifs:</strong> 11,50 EUR (1 recette) et 13,50 EUR (2 recettes)</li>
+			</ul>
+			<div class="flex flex-wrap gap-3">
+				<a href="/contact?subject=Devis%20tartes%20flambees" class="inline-flex items-center gap-2 rounded-xl bg-[#172c21] text-white px-6 py-3 text-sm font-semibold hover:bg-[#2d4236] transition-colors">
+					<span class="material-symbols-outlined text-base">request_quote</span>
+					Demander un devis
+				</a>
+				<a href="/images/ferme/tartes-flambees-evenements.pdf" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 rounded-xl border border-[#2D4236]/15 bg-white px-6 py-3 text-sm font-semibold text-primary hover:bg-surface-container-low transition-colors">
+					<span class="material-symbols-outlined text-base">picture_as_pdf</span>
+					Voir la plaquette
+				</a>
+			</div>
+		</div>
+		<div class="bg-white rounded-xl p-md shadow-ambient">
+			<img src="/images/ferme/marche-1mai-2026.jpg" alt="Prestation de la ferme pour des evenements locaux" class="w-full h-full rounded-lg object-cover" loading="lazy" />
+		</div>
+	</div>
 </section>
 
-<!-- Products Grid -->
-<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
-{#each filtered as product (product._id)}
-<ProductCard {product} onAdd={addToCart} />
-{/each}
-</section>
 </div>
 
 <!-- Sticky Order Bar -->

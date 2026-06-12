@@ -32,8 +32,8 @@
 
 	const galleryImages = [
 		{ src: 'https://cataas.com/cat', alt: 'Champ de légumes' },
-		{ src: 'https://cataas.com/cat', alt: 'Serre de la ferme' },
-		{ src: 'https://cataas.com/cat', alt: 'Récolte du matin' },
+		{ src: '/images/ferme/serre-boris.jpg', alt: 'Serre de la ferme' },
+		{ src: '/images/ferme/serre-caisses.jpg', alt: 'Récolte du matin' },
 	];
 </script>
 
@@ -93,16 +93,16 @@
 		<div class="flex flex-col lg:flex-row gap-xl items-center">
 			<div class="w-full lg:w-1/2 grid grid-cols-2 gap-sm">
 				<div class="rounded-xl overflow-hidden aspect-square shadow-ambient">
-					<img
-						src="https://cataas.com/cat"
-						alt="Marc, fondateur"
+										<img
+						src="/images/ferme/marche-1mai-2026.jpg"
+						alt="Boris, Fondateur"
 						class="w-full h-full object-cover"
 					/>
 				</div>
 				<div class="rounded-xl overflow-hidden aspect-square shadow-ambient mt-lg">
 					<img
-						src="https://cataas.com/cat"
-						alt="L'équipe en serre"
+						src="/images/ferme/Serre_arrosage_Boris.jpg"
+						alt="Joséphine, Fondatrice"
 						class="w-full h-full object-cover"
 					/>
 				</div>
@@ -113,14 +113,13 @@
 					"Nous ne sommes que les gardiens passagers d'une terre qui nous précède et nous survivra."
 				</p>
 				<p class="text-on-surface-variant mb-lg">
-					Fondée par Marc et Elena, la ferme réunit aujourd'hui cinq passionnés. De la gestion des
+					Fondée par Joséphine et Boris, la ferme réunit aujourd'hui cinq passionnés. De la gestion des
 					semis à la relation avec nos clients locaux, chaque geste est porté par la même exigence de
 					qualité et de bienveillance.
 				</p>
 				<div class="flex flex-wrap gap-sm">
-					<span class="bg-[#F5F5DC] text-primary px-4 py-1 rounded-full font-label-caps text-[11px] uppercase border border-primary/10">Marc — Fondateur</span>
-					<span class="bg-[#F5F5DC] text-primary px-4 py-1 rounded-full font-label-caps text-[11px] uppercase border border-primary/10">Elena — Agronomie</span>
-					<span class="bg-[#F5F5DC] text-primary px-4 py-1 rounded-full font-label-caps text-[11px] uppercase border border-primary/10">Lucas — Logistique</span>
+					<span class="bg-[#F5F5DC] text-primary px-4 py-1 rounded-full font-label-caps text-[11px] uppercase border border-primary/10">Joséphine — Fondatrice</span>
+					<span class="bg-[#F5F5DC] text-primary px-4 py-1 rounded-full font-label-caps text-[11px] uppercase border border-primary/10">Boris — Fondateur</span>
 				</div>
 			</div>
 		</div>
