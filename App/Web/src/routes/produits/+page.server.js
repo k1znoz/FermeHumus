@@ -10,7 +10,7 @@ import { randomUUID } from 'node:crypto';
 async function getProducts() {
 	try {
 		return await client.fetch(`
-			*[_type == "product"] | order(name asc) {
+			*[_type == "product" && available == true] | order(name asc) {
 				_id,
 				name,
 				category,
