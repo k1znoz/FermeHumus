@@ -8,3 +8,4 @@ App/Web/.vercel/
 .env.*
 !.env.example
 /Photo site internet - Ferme Humus/
+App/Studio/import

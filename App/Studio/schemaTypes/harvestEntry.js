@@ -1,14 +1,20 @@
 import { defineType, defineField } from 'sanity';
+import { STOCK_UNIT_OPTIONS } from './shared.js';
 
 export const harvestEntry = defineType({
 	name: 'harvestEntry',
 	title: 'Récolte',
 	type: 'document',
+	groups: [
+		{ name: 'main', title: 'Saisie', default: true },
+		{ name: 'traceability', title: 'Tracabilite' }
+	],
 	fields: [
 		defineField({
 			name: 'product',
 			title: 'Produit',
 			type: 'reference',
+			group: 'main',
 			to: [{ type: 'product' }],
 			validation: (Rule) => Rule.required()
 		}),
@@ -16,22 +22,16 @@ export const harvestEntry = defineType({
 			name: 'quantity',
 			title: 'Quantité récoltée',
 			type: 'number',
+			group: 'main',
 			validation: (Rule) => Rule.required().positive()
 		}),
 		defineField({
 			name: 'unit',
 			title: 'Unité',
 			type: 'string',
+			group: 'main',
 			options: {
-				list: [
-					{ title: 'kg', value: 'kg' },
-					{ title: 'pièce(s)', value: 'pcs' },
-					{ title: 'botte(s)', value: 'botte' },
-					{ title: 'barquette(s)', value: 'barquette' },
-					{ title: 'douzaine(s)', value: 'doz' },
-					{ title: 'pot(s)', value: 'pot' },
-					{ title: 'litre(s)', value: 'L' }
-				]
+				list: STOCK_UNIT_OPTIONS
 			},
 			initialValue: 'kg',
 			validation: (Rule) => Rule.required()
@@ -40,6 +40,7 @@ export const harvestEntry = defineType({
 			name: 'harvestDate',
 			title: 'Date de récolte',
 			type: 'date',
+			group: 'main',
 			options: { dateFormat: 'DD/MM/YYYY' },
 			validation: (Rule) => Rule.required()
 		}),
@@ -47,6 +48,7 @@ export const harvestEntry = defineType({
 			name: 'terrainCondition',
 			title: 'Conditions de terrain',
 			type: 'string',
+			group: 'traceability',
 			options: {
 				list: [
 					{ title: 'Sec', value: 'sec' },
@@ -60,12 +62,14 @@ export const harvestEntry = defineType({
 			name: 'notes',
 			title: 'Notes de qualité / N° de lot',
 			type: 'text',
+			group: 'traceability',
 			rows: 3
 		}),
 		defineField({
 			name: 'recordedBy',
 			title: 'Enregistré par',
-			type: 'string'
+			type: 'string',
+			group: 'traceability'
 		})
 	],
 	orderings: [

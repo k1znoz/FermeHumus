@@ -15,6 +15,36 @@
 		})
 	);
 
+	let selectedIds = $state([]);
+	const selectedCount = $derived(selectedIds.length);
+	const selectedIdsCsv = $derived(selectedIds.join(','));
+
+	function toggleSelection(productId, checked) {
+		if (checked) {
+			if (!selectedIds.includes(productId)) {
+				selectedIds = [...selectedIds, productId];
+			}
+			return;
+		}
+
+		selectedIds = selectedIds.filter((id) => id !== productId);
+	}
+
+	function toggleSelectAllVisible(checked) {
+		if (checked) {
+			const visibleIds = filtered.map((product) => product._id);
+			selectedIds = Array.from(new Set([...selectedIds, ...visibleIds]));
+			return;
+		}
+
+		const visibleSet = new Set(filtered.map((product) => product._id));
+		selectedIds = selectedIds.filter((id) => !visibleSet.has(id));
+	}
+
+	const allVisibleSelected = $derived(
+		filtered.length > 0 && filtered.every((product) => selectedIds.includes(product._id))
+	);
+
 	function formatDate(dateString) {
 		if (!dateString) return 'Jamais mis a jour';
 		return new Date(dateString).toLocaleDateString('fr-FR');
@@ -42,6 +72,45 @@
 			Produit mis à jour avec succès.
 		</p>
 	{/if}
+	{#if data.bulkUpdated}
+		<p class="mb-4 text-sm text-[#172c21] bg-[#d0e8d7] rounded-xl px-4 py-3">
+			Disponibilite mise a jour sur les produits selectionnes.
+		</p>
+	{/if}
+
+	{#if selectedCount > 0}
+		<form method="POST" action="?/bulkAvailability" class="mb-4 rounded-2xl border border-[#d0e8d7] bg-[#edf7f0] p-3">
+			<input type="hidden" name="selectedIds" value={selectedIdsCsv} />
+			<p class="mb-3 text-xs font-semibold text-[#172c21]">
+				{selectedCount} produit{selectedCount > 1 ? 's' : ''} selectionne{selectedCount > 1 ? 's' : ''}
+			</p>
+			<div class="flex flex-wrap gap-2">
+				<button
+					type="submit"
+					name="availability"
+					value="available"
+					class="rounded-lg bg-[#172c21] px-3 py-2 text-xs font-semibold text-white hover:bg-[#2d4236] transition-colors"
+				>
+					Marquer disponible
+				</button>
+				<button
+					type="submit"
+					name="availability"
+					value="unavailable"
+					class="rounded-lg bg-[#964824] px-3 py-2 text-xs font-semibold text-white hover:bg-[#7a3b1d] transition-colors"
+				>
+					Marquer indisponible
+				</button>
+				<button
+					type="button"
+					onclick={() => (selectedIds = [])}
+					class="rounded-lg border border-[#c8d8cb] px-3 py-2 text-xs font-semibold text-[#424844] hover:bg-white transition-colors"
+				>
+					Vider la selection
+				</button>
+			</div>
+		</form>
+	{/if}
 
 	<div class="relative mb-4">
 		<svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#737873]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -68,6 +137,18 @@
 		{/each}
 	</div>
 
+	{#if filtered.length > 0}
+		<label class="mb-3 inline-flex items-center gap-2 text-xs font-semibold text-[#424844]">
+			<input
+				type="checkbox"
+				checked={allVisibleSelected}
+				onchange={(event) => toggleSelectAllVisible(event.currentTarget.checked)}
+				class="h-4 w-4 rounded border-[#b9b8b5] text-[#172c21] focus:ring-[#172c21]"
+			/>
+			Tout selectionner (resultats visibles)
+		</label>
+	{/if}
+
 	{#if filtered.length === 0}
 		<p class="text-sm text-[#737873] text-center py-10">Aucun produit.</p>
 	{:else}
@@ -75,6 +156,15 @@
 			{#each filtered as product (product._id)}
 				<div class="rounded-2xl bg-white border border-[#e3e2e0] p-3">
 					<div class="flex items-center gap-3">
+						<label class="shrink-0">
+							<input
+								type="checkbox"
+								checked={selectedIds.includes(product._id)}
+								onchange={(event) => toggleSelection(product._id, event.currentTarget.checked)}
+								class="h-4 w-4 rounded border-[#b9b8b5] text-[#172c21] focus:ring-[#172c21]"
+								aria-label={'Selectionner ' + product.name}
+							/>
+						</label>
 						<a href={'/admin/stock?product=' + product._id} class="flex min-w-0 flex-1 items-center gap-3">
 							{#if product.image}
 								<img src={product.image} alt={product.name} class="h-14 w-14 shrink-0 rounded-xl object-cover" />

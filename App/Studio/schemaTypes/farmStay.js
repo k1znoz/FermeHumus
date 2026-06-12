@@ -5,28 +5,38 @@ export const farmStay = defineType({
 	title: 'Séjour à la ferme',
 	type: 'document',
 	__experimental_actions: ['update', 'publish'],
+	groups: [
+		{ name: 'hero', title: 'Hero', default: true },
+		{ name: 'amenities', title: 'Equipements' },
+		{ name: 'booking', title: 'Reservation' }
+	],
 	fields: [
 		defineField({
 			name: 'heroImage',
 			title: 'Image principale',
 			type: 'image',
+			group: 'hero',
 			options: { hotspot: true }
 		}),
 		defineField({
 			name: 'heroTitle',
 			title: 'Titre principal',
-			type: 'string'
+			type: 'string',
+			group: 'hero',
+			validation: (Rule) => Rule.required()
 		}),
 		defineField({
 			name: 'heroDescription',
 			title: 'Description principale',
 			type: 'text',
+			group: 'hero',
 			rows: 3
 		}),
 		defineField({
 			name: 'amenities',
 			title: 'Équipements Accueil Vélo',
 			type: 'array',
+			group: 'amenities',
 			of: [
 				{
 					type: 'object',
@@ -41,6 +51,7 @@ export const farmStay = defineType({
 			name: 'bookingOptions',
 			title: 'Options de réservation',
 			type: 'array',
+			group: 'booking',
 			of: [
 				{
 					type: 'object',
@@ -56,7 +67,9 @@ export const farmStay = defineType({
 		defineField({
 			name: 'basePrice',
 			title: 'Prix de base / nuit (€)',
-			type: 'number'
+			type: 'number',
+			group: 'booking',
+			validation: (Rule) => Rule.min(0)
 		})
 	],
 	preview: {
