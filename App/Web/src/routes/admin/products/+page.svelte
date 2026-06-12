@@ -165,7 +165,7 @@
 								aria-label={'Selectionner ' + product.name}
 							/>
 						</label>
-						<a href={'/admin/stock?product=' + product._id} class="flex min-w-0 flex-1 items-center gap-3">
+						<a href={'/admin/products/' + product._id} class="flex min-w-0 flex-1 items-center gap-3" aria-label={'Modifier ' + product.name}>
 							{#if product.image}
 								<img src={product.image} alt={product.name} class="h-14 w-14 shrink-0 rounded-xl object-cover" />
 							{:else}
@@ -184,19 +184,13 @@
 								</p>
 							</div>
 
-							<svg class="h-5 w-5 shrink-0 text-[#737873]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-								<path d="m9 18 6-6-6-6" />
-							</svg>
-						</a>
-						<a
-							href={'/admin/products/' + product._id}
-							class="shrink-0 rounded-lg p-2 text-[#737873] transition-colors hover:bg-[#d0e8d7] hover:text-[#172c21]"
-							aria-label="Modifier le produit"
-						>
-							<svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-								<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-								<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4Z" />
-							</svg>
+							<div class="shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-[#172c21] px-3 py-2 text-white">
+								<svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+									<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+									<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4Z" />
+								</svg>
+								<span class="text-[11px] font-semibold uppercase tracking-wide">Modifier</span>
+							</div>
 						</a>
 					</div>
 				</div>

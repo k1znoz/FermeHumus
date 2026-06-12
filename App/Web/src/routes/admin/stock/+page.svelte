@@ -1,21 +1,29 @@
 <script>
 	import { enhance } from '$app/forms';
 
-	let { data } = $props();
+	let { data, form } = $props();
 	const stocks = $derived(data.stocks ?? []);
 	const focusProductId = $derived(data.focusProductId ?? null);
 
-	// Copie locale éditable des quantités
+	// Copie locale editable des quantites, indexee par productId
 	let quantities = $state({});
 	$effect(() => {
-		if (Object.keys(quantities).length === 0 && stocks.length > 0) {
-			quantities = Object.fromEntries(stocks.map((s) => [s._id, s.quantity]));
+		if (stocks.length === 0) return;
+
+		const next = { ...quantities };
+		for (const stock of stocks) {
+			const productId = stock.product?._id;
+			if (!productId) continue;
+			if (next[productId] == null) {
+				next[productId] = stock.quantity;
+			}
 		}
+		quantities = next;
 	});
 
 	let search = $state('');
 	let activeCategory = $state('all');
-	let saving = $state(null); // id en cours de sauvegarde
+	let savingBulk = $state(false);
 
 	const categories = $derived(['all', ...new Set(stocks.map((s) => s.product?.category).filter(Boolean))]);
 
@@ -27,12 +35,35 @@
 		})
 	);
 
+	const dirtyEntries = $derived(
+		stocks
+			.filter((stock) => {
+				const productId = stock.product?._id;
+				if (!productId) return false;
+				return Number(quantities[productId]) !== Number(stock.quantity);
+			})
+			.map((stock) => ({
+				productId: stock.product._id,
+				quantity: Math.max(0, Number(quantities[stock.product._id] ?? 0))
+			}))
+	);
+
+	const dirtyCount = $derived(dirtyEntries.length);
+	const dirtyPayload = $derived(JSON.stringify(dirtyEntries));
+
 	function isLow(stock) {
-		return stock.lowStockThreshold != null && quantities[stock._id] <= stock.lowStockThreshold;
+		const productId = stock.product?._id;
+		if (!productId) return false;
+		return stock.lowStockThreshold != null && Number(quantities[productId] ?? 0) <= stock.lowStockThreshold;
 	}
 
-	function adjust(id, delta) {
-		quantities[id] = Math.max(0, (quantities[id] ?? 0) + delta);
+	function adjust(productId, delta) {
+		quantities[productId] = Math.max(0, Number(quantities[productId] ?? 0) + delta);
+	}
+
+	function setQuantity(productId, rawValue) {
+		const parsed = Number(rawValue);
+		quantities[productId] = Number.isFinite(parsed) ? Math.max(0, parsed) : 0;
 	}
 
 	function isFocused(stock) {
@@ -42,6 +73,62 @@
 
 <div class="max-w-md mx-auto px-5 pt-10 pb-4">
 	<h1 class="font-serif text-2xl font-semibold text-[#172c21] mb-6">Stock actuel</h1>
+	<p class="mb-4 text-xs text-[#737873]">
+		Ajuste plusieurs produits, puis valide tout en une seule fois.
+	</p>
+
+	{#if data.bulkSaved}
+		<p class="mb-4 text-sm text-[#172c21] bg-[#d0e8d7] rounded-xl px-4 py-3">
+			Modifications de stock enregistrees.
+		</p>
+	{/if}
+	{#if form?.success}
+		<p class="mb-4 text-sm text-[#172c21] bg-[#d0e8d7] rounded-xl px-4 py-3">
+			{form.updatedCount ?? 0} stock(s) mis a jour.
+		</p>
+	{/if}
+
+	{#if form?.error}
+		<p class="mb-4 text-sm text-red-600 bg-red-50 rounded-xl px-4 py-3">{form.error}</p>
+	{/if}
+
+	{#if dirtyCount > 0}
+		<form
+			method="POST"
+			action="?/bulkUpdateStock"
+			use:enhance={() => {
+				savingBulk = true;
+				return async ({ update }) => {
+					await update();
+					savingBulk = false;
+				};
+			}}
+			class="mb-4 rounded-2xl border border-[#d0e8d7] bg-[#edf7f0] p-3"
+		>
+			<input type="hidden" name="updates" value={dirtyPayload} />
+			<p class="mb-3 text-xs font-semibold text-[#172c21]">
+				{dirtyCount} produit{dirtyCount > 1 ? 's' : ''} en attente de validation
+			</p>
+			<div class="flex gap-2">
+				<button
+					type="submit"
+					disabled={savingBulk}
+					class="rounded-lg bg-[#172c21] px-3 py-2 text-xs font-semibold text-white hover:bg-[#2d4236] transition-colors disabled:opacity-60"
+				>
+					{savingBulk ? 'Enregistrement...' : 'Enregistrer tout'}
+				</button>
+				<button
+					type="button"
+					onclick={() => {
+						quantities = Object.fromEntries(stocks.map((stock) => [stock.product?._id, stock.quantity]));
+					}}
+					class="rounded-lg border border-[#c8d8cb] px-3 py-2 text-xs font-semibold text-[#424844] hover:bg-white transition-colors"
+				>
+					Annuler les modifications
+				</button>
+			</div>
+		</form>
+	{/if}
 
 	<!-- Recherche -->
 	<div class="relative mb-4">
@@ -75,8 +162,9 @@
 		<p class="text-sm text-[#737873] text-center py-10">Aucun résultat.</p>
 	{:else}
 		<div class="space-y-3">
-			{#each filtered as stock (stock._id)}
+			{#each filtered as stock (stock.product?._id ?? stock._id)}
 				{@const low = isLow(stock)}
+				{@const productId = stock.product?._id}
 				<div
 					class="flex items-center gap-3 rounded-2xl bg-white border p-3 {isFocused(stock)
 						? 'border-[#172c21] ring-1 ring-[#172c21]/30'
@@ -97,62 +185,33 @@
 					<div class="flex-1 min-w-0">
 						<p class="text-sm font-semibold text-[#1a1c1a] truncate">{stock.product?.name ?? '—'}</p>
 						<p class="text-xs {low ? 'text-red-500 font-semibold' : 'text-[#737873]'}">
-							{low ? '⚠ Stock bas :' : 'En stock :'} {quantities[stock._id]} {stock.unit}
+							{low ? '⚠ Stock bas :' : 'En stock :'} {productId ? quantities[productId] : stock.quantity} {stock.unit}
 						</p>
 					</div>
 
-					<!-- Contrôle quantité + save -->
-					<form
-						method="POST"
-						action="?/updateStock"
-						use:enhance={() => {
-							saving = stock._id;
-							return async ({ update }) => {
-								await update();
-								saving = null;
-							};
-						}}
-						class="flex items-center gap-1 shrink-0"
-					>
-						<input type="hidden" name="stockEntryId" value={stock.stockEntryId ?? ''} />
-						<input type="hidden" name="productId" value={stock.product?._id ?? ''} />
-						<input type="hidden" name="quantity" value={quantities[stock._id]} />
-						<input type="hidden" name="unit" value={stock.unit} />
-						<input type="hidden" name="lowStockThreshold" value={stock.lowStockThreshold ?? 5} />
-
+					<!-- Contrôle quantité (validation en lot) -->
+					<div class="flex items-center gap-1 shrink-0">
 						<button
 							type="button"
-							onclick={() => adjust(stock._id, -1)}
+							onclick={() => productId && adjust(productId, -1)}
 							class="w-8 h-8 rounded-full border border-[#e3e2e0] flex items-center justify-center text-[#424844] hover:bg-[#f4f3f1] transition-colors"
 						>−</button>
 
-						<span class="w-10 text-center text-sm font-semibold text-[#1a1c1a]">
-							{quantities[stock._id]}
-						</span>
+						<input
+							type="number"
+							min="0"
+							step="1"
+							value={productId ? quantities[productId] : stock.quantity}
+							oninput={(event) => productId && setQuantity(productId, event.currentTarget.value)}
+							class="w-16 rounded-lg border border-[#e3e2e0] bg-[#f4f3f1] px-2 py-1 text-center text-sm font-semibold text-[#1a1c1a] focus:border-[#172c21] focus:outline-none"
+						/>
 
 						<button
 							type="button"
-							onclick={() => adjust(stock._id, 1)}
+							onclick={() => productId && adjust(productId, 1)}
 							class="w-8 h-8 rounded-full border border-[#e3e2e0] flex items-center justify-center text-[#424844] hover:bg-[#f4f3f1] transition-colors"
 						>+</button>
-
-						<button
-							type="submit"
-							disabled={saving === stock._id}
-							class="ml-1 w-8 h-8 rounded-full bg-[#172c21] flex items-center justify-center text-white hover:bg-[#2d4236] transition-colors disabled:opacity-50"
-							title="Enregistrer"
-						>
-							{#if saving === stock._id}
-								<svg class="w-3.5 h-3.5 animate-spin" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-									<path d="M21 12a9 9 0 1 1-6.219-8.56" />
-								</svg>
-							{:else}
-								<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-									<polyline points="20 6 9 17 4 12" />
-								</svg>
-							{/if}
-						</button>
-					</form>
+					</div>
 				</div>
 			{/each}
 		</div>

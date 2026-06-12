@@ -79,6 +79,53 @@
 			</div>
 		</div>
 
+		<div class="rounded-2xl border border-[#d0e8d7] bg-[#edf7f0] p-4">
+			<h2 class="text-sm font-semibold text-[#172c21] mb-3">Stock (mis a jour en meme temps)</h2>
+			<div class="grid grid-cols-3 gap-3">
+				<div>
+					<label for="quantity" class="block text-sm font-medium text-[#1a1c1a] mb-1">Quantite *</label>
+					<input
+						id="quantity"
+						name="quantity"
+						type="number"
+						min="0"
+						step="1"
+						required
+						value={data.stock.quantity}
+						class="w-full rounded-xl border border-[#e3e2e0] bg-white px-4 py-3 text-sm focus:border-[#172c21] focus:outline-none"
+					/>
+				</div>
+				<div>
+					<label for="unit" class="block text-sm font-medium text-[#1a1c1a] mb-1">Unite *</label>
+					<select
+						id="unit"
+						name="unit"
+						required
+						class="w-full rounded-xl border border-[#e3e2e0] bg-white px-4 py-3 text-sm focus:border-[#172c21] focus:outline-none"
+					>
+						{#each data.units as unit}
+							<option value={unit} selected={unit === data.stock.unit}>{unit}</option>
+						{/each}
+					</select>
+				</div>
+				<div>
+					<label for="lowStockThreshold" class="block text-sm font-medium text-[#1a1c1a] mb-1">Seuil alerte</label>
+					<input
+						id="lowStockThreshold"
+						name="lowStockThreshold"
+						type="number"
+						min="0"
+						step="1"
+						value={data.stock.lowStockThreshold}
+						class="w-full rounded-xl border border-[#e3e2e0] bg-white px-4 py-3 text-sm focus:border-[#172c21] focus:outline-none"
+					/>
+				</div>
+			</div>
+			<p class="mt-2 text-xs text-[#424844]">
+				La disponibilite est calculee automatiquement selon la quantite de stock.
+			</p>
+		</div>
+
 		<div>
 			<label for="description" class="block text-sm font-medium text-[#1a1c1a] mb-1">Description courte *</label>
 			<textarea
@@ -88,18 +135,6 @@
 				required
 				class="w-full rounded-xl border border-[#e3e2e0] bg-[#f4f3f1] px-4 py-3 text-sm focus:border-[#172c21] focus:outline-none resize-none"
 			>{data.product.description}</textarea>
-		</div>
-
-		<div>
-			<label for="available" class="block text-sm font-medium text-[#1a1c1a] mb-1">Disponibilité</label>
-			<select
-				id="available"
-				name="available"
-				class="w-full rounded-xl border border-[#e3e2e0] bg-[#f4f3f1] px-4 py-3 text-sm focus:border-[#172c21] focus:outline-none"
-			>
-				<option value="true" selected={data.product.available}>Disponible</option>
-				<option value="false" selected={!data.product.available}>Indisponible</option>
-			</select>
 		</div>
 
 		{#if form?.error}

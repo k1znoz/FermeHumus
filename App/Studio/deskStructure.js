@@ -34,19 +34,19 @@ export const deskStructure = (S) =>
 						.items([
 							singletonItem(S, 'siteSettings', 'Parametres du site'),
 							singletonItem(S, 'farmStay', 'Sejour a la ferme'),
-							collectionItem(S, 'product', 'Produits'),
 							collectionItem(S, 'teamMember', 'Equipe'),
 							collectionItem(S, 'market', 'Points de vente')
 						])
-				),
-			S.listItem()
-				.title('Exploitation')
-				.child(
-					S.list()
+                    ),
+                    S.listItem()
+                    .title('Exploitation')
+                    .child(
+                        S.list()
 						.title('Exploitation')
 						.items([
-							collectionItem(S, 'stockEntry', 'Stock'),
+                            collectionItem(S, 'product', 'Produits'),
 							collectionItem(S, 'harvestEntry', 'Recoltes'),
+							collectionItem(S, 'stockEntry', 'Stock'),
 							collectionItem(S, 'transformationEntry', 'Transformations'),
 							collectionItem(S, 'productOrder', 'Commandes produits')
 						])

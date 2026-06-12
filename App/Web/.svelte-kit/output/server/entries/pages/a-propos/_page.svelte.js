@@ -27,8 +27,14 @@ function _page($$renderer, $$props) {
   ];
   const galleryImages = [
     { src: "https://cataas.com/cat", alt: "Champ de légumes" },
-    { src: "https://cataas.com/cat", alt: "Serre de la ferme" },
-    { src: "https://cataas.com/cat", alt: "Récolte du matin" }
+    {
+      src: "/images/ferme/serre-boris.jpg",
+      alt: "Serre de la ferme"
+    },
+    {
+      src: "/images/ferme/serre-caisses.jpg",
+      alt: "Récolte du matin"
+    }
   ];
   head("11ks5ly", $$renderer, ($$renderer2) => {
     $$renderer2.title(($$renderer3) => {
@@ -44,9 +50,9 @@ function _page($$renderer, $$props) {
     let v = each_array[$$index];
     $$renderer.push(`<div${attr_class(`bg-surface p-lg rounded-xl shadow-ambient flex flex-col gap-sm border-t-4 ${stringify(v.borderColor)}`)}><span${attr_class(`material-symbols-outlined ${stringify(v.iconColor)} text-4xl`)}>${escape_html(v.icon)}</span> <h3 class="font-h3 text-h3 text-primary">${escape_html(v.title)}</h3> <p class="text-on-surface-variant">${escape_html(v.description)}</p></div>`);
   }
-  $$renderer.push(`<!--]--></div></div></section> <section class="py-xl px-margin-mobile md:px-lg lg:px-xl"><div class="max-w-[1140px] mx-auto"><div class="flex flex-col lg:flex-row gap-xl items-center"><div class="w-full lg:w-1/2 grid grid-cols-2 gap-sm"><div class="rounded-xl overflow-hidden aspect-square shadow-ambient"><img src="https://cataas.com/cat" alt="Marc, fondateur" class="w-full h-full object-cover"/></div> <div class="rounded-xl overflow-hidden aspect-square shadow-ambient mt-lg"><img src="https://cataas.com/cat" alt="L'équipe en serre" class="w-full h-full object-cover"/></div></div> <div class="w-full lg:w-1/2"><h2 class="font-h2 text-h2 text-primary mb-md">L'équipe derrière le sillon</h2> <p class="font-body-lg text-body-lg text-on-surface-variant mb-md italic">"Nous ne sommes que les gardiens passagers d'une terre qui nous précède et nous survivra."</p> <p class="text-on-surface-variant mb-lg">Fondée par Marc et Elena, la ferme réunit aujourd'hui cinq passionnés. De la gestion des
+  $$renderer.push(`<!--]--></div></div></section> <section class="py-xl px-margin-mobile md:px-lg lg:px-xl"><div class="max-w-[1140px] mx-auto"><div class="flex flex-col lg:flex-row gap-xl items-center"><div class="w-full lg:w-1/2 grid grid-cols-2 gap-sm"><div class="rounded-xl overflow-hidden aspect-square shadow-ambient"><img src="/images/ferme/marche-1mai-2026.jpg" alt="Boris, Fondateur" class="w-full h-full object-cover"/></div> <div class="rounded-xl overflow-hidden aspect-square shadow-ambient mt-lg"><img src="/images/ferme/Serre_arrosage_Boris.jpg" alt="Joséphine, Fondatrice" class="w-full h-full object-cover"/></div></div> <div class="w-full lg:w-1/2"><h2 class="font-h2 text-h2 text-primary mb-md">L'équipe derrière le sillon</h2> <p class="font-body-lg text-body-lg text-on-surface-variant mb-md italic">"Nous ne sommes que les gardiens passagers d'une terre qui nous précède et nous survivra."</p> <p class="text-on-surface-variant mb-lg">Fondée par Joséphine et Boris, la ferme réunit aujourd'hui cinq passionnés. De la gestion des
 					semis à la relation avec nos clients locaux, chaque geste est porté par la même exigence de
-					qualité et de bienveillance.</p> <div class="flex flex-wrap gap-sm"><span class="bg-[#F5F5DC] text-primary px-4 py-1 rounded-full font-label-caps text-[11px] uppercase border border-primary/10">Marc — Fondateur</span> <span class="bg-[#F5F5DC] text-primary px-4 py-1 rounded-full font-label-caps text-[11px] uppercase border border-primary/10">Elena — Agronomie</span> <span class="bg-[#F5F5DC] text-primary px-4 py-1 rounded-full font-label-caps text-[11px] uppercase border border-primary/10">Lucas — Logistique</span></div></div></div></div></section> <section class="bg-primary text-on-primary py-xl px-margin-mobile md:px-lg lg:px-xl"><div class="max-w-[1140px] mx-auto"><div class="mb-lg"><h2 class="font-h2 text-h2 mb-xs">L'environnement</h2> <p class="opacity-80">Immersion au sein de notre écosystème vivant.</p></div> <div class="columns-1 md:columns-2 lg:columns-3 gap-md space-y-md"><!--[-->`);
+					qualité et de bienveillance.</p> <div class="flex flex-wrap gap-sm"><span class="bg-[#F5F5DC] text-primary px-4 py-1 rounded-full font-label-caps text-[11px] uppercase border border-primary/10">Joséphine — Fondatrice</span> <span class="bg-[#F5F5DC] text-primary px-4 py-1 rounded-full font-label-caps text-[11px] uppercase border border-primary/10">Boris — Fondateur</span></div></div></div></div></section> <section class="bg-primary text-on-primary py-xl px-margin-mobile md:px-lg lg:px-xl"><div class="max-w-[1140px] mx-auto"><div class="mb-lg"><h2 class="font-h2 text-h2 mb-xs">L'environnement</h2> <p class="opacity-80">Immersion au sein de notre écosystème vivant.</p></div> <div class="columns-1 md:columns-2 lg:columns-3 gap-md space-y-md"><!--[-->`);
   const each_array_1 = ensure_array_like(galleryImages);
   for (let $$index_1 = 0, $$length = each_array_1.length; $$index_1 < $$length; $$index_1++) {
     let img = each_array_1[$$index_1];

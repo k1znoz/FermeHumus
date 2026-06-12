@@ -179,7 +179,7 @@
       "_stores.js"
     ],
     "css": [
-      "_app/immutable/assets/_layout.LRoNyXfU.css"
+      "_app/immutable/assets/_layout.CqdYBv7z.css"
     ]
   },
   "src/routes/+page.server.js": {
@@ -328,7 +328,9 @@
     "isEntry": true,
     "imports": [
       "_sanity.js",
-      "_stock.js"
+      "_stock.js",
+      "_sanityWrite.js",
+      "_shared-server.js"
     ]
   },
   "src/routes/admin/products/+page.svelte": {
@@ -349,6 +351,7 @@
       "_sanity.js",
       "_constants.js",
       "_sanityWrite.js",
+      "_stock.js",
       "_shared-server.js"
     ]
   },
