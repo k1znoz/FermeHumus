@@ -1,14 +1,14 @@
 import { client } from '$lib/sanity.js';
 
 export async function load({ url }) {
-	const orderNumber = url.searchParams.get('order');
+  const orderNumber = url.searchParams.get('order');
 
-	if (!orderNumber) {
-		return { order: null };
-	}
+  if (!orderNumber) {
+    return { order: null };
+  }
 
-	const order = await client.fetch(
-		`*[_type == "productOrder" && orderNumber == $orderNumber][0]{
+  const order = await client.fetch(
+    `*[_type == "productOrder" && orderNumber == $orderNumber][0]{
 			orderNumber,
 			status,
 			customerName,
@@ -24,8 +24,8 @@ export async function load({ url }) {
 				subtotal
 			}
 		}`,
-		{ orderNumber }
-	);
+    { orderNumber }
+  );
 
-	return { order };
+  return { order };
 }

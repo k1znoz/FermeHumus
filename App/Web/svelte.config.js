@@ -5,9 +5,9 @@ const isVercelBuild = Boolean(process.env.VERCEL);
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	kit: {
-		adapter: isVercelBuild ? adapterVercel() : adapterAuto()
-	}
+  kit: {
+    adapter: isVercelBuild ? adapterVercel() : adapterAuto(),
+  },
 };
 
 export default config;

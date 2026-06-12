@@ -1,6 +1,6 @@
-import { createClient } from "@sanity/client";
-import imageUrlBuilder from "@sanity/image-url";
-import { d as CATEGORY_VISIBILITY_WINDOWS } from "./constants.js";
+import { createClient } from '@sanity/client';
+import imageUrlBuilder from '@sanity/image-url';
+import { d as CATEGORY_VISIBILITY_WINDOWS } from './constants.js';
 function toMonthDayNumber(month, day) {
   const m = Number(month);
   const d = Number(day);
@@ -24,19 +24,19 @@ function isWithinWindow(date, start, end) {
   return currentValue >= startValue || currentValue <= endValue;
 }
 function getProductWindow(product) {
-  if (product.visibilityMode === "always") {
+  if (product.visibilityMode === 'always') {
     return null;
   }
-  if (product.visibilityMode === "custom") {
+  if (product.visibilityMode === 'custom') {
     return {
       start: {
         month: product.seasonStartMonth,
-        day: product.seasonStartDay
+        day: product.seasonStartDay,
       },
       end: {
         month: product.seasonEndMonth,
-        day: product.seasonEndDay
-      }
+        day: product.seasonEndDay,
+      },
     };
   }
   return CATEGORY_VISIBILITY_WINDOWS[product.category] ?? null;
@@ -49,21 +49,21 @@ function isProductVisibleToday(product, date = /* @__PURE__ */ new Date()) {
   return isWithinWindow(date, window.start, window.end);
 }
 const client = createClient({
-  projectId: "your-project-id",
-  dataset: "production",
-  apiVersion: "2024-01-01",
-  useCdn: false
+  projectId: 'your-project-id',
+  dataset: 'production',
+  apiVersion: '2024-01-01',
+  useCdn: false,
 });
 createClient({
-  projectId: "your-project-id",
-  dataset: "production",
-  apiVersion: "2024-01-01",
+  projectId: 'your-project-id',
+  dataset: 'production',
+  apiVersion: '2024-01-01',
   useCdn: false,
-  token: void 0
+  token: void 0,
 });
 imageUrlBuilder(client);
 async function getProducts(category = null) {
-  const filter = category ? `&& category == $category` : "";
+  const filter = category ? `&& category == $category` : '';
   const products = await client.fetch(
     `*[_type == "product" ${filter} && available == true] | order(_createdAt desc) {
 			_id,
@@ -115,5 +115,5 @@ export {
   client as c,
   getMarkets as d,
   getFarmStay as e,
-  getSiteSettings as g
+  getSiteSettings as g,
 };

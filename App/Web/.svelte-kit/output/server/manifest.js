@@ -1,199 +1,234 @@
 export const manifest = (() => {
-function __memo(fn) {
-	let value;
-	return () => value ??= (value = fn());
-}
+  function __memo(fn) {
+    let value;
+    return () => (value ??= value = fn());
+  }
 
-return {
-	appDir: "_app",
-	appPath: "_app",
-	assets: new Set(["favicon.png","images/ferme/labo-boris-confiture.jpg","images/ferme/logo-fh.png","images/ferme/marche-1mai-2026.jpg","images/ferme/marche-affiche.jpg","images/ferme/marche-affiche.pdf","images/ferme/produit-confiture-prunes.jpg","images/ferme/produit-coulis-tomates.jpg","images/ferme/produit-jus-pomme-1l.jpg","images/ferme/serre-boris.jpg","images/ferme/serre-caisses.jpg","images/ferme/Serre_arrosage_Boris.jpg","images/ferme/tartes-flambees-evenements.pdf"]),
-	mimeTypes: {".png":"image/png",".jpg":"image/jpeg",".pdf":"application/pdf"},
-	_: {
-		client: {start:"_app/immutable/entry/start.DkloawtW.js",app:"_app/immutable/entry/app.D4ZEeIrb.js",imports:["_app/immutable/entry/start.DkloawtW.js","_app/immutable/chunks/CXZVox8e.js","_app/immutable/chunks/NprSnXPW.js","_app/immutable/chunks/BpNUit2C.js","_app/immutable/chunks/CFtk-p1X.js","_app/immutable/chunks/D0mTwc6i.js","_app/immutable/entry/app.D4ZEeIrb.js","_app/immutable/chunks/BpNUit2C.js","_app/immutable/chunks/CFtk-p1X.js","_app/immutable/chunks/CWj6FrbW.js","_app/immutable/chunks/NprSnXPW.js","_app/immutable/chunks/aXS0oh3w.js","_app/immutable/chunks/DAbevxsI.js","_app/immutable/chunks/D7E7u6D4.js","_app/immutable/chunks/GRI5L9m5.js","_app/immutable/chunks/D0mTwc6i.js"],stylesheets:[],fonts:[],uses_env_dynamic_public:false},
-		nodes: [
-			__memo(() => import('./nodes/0.js')),
-			__memo(() => import('./nodes/1.js')),
-			__memo(() => import('./nodes/2.js')),
-			__memo(() => import('./nodes/3.js')),
-			__memo(() => import('./nodes/4.js')),
-			__memo(() => import('./nodes/5.js')),
-			__memo(() => import('./nodes/6.js')),
-			__memo(() => import('./nodes/7.js')),
-			__memo(() => import('./nodes/8.js')),
-			__memo(() => import('./nodes/9.js')),
-			__memo(() => import('./nodes/10.js')),
-			__memo(() => import('./nodes/11.js')),
-			__memo(() => import('./nodes/12.js')),
-			__memo(() => import('./nodes/13.js')),
-			__memo(() => import('./nodes/14.js')),
-			__memo(() => import('./nodes/15.js')),
-			__memo(() => import('./nodes/16.js')),
-			__memo(() => import('./nodes/17.js')),
-			__memo(() => import('./nodes/18.js')),
-			__memo(() => import('./nodes/19.js')),
-			__memo(() => import('./nodes/20.js')),
-			__memo(() => import('./nodes/21.js')),
-			__memo(() => import('./nodes/22.js'))
-		],
-		remotes: {
-			
-		},
-		routes: [
-			{
-				id: "/",
-				pattern: /^\/$/,
-				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 3 },
-				endpoint: null
-			},
-			{
-				id: "/a-propos",
-				pattern: /^\/a-propos\/?$/,
-				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 4 },
-				endpoint: null
-			},
-			{
-				id: "/admin",
-				pattern: /^\/admin\/?$/,
-				params: [],
-				page: { layouts: [0,2,], errors: [1,,], leaf: 5 },
-				endpoint: null
-			},
-			{
-				id: "/admin/harvest",
-				pattern: /^\/admin\/harvest\/?$/,
-				params: [],
-				page: { layouts: [0,2,], errors: [1,,], leaf: 6 },
-				endpoint: null
-			},
-			{
-				id: "/admin/history",
-				pattern: /^\/admin\/history\/?$/,
-				params: [],
-				page: { layouts: [0,2,], errors: [1,,], leaf: 7 },
-				endpoint: null
-			},
-			{
-				id: "/admin/login",
-				pattern: /^\/admin\/login\/?$/,
-				params: [],
-				page: { layouts: [0,2,], errors: [1,,], leaf: 8 },
-				endpoint: null
-			},
-			{
-				id: "/admin/logout",
-				pattern: /^\/admin\/logout\/?$/,
-				params: [],
-				page: null,
-				endpoint: __memo(() => import('./entries/endpoints/admin/logout/_server.js'))
-			},
-			{
-				id: "/admin/products",
-				pattern: /^\/admin\/products\/?$/,
-				params: [],
-				page: { layouts: [0,2,], errors: [1,,], leaf: 9 },
-				endpoint: null
-			},
-			{
-				id: "/admin/products/new",
-				pattern: /^\/admin\/products\/new\/?$/,
-				params: [],
-				page: { layouts: [0,2,], errors: [1,,], leaf: 10 },
-				endpoint: null
-			},
-			{
-				id: "/admin/products/[id]",
-				pattern: /^\/admin\/products\/([^/]+?)\/?$/,
-				params: [{"name":"id","optional":false,"rest":false,"chained":false}],
-				page: { layouts: [0,2,], errors: [1,,], leaf: 11 },
-				endpoint: null
-			},
-			{
-				id: "/admin/stock",
-				pattern: /^\/admin\/stock\/?$/,
-				params: [],
-				page: { layouts: [0,2,], errors: [1,,], leaf: 12 },
-				endpoint: null
-			},
-			{
-				id: "/admin/transform",
-				pattern: /^\/admin\/transform\/?$/,
-				params: [],
-				page: { layouts: [0,2,], errors: [1,,], leaf: 13 },
-				endpoint: null
-			},
-			{
-				id: "/cgu",
-				pattern: /^\/cgu\/?$/,
-				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 14 },
-				endpoint: null
-			},
-			{
-				id: "/cgv",
-				pattern: /^\/cgv\/?$/,
-				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 15 },
-				endpoint: null
-			},
-			{
-				id: "/contact",
-				pattern: /^\/contact\/?$/,
-				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 16 },
-				endpoint: null
-			},
-			{
-				id: "/mentions-legales",
-				pattern: /^\/mentions-legales\/?$/,
-				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 17 },
-				endpoint: null
-			},
-			{
-				id: "/ou-nous-trouver",
-				pattern: /^\/ou-nous-trouver\/?$/,
-				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 18 },
-				endpoint: null
-			},
-			{
-				id: "/politique-de-confidentialite",
-				pattern: /^\/politique-de-confidentialite\/?$/,
-				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 19 },
-				endpoint: null
-			},
-			{
-				id: "/produits",
-				pattern: /^\/produits\/?$/,
-				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 20 },
-				endpoint: null
-			},
-			{
-				id: "/produits/confirmation",
-				pattern: /^\/produits\/confirmation\/?$/,
-				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 21 },
-				endpoint: null
-			},
-			{
-				id: "/reserver",
-				pattern: /^\/reserver\/?$/,
-				params: [],
-				page: { layouts: [0,], errors: [1,], leaf: 22 },
-				endpoint: null
-			}
-		],
-		prerendered_routes: new Set([]),
-		matchers: async () => {
-			
-			return {  };
-		},
-		server_assets: {}
-	}
-}
+  return {
+    appDir: '_app',
+    appPath: '_app',
+    assets: new Set([
+      'favicon.png',
+      'images/ferme/labo-boris-confiture.jpg',
+      'images/ferme/logo-fh.png',
+      'images/ferme/marche-1mai-2026.jpg',
+      'images/ferme/marche-affiche.jpg',
+      'images/ferme/marche-affiche.pdf',
+      'images/ferme/produit-confiture-prunes.jpg',
+      'images/ferme/produit-coulis-tomates.jpg',
+      'images/ferme/produit-jus-pomme-1l.jpg',
+      'images/ferme/serre-boris.jpg',
+      'images/ferme/serre-caisses.jpg',
+      'images/ferme/Serre_arrosage_Boris.jpg',
+      'images/ferme/tartes-flambees-evenements.pdf',
+    ]),
+    mimeTypes: { '.png': 'image/png', '.jpg': 'image/jpeg', '.pdf': 'application/pdf' },
+    _: {
+      client: {
+        start: '_app/immutable/entry/start.DkloawtW.js',
+        app: '_app/immutable/entry/app.D4ZEeIrb.js',
+        imports: [
+          '_app/immutable/entry/start.DkloawtW.js',
+          '_app/immutable/chunks/CXZVox8e.js',
+          '_app/immutable/chunks/NprSnXPW.js',
+          '_app/immutable/chunks/BpNUit2C.js',
+          '_app/immutable/chunks/CFtk-p1X.js',
+          '_app/immutable/chunks/D0mTwc6i.js',
+          '_app/immutable/entry/app.D4ZEeIrb.js',
+          '_app/immutable/chunks/BpNUit2C.js',
+          '_app/immutable/chunks/CFtk-p1X.js',
+          '_app/immutable/chunks/CWj6FrbW.js',
+          '_app/immutable/chunks/NprSnXPW.js',
+          '_app/immutable/chunks/aXS0oh3w.js',
+          '_app/immutable/chunks/DAbevxsI.js',
+          '_app/immutable/chunks/D7E7u6D4.js',
+          '_app/immutable/chunks/GRI5L9m5.js',
+          '_app/immutable/chunks/D0mTwc6i.js',
+        ],
+        stylesheets: [],
+        fonts: [],
+        uses_env_dynamic_public: false,
+      },
+      nodes: [
+        __memo(() => import('./nodes/0.js')),
+        __memo(() => import('./nodes/1.js')),
+        __memo(() => import('./nodes/2.js')),
+        __memo(() => import('./nodes/3.js')),
+        __memo(() => import('./nodes/4.js')),
+        __memo(() => import('./nodes/5.js')),
+        __memo(() => import('./nodes/6.js')),
+        __memo(() => import('./nodes/7.js')),
+        __memo(() => import('./nodes/8.js')),
+        __memo(() => import('./nodes/9.js')),
+        __memo(() => import('./nodes/10.js')),
+        __memo(() => import('./nodes/11.js')),
+        __memo(() => import('./nodes/12.js')),
+        __memo(() => import('./nodes/13.js')),
+        __memo(() => import('./nodes/14.js')),
+        __memo(() => import('./nodes/15.js')),
+        __memo(() => import('./nodes/16.js')),
+        __memo(() => import('./nodes/17.js')),
+        __memo(() => import('./nodes/18.js')),
+        __memo(() => import('./nodes/19.js')),
+        __memo(() => import('./nodes/20.js')),
+        __memo(() => import('./nodes/21.js')),
+        __memo(() => import('./nodes/22.js')),
+      ],
+      remotes: {},
+      routes: [
+        {
+          id: '/',
+          pattern: /^\/$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 3 },
+          endpoint: null,
+        },
+        {
+          id: '/a-propos',
+          pattern: /^\/a-propos\/?$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 4 },
+          endpoint: null,
+        },
+        {
+          id: '/admin',
+          pattern: /^\/admin\/?$/,
+          params: [],
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 5 },
+          endpoint: null,
+        },
+        {
+          id: '/admin/harvest',
+          pattern: /^\/admin\/harvest\/?$/,
+          params: [],
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 6 },
+          endpoint: null,
+        },
+        {
+          id: '/admin/history',
+          pattern: /^\/admin\/history\/?$/,
+          params: [],
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 7 },
+          endpoint: null,
+        },
+        {
+          id: '/admin/login',
+          pattern: /^\/admin\/login\/?$/,
+          params: [],
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 8 },
+          endpoint: null,
+        },
+        {
+          id: '/admin/logout',
+          pattern: /^\/admin\/logout\/?$/,
+          params: [],
+          page: null,
+          endpoint: __memo(() => import('./entries/endpoints/admin/logout/_server.js')),
+        },
+        {
+          id: '/admin/products',
+          pattern: /^\/admin\/products\/?$/,
+          params: [],
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 9 },
+          endpoint: null,
+        },
+        {
+          id: '/admin/products/new',
+          pattern: /^\/admin\/products\/new\/?$/,
+          params: [],
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 10 },
+          endpoint: null,
+        },
+        {
+          id: '/admin/products/[id]',
+          pattern: /^\/admin\/products\/([^/]+?)\/?$/,
+          params: [{ name: 'id', optional: false, rest: false, chained: false }],
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 11 },
+          endpoint: null,
+        },
+        {
+          id: '/admin/stock',
+          pattern: /^\/admin\/stock\/?$/,
+          params: [],
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 12 },
+          endpoint: null,
+        },
+        {
+          id: '/admin/transform',
+          pattern: /^\/admin\/transform\/?$/,
+          params: [],
+          page: { layouts: [0, 2], errors: [1, ,], leaf: 13 },
+          endpoint: null,
+        },
+        {
+          id: '/cgu',
+          pattern: /^\/cgu\/?$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 14 },
+          endpoint: null,
+        },
+        {
+          id: '/cgv',
+          pattern: /^\/cgv\/?$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 15 },
+          endpoint: null,
+        },
+        {
+          id: '/contact',
+          pattern: /^\/contact\/?$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 16 },
+          endpoint: null,
+        },
+        {
+          id: '/mentions-legales',
+          pattern: /^\/mentions-legales\/?$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 17 },
+          endpoint: null,
+        },
+        {
+          id: '/ou-nous-trouver',
+          pattern: /^\/ou-nous-trouver\/?$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 18 },
+          endpoint: null,
+        },
+        {
+          id: '/politique-de-confidentialite',
+          pattern: /^\/politique-de-confidentialite\/?$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 19 },
+          endpoint: null,
+        },
+        {
+          id: '/produits',
+          pattern: /^\/produits\/?$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 20 },
+          endpoint: null,
+        },
+        {
+          id: '/produits/confirmation',
+          pattern: /^\/produits\/confirmation\/?$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 21 },
+          endpoint: null,
+        },
+        {
+          id: '/reserver',
+          pattern: /^\/reserver\/?$/,
+          params: [],
+          page: { layouts: [0], errors: [1], leaf: 22 },
+          endpoint: null,
+        },
+      ],
+      prerendered_routes: new Set([]),
+      matchers: async () => {
+        return {};
+      },
+      server_assets: {},
+    },
+  };
 })();

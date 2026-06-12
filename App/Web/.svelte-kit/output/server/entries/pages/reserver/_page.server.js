@@ -1,4 +1,4 @@
-import { e as getFarmStay } from "../../../chunks/sanity.js";
+import { e as getFarmStay } from '../../../chunks/sanity.js';
 async function load() {
   try {
     const farmStay = await getFarmStay();
@@ -7,6 +7,4 @@ async function load() {
     return { farmStay: null };
   }
 }
-export {
-  load
-};
+export { load };

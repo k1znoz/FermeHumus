@@ -2,8 +2,8 @@ import { client } from '$lib/sanity.js';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load() {
-	const [harvests, transformations, orders] = await Promise.all([
-		client.fetch(`
+  const [harvests, transformations, orders] = await Promise.all([
+    client.fetch(`
 			*[_type == "harvestEntry"] | order(_createdAt desc) {
 				_id,
 				quantity,
@@ -15,7 +15,7 @@ export async function load() {
 				"product": product->{ name, category }
 			}
 		`),
-		client.fetch(`
+    client.fetch(`
 			*[_type == "transformationEntry"] | order(transformedAt desc) {
 				_id,
 				inputQuantity,
@@ -31,7 +31,7 @@ export async function load() {
 				"outputProduct": outputProduct->{ name, category }
 			}
 		`),
-		client.fetch(`
+    client.fetch(`
 			*[_type == "productOrder"] | order(coalesce(reservedAt, _createdAt) desc) {
 				_id,
 				orderNumber,
@@ -52,26 +52,26 @@ export async function load() {
 					subtotal
 				}
 			}
-		`)
-	]);
+		`),
+  ]);
 
-	const events = [
-		...harvests.map((entry) => ({
-			...entry,
-			type: 'harvest',
-			eventDate: entry.harvestDate
-		})),
-		...transformations.map((entry) => ({
-			...entry,
-			type: 'transformation',
-			eventDate: entry.transformedAt ? entry.transformedAt.slice(0, 10) : null
-		})),
-		...orders.map((entry) => ({
-			...entry,
-			type: 'order',
-			eventDate: entry.reservedAt ? entry.reservedAt.slice(0, 10) : null
-		}))
-	].sort((a, b) => new Date(b.eventDate ?? 0).getTime() - new Date(a.eventDate ?? 0).getTime());
+  const events = [
+    ...harvests.map((entry) => ({
+      ...entry,
+      type: 'harvest',
+      eventDate: entry.harvestDate,
+    })),
+    ...transformations.map((entry) => ({
+      ...entry,
+      type: 'transformation',
+      eventDate: entry.transformedAt ? entry.transformedAt.slice(0, 10) : null,
+    })),
+    ...orders.map((entry) => ({
+      ...entry,
+      type: 'order',
+      eventDate: entry.reservedAt ? entry.reservedAt.slice(0, 10) : null,
+    })),
+  ].sort((a, b) => new Date(b.eventDate ?? 0).getTime() - new Date(a.eventDate ?? 0).getTime());
 
-	return { events };
+  return { events };
 }

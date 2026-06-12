@@ -1,32 +1,45 @@
-import { r as root } from "./root.js";
-import "./environment.js";
-import "./shared-server.js";
+import { r as root } from './root.js';
+import './environment.js';
+import './shared-server.js';
 let read_implementation = null;
 function set_read_implementation(fn) {
   read_implementation = fn;
 }
-function set_manifest(_) {
-}
+function set_manifest(_) {}
 const options = {
   app_template_contains_nonce: false,
   async: false,
-  csp: { "mode": "auto", "directives": { "upgrade-insecure-requests": false, "block-all-mixed-content": false }, "reportOnly": { "upgrade-insecure-requests": false, "block-all-mixed-content": false } },
+  csp: {
+    mode: 'auto',
+    directives: { 'upgrade-insecure-requests': false, 'block-all-mixed-content': false },
+    reportOnly: { 'upgrade-insecure-requests': false, 'block-all-mixed-content': false },
+  },
   csrf_check_origin: true,
   csrf_trusted_origins: [],
   embedded: false,
-  env_public_prefix: "PUBLIC_",
-  env_private_prefix: "",
+  env_public_prefix: 'PUBLIC_',
+  env_private_prefix: '',
   hash_routing: false,
   hooks: null,
   // added lazily, via `get_hooks`
-  preload_strategy: "modulepreload",
+  preload_strategy: 'modulepreload',
   root,
   service_worker: false,
   service_worker_options: void 0,
   server_error_boundaries: false,
   templates: {
-    app: ({ head, body, assets, nonce, env }) => '<!doctype html>\r\n<html lang="fr" class="light">\r\n	<head>\r\n		<meta charset="utf-8" />\r\n		<link rel="icon" href="' + assets + '/favicon.png" />\r\n		<meta name="viewport" content="width=device-width, initial-scale=1" />\r\n		<!-- Google Fonts -->\r\n		<link rel="preconnect" href="https://fonts.googleapis.com" />\r\n		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\r\n		<link\r\n			href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Work+Sans:wght@400;500;600&display=swap"\r\n			rel="stylesheet"\r\n		/>\r\n		<!-- Material Symbols -->\r\n		<link\r\n			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"\r\n			rel="stylesheet"\r\n		/>\r\n		' + head + '\r\n	</head>\r\n	<body data-sveltekit-preload-data="hover" class="bg-background text-on-background font-body-md antialiased">\r\n		<div style="display: contents">' + body + "</div>\r\n	</body>\r\n</html>\r\n",
-    error: ({ status, message }) => '<!doctype html>\n<html lang="en">\n	<head>\n		<meta charset="utf-8" />\n		<title>' + message + `</title>
+    app: ({ head, body, assets, nonce, env }) =>
+      '<!doctype html>\r\n<html lang="fr" class="light">\r\n	<head>\r\n		<meta charset="utf-8" />\r\n		<link rel="icon" href="' +
+      assets +
+      '/favicon.png" />\r\n		<meta name="viewport" content="width=device-width, initial-scale=1" />\r\n		<!-- Google Fonts -->\r\n		<link rel="preconnect" href="https://fonts.googleapis.com" />\r\n		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />\r\n		<link\r\n			href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Work+Sans:wght@400;500;600&display=swap"\r\n			rel="stylesheet"\r\n		/>\r\n		<!-- Material Symbols -->\r\n		<link\r\n			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"\r\n			rel="stylesheet"\r\n		/>\r\n		' +
+      head +
+      '\r\n	</head>\r\n	<body data-sveltekit-preload-data="hover" class="bg-background text-on-background font-body-md antialiased">\r\n		<div style="display: contents">' +
+      body +
+      '</div>\r\n	</body>\r\n</html>\r\n',
+    error: ({ status, message }) =>
+      '<!doctype html>\n<html lang="en">\n	<head>\n		<meta charset="utf-8" />\n		<title>' +
+      message +
+      `</title>
 
 		<style>
 			body {
@@ -95,9 +108,13 @@ const options = {
 	</head>
 	<body>
 		<div class="error">
-			<span class="status">` + status + '</span>\n			<div class="message">\n				<h1>' + message + "</h1>\n			</div>\n		</div>\n	</body>\n</html>\n"
+			<span class="status">` +
+      status +
+      '</span>\n			<div class="message">\n				<h1>' +
+      message +
+      '</h1>\n			</div>\n		</div>\n	</body>\n</html>\n',
   },
-  version_hash: "1tuhazh"
+  version_hash: '1tuhazh',
 };
 async function get_hooks() {
   let handle;
@@ -105,7 +122,8 @@ async function get_hooks() {
   let handleError;
   let handleValidationError;
   let init;
-  ({ handle, handleFetch, handleError, handleValidationError, init } = await import("../entries/hooks.server.js"));
+  ({ handle, handleFetch, handleError, handleValidationError, init } =
+    await import('../entries/hooks.server.js'));
   let reroute;
   let transport;
   return {
@@ -115,7 +133,7 @@ async function get_hooks() {
     handleValidationError,
     init,
     reroute,
-    transport
+    transport,
   };
 }
 export {
@@ -123,5 +141,5 @@ export {
   get_hooks as g,
   options as o,
   read_implementation as r,
-  set_read_implementation as s
+  set_read_implementation as s,
 };

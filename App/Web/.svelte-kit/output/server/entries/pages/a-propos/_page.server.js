@@ -1,4 +1,4 @@
-import { b as getTeam } from "../../../chunks/sanity.js";
+import { b as getTeam } from '../../../chunks/sanity.js';
 async function load() {
   try {
     const team = await getTeam();
@@ -7,6 +7,4 @@ async function load() {
     return { team: [] };
   }
 }
-export {
-  load
-};
+export { load };

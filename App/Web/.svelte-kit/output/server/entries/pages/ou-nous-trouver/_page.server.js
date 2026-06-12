@@ -1,4 +1,4 @@
-import { d as getMarkets } from "../../../chunks/sanity.js";
+import { d as getMarkets } from '../../../chunks/sanity.js';
 async function load() {
   try {
     const markets = await getMarkets();
@@ -7,6 +7,4 @@ async function load() {
     return { markets: [] };
   }
 }
-export {
-  load
-};
+export { load };

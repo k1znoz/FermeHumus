@@ -3,34 +3,34 @@ import imageUrlBuilder from '@sanity/image-url';
 import { isProductVisibleToday } from '$lib/seasonality.js';
 
 export const client = createClient({
-	projectId: import.meta.env.VITE_SANITY_PROJECT_ID || 'your-project-id',
-	dataset: import.meta.env.VITE_SANITY_DATASET || 'production',
-	apiVersion: '2024-01-01',
-	useCdn: false
+  projectId: import.meta.env.VITE_SANITY_PROJECT_ID || 'your-project-id',
+  dataset: import.meta.env.VITE_SANITY_DATASET || 'production',
+  apiVersion: '2024-01-01',
+  useCdn: false,
 });
 
 // Client avec token pour les mutations (write) côté serveur uniquement
 export const writeClient = createClient({
-	projectId: import.meta.env.VITE_SANITY_PROJECT_ID || 'your-project-id',
-	dataset: import.meta.env.VITE_SANITY_DATASET || 'production',
-	apiVersion: '2024-01-01',
-	useCdn: false,
-	token: import.meta.env.SANITY_API_WRITE_TOKEN
+  projectId: import.meta.env.VITE_SANITY_PROJECT_ID || 'your-project-id',
+  dataset: import.meta.env.VITE_SANITY_DATASET || 'production',
+  apiVersion: '2024-01-01',
+  useCdn: false,
+  token: import.meta.env.SANITY_API_WRITE_TOKEN,
 });
 
 const builder = imageUrlBuilder(client);
 
 /** @param {import('@sanity/types').SanityImageSource} source */
 export function urlFor(source) {
-	return builder.image(source);
+  return builder.image(source);
 }
 
 // ── Queries ──────────────────────────────────────────────────────────────────
 
 export async function getProducts(category = null) {
-	const filter = category ? `&& category == $category` : '';
-	const products = await client.fetch(
-		`*[_type == "product" ${filter} && available == true] | order(_createdAt desc) {
+  const filter = category ? `&& category == $category` : '';
+  const products = await client.fetch(
+    `*[_type == "product" ${filter} && available == true] | order(_createdAt desc) {
 			_id,
 			name,
 			category,
@@ -49,14 +49,14 @@ export async function getProducts(category = null) {
 				lowStockThreshold
 			}
 		}`,
-		category ? { category } : {}
-	);
+    category ? { category } : {}
+  );
 
-	return products.filter((product) => isProductVisibleToday(product));
+  return products.filter((product) => isProductVisibleToday(product));
 }
 
 export async function getSiteSettings() {
-	return client.fetch(`*[_type == "siteSettings"][0] {
+  return client.fetch(`*[_type == "siteSettings"][0] {
 		heroTitle, heroSubtitle, philosophyTitle, philosophyBody, newsletterEnabled,
 		"heroImage": heroImage.asset->url,
 		"philosophyImage": philosophyImage.asset->url
@@ -64,18 +64,18 @@ export async function getSiteSettings() {
 }
 
 export async function getTeam() {
-	return client.fetch(
-		`*[_type == "teamMember"] | order(order asc) {
+  return client.fetch(
+    `*[_type == "teamMember"] | order(order asc) {
       _id, name, role,
       "image": image.asset->url
     }`
-	);
+  );
 }
 
 export async function getMarkets() {
-	return client.fetch(`*[_type == "market"] | order(type asc, name asc)`);
+  return client.fetch(`*[_type == "market"] | order(type asc, name asc)`);
 }
 
 export async function getFarmStay() {
-	return client.fetch(`*[_type == "farmStay"][0]`);
+  return client.fetch(`*[_type == "farmStay"][0]`);
 }

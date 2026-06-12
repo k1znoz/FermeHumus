@@ -1,31 +1,45 @@
-import { get_request_store, with_request_store } from "@sveltejs/kit/internal/server";
-import { parse } from "devalue";
-import { error, json } from "@sveltejs/kit";
-import { j as create_remote_key, x as unfriendly_hydratable, e as noop, l as stringify, M as MUTATIVE_METHODS, y as create_field_proxy, z as normalize_issue, A as set_nested_value, B as flatten_issues, C as deep_set, D as stringify_remote_arg, h as handle_error_and_jsonify, p as parse_remote_arg } from "./chunks/shared.js";
-import { ValidationError, HttpError, SvelteKitError } from "@sveltejs/kit/internal";
-import { D as DEV } from "./chunks/render-context.js";
-import { b as base, c as app_dir, p as prerendering } from "./chunks/environment.js";
+import { get_request_store, with_request_store } from '@sveltejs/kit/internal/server';
+import { parse } from 'devalue';
+import { error, json } from '@sveltejs/kit';
+import {
+  j as create_remote_key,
+  x as unfriendly_hydratable,
+  e as noop,
+  l as stringify,
+  M as MUTATIVE_METHODS,
+  y as create_field_proxy,
+  z as normalize_issue,
+  A as set_nested_value,
+  B as flatten_issues,
+  C as deep_set,
+  D as stringify_remote_arg,
+  h as handle_error_and_jsonify,
+  p as parse_remote_arg,
+} from './chunks/shared.js';
+import { ValidationError, HttpError, SvelteKitError } from '@sveltejs/kit/internal';
+import { D as DEV } from './chunks/render-context.js';
+import { b as base, c as app_dir, p as prerendering } from './chunks/environment.js';
 function create_validator(validate_or_fn, maybe_fn) {
   if (!maybe_fn) {
     return (arg) => {
       if (arg !== void 0) {
-        error(400, "Bad Request");
+        error(400, 'Bad Request');
       }
     };
   }
-  if (validate_or_fn === "unchecked") {
+  if (validate_or_fn === 'unchecked') {
     return (arg) => arg;
   }
-  if ("~standard" in validate_or_fn) {
+  if ('~standard' in validate_or_fn) {
     return async (arg) => {
       const { event, state } = get_request_store();
-      const result = await validate_or_fn["~standard"].validate(arg);
+      const result = await validate_or_fn['~standard'].validate(arg);
       if (result.issues) {
         error(
           400,
           await state.handleValidationError({
             issues: result.issues,
-            event
+            event,
           })
         );
       }
@@ -39,16 +53,18 @@ function create_validator(validate_or_fn, maybe_fn) {
 async function get_response(internals, payload, state, get_result) {
   await 0;
   const cache = get_cache(internals, state);
-  const entry = cache[payload] ??= {
+  const entry = (cache[payload] ??= {
     serialize: false,
-    data: get_result()
-  };
+    data: get_result(),
+  });
   entry.serialize ||= !!state.is_in_universal_load;
   if (state.is_in_render && internals.id) {
     const remote_key = create_remote_key(internals.id, payload);
-    Promise.resolve(entry.data).then((value) => {
-      void unfriendly_hydratable(remote_key, () => stringify(value, state.transport));
-    }).catch(noop);
+    Promise.resolve(entry.data)
+      .then((value) => {
+        void unfriendly_hydratable(remote_key, () => stringify(value, state.transport));
+      })
+      .catch(noop);
   }
   return entry.data;
 }
@@ -64,34 +80,34 @@ function derive_remote_function_event(event, state, allow_cookies) {
     event: {
       ...event,
       setHeaders: () => {
-        throw new Error("setHeaders is not allowed in remote functions");
+        throw new Error('setHeaders is not allowed in remote functions');
       },
       cookies: {
         ...event.cookies,
         set: (name, value, opts) => {
           if (!allow_cookies) {
-            throw new Error("Cannot set cookies in `query` or `prerender` functions");
+            throw new Error('Cannot set cookies in `query` or `prerender` functions');
           }
-          if (opts.path && !opts.path.startsWith("/")) {
-            throw new Error("Cookies set in remote functions must have an absolute path");
+          if (opts.path && !opts.path.startsWith('/')) {
+            throw new Error('Cookies set in remote functions must have an absolute path');
           }
           return event.cookies.set(name, value, opts);
         },
         delete: (name, opts) => {
           if (!allow_cookies) {
-            throw new Error("Cannot delete cookies in `query` or `prerender` functions");
+            throw new Error('Cannot delete cookies in `query` or `prerender` functions');
           }
-          if (opts.path && !opts.path.startsWith("/")) {
-            throw new Error("Cookies deleted in remote functions must have an absolute path");
+          if (opts.path && !opts.path.startsWith('/')) {
+            throw new Error('Cookies deleted in remote functions must have an absolute path');
           }
           return event.cookies.delete(name, opts);
-        }
-      }
+        },
+      },
     },
     state: {
       ...state,
-      is_in_remote_function: true
-    }
+      is_in_remote_function: true,
+    },
   };
 }
 async function run_remote_function(event, state, allow_cookies, get_input, fn) {
@@ -115,19 +131,19 @@ async function* run_remote_generator(event, state, allow_cookies, get_input, fn,
       yield result.value;
     }
   } finally {
-    if (!done && typeof iterator.return === "function") {
+    if (!done && typeof iterator.return === 'function') {
       await with_request_store(store, () => iterator.return?.(void 0));
     }
   }
 }
 function to_iterator(source, name) {
-  if ("next" in source && typeof source.next === "function") {
+  if ('next' in source && typeof source.next === 'function') {
     return source;
   }
-  if (Symbol.asyncIterator in source && typeof source[Symbol.asyncIterator] === "function") {
+  if (Symbol.asyncIterator in source && typeof source[Symbol.asyncIterator] === 'function') {
     return source[Symbol.asyncIterator]();
   }
-  if (Symbol.iterator in source && typeof source[Symbol.iterator] === "function") {
+  if (Symbol.iterator in source && typeof source[Symbol.iterator] === 'function') {
     return source[Symbol.iterator]();
   }
   throw new Error(
@@ -146,17 +162,17 @@ function get_cache(internals, state = get_request_store().state) {
 function command(validate_or_fn, maybe_fn) {
   const fn = maybe_fn ?? validate_or_fn;
   const validate = create_validator(validate_or_fn, maybe_fn);
-  const __ = { type: "command", id: "", name: "" };
+  const __ = { type: 'command', id: '', name: '' };
   const wrapper = (arg) => {
     const { event, state } = get_request_store();
     if (!MUTATIVE_METHODS.includes(event.request.method)) {
       throw new Error(
-        `Cannot call a command (\`${__.name}(${maybe_fn ? "..." : ""})\`) from a ${event.request.method} handler`
+        `Cannot call a command (\`${__.name}(${maybe_fn ? '...' : ''})\`) from a ${event.request.method} handler`
       );
     }
     if (state.is_in_render) {
       throw new Error(
-        `Cannot call a command (\`${__.name}(${maybe_fn ? "..." : ""})\`) during server-side rendering`
+        `Cannot call a command (\`${__.name}(${maybe_fn ? '...' : ''})\`) during server-side rendering`
       );
     }
     state.remote.refreshes ??= /* @__PURE__ */ new Map();
@@ -172,36 +188,37 @@ function command(validate_or_fn, maybe_fn) {
       promise
     );
   };
-  Object.defineProperty(wrapper, "__", { value: __ });
-  Object.defineProperty(wrapper, "pending", {
-    get: () => 0
+  Object.defineProperty(wrapper, '__', { value: __ });
+  Object.defineProperty(wrapper, 'pending', {
+    get: () => 0,
   });
   return wrapper;
 }
 // @__NO_SIDE_EFFECTS__
 function form(validate_or_fn, maybe_fn) {
   const fn = maybe_fn ?? validate_or_fn;
-  const schema = !maybe_fn || validate_or_fn === "unchecked" ? null : (
-    /** @type {any} */
-    validate_or_fn
-  );
+  const schema =
+    !maybe_fn || validate_or_fn === 'unchecked'
+      ? null
+      : /** @type {any} */
+        validate_or_fn;
   function create_instance(key) {
     const instance = {};
-    instance.method = "POST";
-    Object.defineProperty(instance, "enhance", {
+    instance.method = 'POST';
+    Object.defineProperty(instance, 'enhance', {
       value: () => {
         return { action: instance.action, method: instance.method };
-      }
+      },
     });
     const __ = {
-      type: "form",
-      name: "",
-      id: "",
+      type: 'form',
+      name: '',
+      id: '',
       fn: async (data, meta, form_data) => {
         const output = {};
         output.submission = true;
         const { event, state } = get_request_store();
-        const validated = await schema?.["~standard"].validate(data);
+        const validated = await schema?.['~standard'].validate(data);
         if (meta.validate_only) {
           return validated?.issues?.map((issue) => normalize_issue(issue, true)) ?? [];
         }
@@ -220,7 +237,7 @@ function form(validate_or_fn, maybe_fn) {
               state,
               true,
               () => data,
-              (data2) => !maybe_fn ? fn() : fn(data2, issue)
+              (data2) => (!maybe_fn ? fn() : fn(data2, issue))
             );
           } catch (e) {
             if (e instanceof ValidationError) {
@@ -231,66 +248,66 @@ function form(validate_or_fn, maybe_fn) {
           }
         }
         if (!event.isRemoteRequest) {
-          get_cache(__, state)[""] ??= { serialize: true, data: output };
+          get_cache(__, state)[''] ??= { serialize: true, data: output };
         }
         return output;
-      }
+      },
     };
-    Object.defineProperty(instance, "__", { value: __ });
-    Object.defineProperty(instance, "action", {
+    Object.defineProperty(instance, '__', { value: __ });
+    Object.defineProperty(instance, 'action', {
       get: () => `?/remote=${__.id}`,
-      enumerable: true
+      enumerable: true,
     });
-    Object.defineProperty(instance, "fields", {
+    Object.defineProperty(instance, 'fields', {
       get() {
         return create_field_proxy(
           {},
-          () => get_cache(__)?.[""]?.data?.input ?? {},
+          () => get_cache(__)?.['']?.data?.input ?? {},
           (path, value) => {
             const cache = get_cache(__);
-            const entry = cache[""];
+            const entry = cache[''];
             if (entry?.data?.submission) {
               return;
             }
             if (path.length === 0) {
-              (cache[""] ??= { serialize: true, data: {} }).data.input = value;
+              (cache[''] ??= { serialize: true, data: {} }).data.input = value;
               return;
             }
             const input = entry?.data?.input ?? {};
             deep_set(input, path.map(String), value);
-            (cache[""] ??= { serialize: true, data: {} }).data.input = input;
+            (cache[''] ??= { serialize: true, data: {} }).data.input = input;
           },
-          () => flatten_issues(get_cache(__)?.[""]?.data?.issues ?? [])
+          () => flatten_issues(get_cache(__)?.['']?.data?.issues ?? [])
         );
-      }
+      },
     });
-    Object.defineProperty(instance, "result", {
+    Object.defineProperty(instance, 'result', {
       get() {
         try {
-          return get_cache(__)?.[""]?.data?.result;
+          return get_cache(__)?.['']?.data?.result;
         } catch {
           return void 0;
         }
-      }
+      },
     });
-    Object.defineProperty(instance, "pending", {
-      get: () => 0
+    Object.defineProperty(instance, 'pending', {
+      get: () => 0,
     });
-    Object.defineProperty(instance, "preflight", {
+    Object.defineProperty(instance, 'preflight', {
       // preflight is a noop on the server
-      value: () => instance
+      value: () => instance,
     });
-    Object.defineProperty(instance, "validate", {
+    Object.defineProperty(instance, 'validate', {
       value: () => {
-        throw new Error("Cannot call validate() on the server");
-      }
+        throw new Error('Cannot call validate() on the server');
+      },
     });
     if (key == void 0) {
-      Object.defineProperty(instance, "for", {
+      Object.defineProperty(instance, 'for', {
         /** @type {RemoteForm<any, any>['for']} */
         value: (key2) => {
           const { state } = get_request_store();
-          const cache_key = __.id + "|" + JSON.stringify(key2);
+          const cache_key = __.id + '|' + JSON.stringify(key2);
           let instance2 = (state.remote.forms ??= /* @__PURE__ */ new Map()).get(cache_key);
           if (!instance2) {
             instance2 = create_instance(key2);
@@ -299,7 +316,7 @@ function form(validate_or_fn, maybe_fn) {
             state.remote.forms.set(cache_key, instance2);
           }
           return instance2;
-        }
+        },
       });
     }
     return instance;
@@ -312,8 +329,8 @@ function handle_issues(output, issues, form_data) {
     output.input = {};
     for (let key of form_data.keys()) {
       if (/^[.\]]?_/.test(key)) continue;
-      const is_array = key.endsWith("[]");
-      const values = form_data.getAll(key).filter((value) => typeof value === "string");
+      const is_array = key.endsWith('[]');
+      const values = form_data.getAll(key).filter((value) => typeof value === 'string');
       if (is_array) key = key.slice(0, -2);
       set_nested_value(
         /** @type {Record<string, any>} */
@@ -330,7 +347,7 @@ function create_issues() {
     new Proxy(
       /** @param {string} message */
       (message) => {
-        if (typeof message !== "string") {
+        if (typeof message !== 'string') {
           throw new Error(
             "`invalid` should now be imported from `@sveltejs/kit` to throw validation issues. The second parameter provided to the form function (renamed to `issue`) is still used to construct issues, e.g. `invalid(issue.field('message'))`. For more info see https://github.com/sveltejs/kit/pulls/14768"
           );
@@ -339,19 +356,20 @@ function create_issues() {
       },
       {
         get(target, prop) {
-          if (typeof prop === "symbol") return (
-            /** @type {any} */
-            target[prop]
-          );
+          if (typeof prop === 'symbol')
+            return (
+              /** @type {any} */
+              target[prop]
+            );
           return create_issue_proxy(prop, []);
-        }
+        },
       }
     )
   );
   function create_issue(message, path = []) {
     return {
       message,
-      path
+      path,
     };
   }
   function create_issue_proxy(key, path) {
@@ -359,38 +377,39 @@ function create_issues() {
     const issue_func = (message) => create_issue(message, new_path);
     return new Proxy(issue_func, {
       get(target, prop) {
-        if (typeof prop === "symbol") return (
-          /** @type {any} */
-          target[prop]
-        );
+        if (typeof prop === 'symbol')
+          return (
+            /** @type {any} */
+            target[prop]
+          );
         if (/^\d+$/.test(prop)) {
           return create_issue_proxy(parseInt(prop, 10), new_path);
         }
         return create_issue_proxy(prop, new_path);
-      }
+      },
     });
   }
 }
 // @__NO_SIDE_EFFECTS__
 function prerender(validate_or_fn, fn_or_options, maybe_options) {
-  const maybe_fn = typeof fn_or_options === "function" ? fn_or_options : void 0;
+  const maybe_fn = typeof fn_or_options === 'function' ? fn_or_options : void 0;
   const options = maybe_options ?? (maybe_fn ? void 0 : fn_or_options);
   const fn = maybe_fn ?? validate_or_fn;
   const validate = create_validator(validate_or_fn, maybe_fn);
   const __ = {
-    type: "prerender",
-    id: "",
-    name: "",
+    type: 'prerender',
+    id: '',
+    name: '',
     has_arg: !!maybe_fn,
     inputs: options?.inputs,
-    dynamic: options?.dynamic
+    dynamic: options?.dynamic,
   };
   const wrapper = (arg) => {
     const promise = (async () => {
       const { event, state } = get_request_store();
       const payload = stringify_remote_arg(arg, state.transport);
       const id = __.id;
-      const url = `${base}/${app_dir}/remote/${id}${payload ? `/${payload}` : ""}`;
+      const url = `${base}/${app_dir}/remote/${id}${payload ? `/${payload}` : ''}`;
       if (!state.prerendering && !DEV && !event.isRemoteRequest) {
         try {
           return await get_response(__, payload, state, async () => {
@@ -399,19 +418,18 @@ function prerender(validate_or_fn, fn_or_options, maybe_options) {
               serialize: true,
               data: fetch(new URL(url, event.url.origin).href).then(async (response) => {
                 if (!response.ok) {
-                  throw new Error("Prerendered response not found");
+                  throw new Error('Prerendered response not found');
                 }
                 const prerendered = await response.json();
-                if (prerendered.type === "error") {
+                if (prerendered.type === 'error') {
                   error(prerendered.status, prerendered.error);
                 }
                 return prerendered.result;
-              })
+              }),
             }).data;
             return parse_remote_response(await promise3, state.transport);
           });
-        } catch {
-        }
+        } catch {}
       }
       if (state.prerendering?.remote_responses.has(url)) {
         return (
@@ -419,21 +437,18 @@ function prerender(validate_or_fn, fn_or_options, maybe_options) {
           state.prerendering.remote_responses.get(url)
         );
       }
-      const promise2 = get_response(
-        __,
-        payload,
-        state,
-        () => run_remote_function(event, state, false, () => validate(arg), fn)
+      const promise2 = get_response(__, payload, state, () =>
+        run_remote_function(event, state, false, () => validate(arg), fn)
       );
       if (state.prerendering) {
         state.prerendering.remote_responses.set(url, promise2);
       }
       const result = await promise2;
       if (state.prerendering) {
-        const body = { type: "result", result: stringify(result, state.transport) };
+        const body = { type: 'result', result: stringify(result, state.transport) };
         state.prerendering.dependencies.set(url, {
           body: JSON.stringify(body),
-          response: json(body)
+          response: json(body),
         });
       }
       return result;
@@ -444,7 +459,7 @@ function prerender(validate_or_fn, fn_or_options, maybe_options) {
       promise
     );
   };
-  Object.defineProperty(wrapper, "__", { value: __ });
+  Object.defineProperty(wrapper, '__', { value: __ });
   return wrapper;
 }
 // @__NO_SIDE_EFFECTS__
@@ -452,19 +467,16 @@ function query(validate_or_fn, maybe_fn) {
   const fn = maybe_fn ?? validate_or_fn;
   const validate = create_validator(validate_or_fn, maybe_fn);
   const __ = {
-    type: "query",
-    id: "",
-    name: "",
+    type: 'query',
+    id: '',
+    name: '',
     validate,
     bind(payload, validated_arg) {
       const { event, state } = get_request_store();
-      return create_query_resource(
-        __,
-        payload,
-        state,
-        () => run_remote_function(event, state, false, () => validated_arg, fn)
+      return create_query_resource(__, payload, state, () =>
+        run_remote_function(event, state, false, () => validated_arg, fn)
       );
-    }
+    },
   };
   const wrapper = (arg) => {
     if (prerendering) {
@@ -474,21 +486,19 @@ function query(validate_or_fn, maybe_fn) {
     }
     const { event, state } = get_request_store();
     const payload = stringify_remote_arg(arg, state.transport);
-    return create_query_resource(
-      __,
-      payload,
-      state,
-      () => run_remote_function(event, state, false, () => validate(arg), fn)
+    return create_query_resource(__, payload, state, () =>
+      run_remote_function(event, state, false, () => validate(arg), fn)
     );
   };
-  Object.defineProperty(wrapper, "__", { value: __ });
+  Object.defineProperty(wrapper, '__', { value: __ });
   return wrapper;
 }
 // @__NO_SIDE_EFFECTS__
 function live(validate_or_fn, maybe_fn) {
   const fn = maybe_fn ?? validate_or_fn;
   const validate = create_validator(validate_or_fn, maybe_fn);
-  const run = (event, state, get_input) => run_remote_generator(event, state, false, get_input, fn, __.name);
+  const run = (event, state, get_input) =>
+    run_remote_generator(event, state, false, get_input, fn, __.name);
   const first_value = async (generator) => {
     try {
       const { value, done } = await generator.next();
@@ -501,20 +511,17 @@ function live(validate_or_fn, maybe_fn) {
     }
   };
   const __ = {
-    type: "query_live",
-    id: "",
-    name: "",
+    type: 'query_live',
+    id: '',
+    name: '',
     run: (event, state, arg) => run(event, state, () => validate(arg)),
     validate,
     bind(payload, validated_arg) {
       const { event, state } = get_request_store();
-      return create_live_query_resource(
-        __,
-        payload,
-        state,
-        () => first_value(run(event, state, () => validated_arg))
+      return create_live_query_resource(__, payload, state, () =>
+        first_value(run(event, state, () => validated_arg))
       );
-    }
+    },
   };
   const wrapper = (arg) => {
     if (prerendering) {
@@ -524,14 +531,11 @@ function live(validate_or_fn, maybe_fn) {
     }
     const { event, state } = get_request_store();
     const payload = stringify_remote_arg(arg, state.transport);
-    return create_live_query_resource(
-      __,
-      payload,
-      state,
-      () => first_value(run(event, state, () => validate(arg)))
+    return create_live_query_resource(__, payload, state, () =>
+      first_value(run(event, state, () => validate(arg)))
     );
   };
-  Object.defineProperty(wrapper, "__", { value: __ });
+  Object.defineProperty(wrapper, '__', { value: __ });
   return wrapper;
 }
 // @__NO_SIDE_EFFECTS__
@@ -549,7 +553,7 @@ function batch(validate_or_fn, maybe_fn) {
       }
       batching.set(payload, {
         get_validated,
-        resolvers: [{ resolve, reject }]
+        resolvers: [{ resolve, reject }],
       });
       if (batching.size > 1) return;
       setTimeout(async () => {
@@ -589,9 +593,9 @@ function batch(validate_or_fn, maybe_fn) {
     });
   };
   const __ = {
-    type: "query_batch",
-    id: "",
-    name: "",
+    type: 'query_batch',
+    id: '',
+    name: '',
     validate,
     run: async (args, options) => {
       const { event, state } = get_request_store();
@@ -606,12 +610,15 @@ function batch(validate_or_fn, maybe_fn) {
             input.map(async (arg, i) => {
               try {
                 const data = get_result(arg, i);
-                return { type: "result", data: stringify(data, state.transport) };
+                return { type: 'result', data: stringify(data, state.transport) };
               } catch (error2) {
                 return {
-                  type: "error",
+                  type: 'error',
                   error: await handle_error_and_jsonify(event, state, options, error2),
-                  status: error2 instanceof HttpError || error2 instanceof SvelteKitError ? error2.status : 500
+                  status:
+                    error2 instanceof HttpError || error2 instanceof SvelteKitError
+                      ? error2.status
+                      : 500,
                 };
               }
             })
@@ -622,7 +629,7 @@ function batch(validate_or_fn, maybe_fn) {
     bind(payload, validated_arg) {
       const { state } = get_request_store();
       return create_query_resource(__, payload, state, () => enqueue(payload, () => validated_arg));
-    }
+    },
   };
   const wrapper = (arg) => {
     if (prerendering) {
@@ -632,24 +639,19 @@ function batch(validate_or_fn, maybe_fn) {
     }
     const { state } = get_request_store();
     const payload = stringify_remote_arg(arg, state.transport);
-    return create_query_resource(
-      __,
-      payload,
-      state,
-      () => (
-        // Collect all the calls to the same query in the same macrotask,
-        // then execute them as one backend request.
-        enqueue(payload, () => validate(arg))
-      )
+    return create_query_resource(__, payload, state, () =>
+      // Collect all the calls to the same query in the same macrotask,
+      // then execute them as one backend request.
+      enqueue(payload, () => validate(arg))
     );
   };
-  Object.defineProperty(wrapper, "__", { value: __ });
+  Object.defineProperty(wrapper, '__', { value: __ });
   return wrapper;
 }
 function create_query_resource(__, payload, state, fn) {
   let promise = null;
   const get_promise = () => {
-    return promise ??= get_response(__, payload, state, fn);
+    return (promise ??= get_response(__, payload, state, fn));
   };
   const populate_hydratable = () => {
     void (__.id && state.is_in_render && get_promise());
@@ -680,7 +682,7 @@ function create_query_resource(__, payload, state, fn) {
       return false;
     },
     refresh() {
-      const refresh_context = get_refresh_context(__, "refresh", payload);
+      const refresh_context = get_refresh_context(__, 'refresh', payload);
       const is_immediate_refresh = !refresh_context.cache[refresh_context.payload];
       const value = is_immediate_refresh ? get_promise() : fn();
       return update_refresh_value(refresh_context, value, is_immediate_refresh);
@@ -688,14 +690,14 @@ function create_query_resource(__, payload, state, fn) {
     run() {
       if (!state.is_in_universal_load) {
         throw new Error(
-          "On the server, .run() can only be called in universal `load` functions. Anywhere else, just await the query directly"
+          'On the server, .run() can only be called in universal `load` functions. Anywhere else, just await the query directly'
         );
       }
       return get_response(__, payload, state, fn);
     },
     /** @param {any} value */
     set(value) {
-      return update_refresh_value(get_refresh_context(__, "set", payload), value);
+      return update_refresh_value(get_refresh_context(__, 'set', payload), value);
     },
     /** @type {Promise<any>['then']} */
     then(onfulfilled, onrejected) {
@@ -705,14 +707,14 @@ function create_query_resource(__, payload, state, fn) {
       throw new Error(`Cannot call '${__.name}.withOverride()' on the server`);
     },
     get [Symbol.toStringTag]() {
-      return "QueryResource";
-    }
+      return 'QueryResource';
+    },
   };
 }
 function create_live_query_resource(__, payload, state, get_first_value) {
   let promise = null;
   const get_promise = () => {
-    return promise ??= get_response(__, payload, state, get_first_value);
+    return (promise ??= get_response(__, payload, state, get_first_value));
   };
   const populate_hydratable = () => {
     void (__.id && state.is_in_render && get_promise());
@@ -761,24 +763,24 @@ function create_live_query_resource(__, payload, state, get_first_value) {
       return Promise.resolve();
     },
     run() {
-      throw new Error("Cannot call .run() on a live query on the server");
+      throw new Error('Cannot call .run() on a live query on the server');
     },
     /** @type {Promise<any>['then']} */
     then(onfulfilled, onrejected) {
       return get_promise().then(onfulfilled, onrejected);
     },
     get [Symbol.toStringTag]() {
-      return "LiveQueryResource";
-    }
+      return 'LiveQueryResource';
+    },
   };
 }
-Object.defineProperty(query, "batch", { value: batch, enumerable: true });
-Object.defineProperty(query, "live", { value: live, enumerable: true });
+Object.defineProperty(query, 'batch', { value: batch, enumerable: true });
+Object.defineProperty(query, 'live', { value: live, enumerable: true });
 function get_refresh_context(__, action, payload) {
   const { state } = get_request_store();
   const { refreshes } = state.remote;
   if (!refreshes) {
-    const name = __.type === "query_batch" ? `query.batch '${__.name}'` : `query '${__.name}'`;
+    const name = __.type === 'query_batch' ? `query.batch '${__.name}'` : `query '${__.name}'`;
     throw new Error(
       `Cannot call ${action} on ${name} because it is not executed in the context of a command/form remote function`
     );
@@ -787,7 +789,11 @@ function get_refresh_context(__, action, payload) {
   const refreshes_key = create_remote_key(__.id, payload);
   return { __, state, refreshes, refreshes_key, cache, payload };
 }
-function update_refresh_value({ __, refreshes, refreshes_key, cache, payload }, value, is_immediate_refresh = false) {
+function update_refresh_value(
+  { __, refreshes, refreshes_key, cache, payload },
+  value,
+  is_immediate_refresh = false
+) {
   const promise = Promise.resolve(value);
   if (!is_immediate_refresh) {
     cache[payload] = { serialize: true, data: promise };
@@ -800,14 +806,17 @@ function update_refresh_value({ __, refreshes, refreshes_key, cache, payload }, 
 }
 function requested(query2, limit) {
   const { state } = get_request_store();
-  const internals = (
+  const internals =
     /** @type {RemoteAnyQueryInternals | undefined} */
     /** @type {any} */
-    query2.__
-  );
-  if (internals?.type !== "query" && internals?.type !== "query_batch" && internals?.type !== "query_live") {
+    query2.__;
+  if (
+    internals?.type !== 'query' &&
+    internals?.type !== 'query_batch' &&
+    internals?.type !== 'query_live'
+  ) {
     throw new Error(
-      "requested(...) expects a query function created with query(...), query.batch(...), or query.live(...)"
+      'requested(...) expects a query function created with query(...), query.batch(...), or query.live(...)'
     );
   }
   const __ = internals;
@@ -815,10 +824,10 @@ function requested(query2, limit) {
   const payloads = requested2?.get(__.id) ?? [];
   const refreshes = state.remote.refreshes;
   const reconnects = state.remote.reconnects;
-  const store = __.type === "query_live" ? reconnects : refreshes;
+  const store = __.type === 'query_live' ? reconnects : refreshes;
   if (!store) {
     throw new Error(
-      "requested(...) can only be called in the context of a command/form remote function"
+      'requested(...) can only be called in the context of a command/form remote function'
     );
   }
   const [selected, skipped] = split_limit(payloads, limit);
@@ -868,23 +877,21 @@ function requested(query2, limit) {
       });
     },
     async refreshAll() {
-      if (__.type === "query_live") {
-        throw new Error("refreshAll() is invalid for live queries. Use reconnectAll() instead.");
+      if (__.type === 'query_live') {
+        throw new Error('refreshAll() is invalid for live queries. Use reconnectAll() instead.');
       }
       for await (const { query: query3 } of result) {
-        void /** @type {RemoteQuery<Output>} */
-        query3.refresh();
+        void (/** @type {RemoteQuery<Output>} */ query3.refresh());
       }
     },
     async reconnectAll() {
-      if (__.type !== "query_live") {
-        throw new Error("reconnectAll() is invalid for regular queries. Use refreshAll() instead.");
+      if (__.type !== 'query_live') {
+        throw new Error('reconnectAll() is invalid for regular queries. Use refreshAll() instead.');
       }
       for await (const { query: query3 } of result) {
-        void /** @type {RemoteLiveQuery<Output>} */
-        query3.reconnect();
+        void (/** @type {RemoteLiveQuery<Output>} */ query3.reconnect());
       }
-    }
+    },
   };
   return (
     /** @type {RequestedResult<Validated, Output>} */
@@ -897,19 +904,19 @@ function split_limit(array, limit) {
     return [array, []];
   }
   if (!Number.isInteger(limit) || limit < 0) {
-    throw new Error("Limit must be a non-negative integer or Infinity");
+    throw new Error('Limit must be a non-negative integer or Infinity');
   }
   return [array.slice(0, limit), array.slice(limit)];
 }
 function is_thenable(value) {
-  return !!value && (typeof value === "object" || typeof value === "function") && "then" in value;
+  return !!value && (typeof value === 'object' || typeof value === 'function') && 'then' in value;
 }
 async function* race_all(array, fn) {
   const pending = /* @__PURE__ */ new Set();
   for (const value of array) {
     const promise = Promise.resolve(fn(value)).then((result) => ({
       promise,
-      value: result
+      value: result,
     }));
     promise.catch(() => pending.delete(promise));
     pending.add(promise);
@@ -919,14 +926,7 @@ async function* race_all(array, fn) {
       const { promise, value } = await Promise.race(pending);
       pending.delete(promise);
       yield value;
-    } catch {
-    }
+    } catch {}
   }
 }
-export {
-  command,
-  form,
-  prerender,
-  query,
-  requested
-};
+export { command, form, prerender, query, requested };
